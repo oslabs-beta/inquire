@@ -1,0 +1,20 @@
+[
+	{
+		"id": "01",
+		"name": "Cece",
+		"status": "thirsty",
+		"location":
+			[
+				{ "x": "501.23", "y": "231" }
+			]
+	},
+	{
+		"id": "02",
+		"name": "Han",
+		"status": "howyoudoing",
+		"location":
+			[
+				{ "x": "51.23", "y": "21.42" }
+			]
+	}
+]
