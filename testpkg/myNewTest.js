@@ -1,5 +1,5 @@
-type person {
-  name: string
-  status: string
-  xPos: number
-}
+// type person {
+//   name: string
+//   status: string
+//   xPos: number
+// }
