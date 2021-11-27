@@ -1,6 +1,12 @@
 const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
+type Query {
+
+}
+type Subscription {
+
+}
 type Trip { 
    id: String! 
    vehicleId: String! 
