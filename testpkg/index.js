@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 
 let newData = [];
 function testpkg() {
@@ -47,7 +47,7 @@ function testpkg() {
     } catch (err) {
       console.log("Error: there was an issue reading or parsing the .avsc schema");
     }
-  })
+  });
 }
 testpkg();
 
@@ -95,4 +95,3 @@ type Subscription {
   result += '\`);'
   fs.writeFileSync('./graphqlSchema.js', result);
 }
-makeSchema();

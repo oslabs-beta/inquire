@@ -1,0 +1,74 @@
+{
+    "type": "record",
+    "name": "Trip",
+    "namespace": "com.bakdata.quick.avro",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "vehicleId",
+        "type": "string"
+      },
+      {
+        "name": "route",
+        "type": [
+          "null",
+          {
+            "type": "array",
+            "items": [
+              "null",
+              {
+                "type": "record",
+                "name": "Status",
+                "fields": [
+                  {
+                    "name": "statusId",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tripId",
+                    "type": "string"
+                  },
+                  {
+                    "name": "vehicleId",
+                    "type": "string"
+                  },
+                  {
+                    "name": "position",
+                    "type": {
+                      "type": "record",
+                      "name": "Position",
+                      "fields": [
+                        {
+                          "name": "lat",
+                          "type": "float"
+                        },
+                        {
+                          "name": "lon",
+                          "type": "float"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "batteryLevel",
+                    "type": "int"
+                  },
+                  {
+                    "name": "distance",
+                    "type": "int"
+                  },
+                  {
+                    "name": "timestamp",
+                    "type": "int"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
