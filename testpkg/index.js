@@ -31,6 +31,7 @@ const testpkg = () => {
       let i = 0
       let res = []
       function backtrack(newObj) {
+        
         let tmpArr = []
         let flag = false
         if (Array.isArray(newObj)) {
@@ -41,9 +42,10 @@ const testpkg = () => {
             }
           }
         } else {
-          for (const key in newObj) {
+          for (const key in newObj) { //fields, name, type
             if (key === 'type' && newObj[key] !== 'record') {
-            } else if (key === 'type') {
+              //no logic in here
+            } else if (key === 'type') { 
               flag = true
             } else if (key === 'name' && flag) {
               tmpArr.push(newObj[key])
@@ -60,6 +62,7 @@ const testpkg = () => {
               return
             }
           }
+          
           res.push(tmpArr)
         }
       }
@@ -82,6 +85,8 @@ testpkg();
 //find out based on its contents which other parent Type will go inside those brackets in the generated schema
 //is it [currIdx where type array was found].type[1].items.name?
 const makeSchema = (newData) => {
+  // console.log(newData);
+
   let result = 
 `const { buildSchema } = require('graphql');
 
