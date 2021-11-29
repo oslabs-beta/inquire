@@ -1,8 +1,32 @@
 const fs = require('fs');
 
-let newData = [];
+
 const testpkg = () => {
-  fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function(err, data) {
+  fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function(err, data) {
+    let fileData = data;
+    //checks if schema is defined within Avro's forSchema function call
+    const expAvroRGX = /avro\.Type\.forSchema\(/g;
+
+    if (expAvroRGX.test(fileData)) {
+      /* If the words avro.Type.forSchema are found, we want to extract the schema object
+         from within the function call for further processing. To do this, we're using
+         regular expressions that match everything between the opening and closing parentheses.
+      */
+      //retrieve the argument example: forSchema({"name": "category"}) ---> {"name": "category"}
+      let innerData = fileData.match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0].trim();
+      
+      //check if the argument is a variable name instead of explicitly defined object
+      if (innerData[0] !== '{') {
+        //craft new RegExp since it's compatible with variable names
+        const varDefRegex = new RegExp('(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)');
+        
+        innerData = fileData.match(varDefRegex).join("") + '}';
+      }
+      fileData = innerData;
+      //reformat it so that it will work with our algorithm if necessary?
+    }
+
+    //we could maybe change this logic to account for different naming conventions
     try {
       let i = 0
       let res = []
@@ -39,13 +63,11 @@ const testpkg = () => {
           res.push(tmpArr)
         }
       }
-      backtrack(JSON.parse(data))
-      newData = res;
-      console.log(newData);
-      makeSchema();
+      backtrack(JSON.parse(fileData))
+      makeSchema(res);
 
     } catch (err) {
-      console.log("Error: there was an issue reading or parsing the .avsc schema");
+      console.log("Error: there was an issue finding, reading, or parsing the schema");
     }
   });
 }
@@ -59,7 +81,7 @@ testpkg();
 //usually this is regular like int, float, etc. but can be Array. if inside the brackets it's a custom type, 
 //find out based on its contents which other parent Type will go inside those brackets in the generated schema
 //is it [currIdx where type array was found].type[1].items.name?
-const makeSchema = () => {
+const makeSchema = (newData) => {
   let result = 
 `const { buildSchema } = require('graphql');
 
