@@ -13,10 +13,9 @@ const runProducer = async () => {
     await producer.connect();
     const topicName = 'test';
     const message = queueTripInfo();
-    const messageEncoded = eventType.toBuffer(message);
     await producer.send({
       topic: topicName,
-      messages: [{ key: '1', value: messageEncoded, headers: '' }],
+      messages: [{ key: '1', value: JSON.stringify(message), headers: '' }],
     });
     console.log(`Producer: Write success - ${topicName}`);
     await producer.disconnect();
