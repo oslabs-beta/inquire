@@ -62,7 +62,7 @@
                   },
                   {
                     "name": "timestamp",
-                    "type": "int"
+                    "type": "string"
                   }
                 ]
               }
