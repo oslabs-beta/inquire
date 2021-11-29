@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 let newData = [];
-function testpkg() {
+const testpkg = () => {
   fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function(err, data) {
     try {
       let i = 0
@@ -41,7 +41,7 @@ function testpkg() {
       }
       backtrack(JSON.parse(data))
       newData = res;
-
+      console.log(newData);
       makeSchema();
 
     } catch (err) {

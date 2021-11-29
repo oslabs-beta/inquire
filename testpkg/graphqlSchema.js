@@ -19,7 +19,7 @@ type Status {
    position: Position! 
    batteryLevel: Int! 
    distance: Int! 
-   timestamp: Int! 
+   timestamp: String! 
 }
 type Position { 
    lat: Float! 
