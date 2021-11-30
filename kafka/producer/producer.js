@@ -1,5 +1,4 @@
 const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
-const eventType = require('../eventType.js'); // Message AVRO Schema
 const config = require('../kconfig.js'); // Information about Kafka Cluster and Topics
 const queueTripInfo = require('./statusMsg');
 
@@ -13,10 +12,11 @@ const runProducer = async () => {
     await producer.connect();
     const topicName = 'test';
     const message = queueTripInfo();
-    const messageEncoded = eventType.toBuffer(message);
     await producer.send({
       topic: topicName,
-      messages: [{ key: '1', value: messageEncoded, headers: '' }],
+      messages: [
+        { key: 'status', value: JSON.stringify(message), headers: '' },
+      ],
     });
     console.log(`Producer: Write success - ${topicName}`);
     await producer.disconnect();
