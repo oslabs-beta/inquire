@@ -14,12 +14,7 @@ for (let i = 0; i < config.topics.length; i++) {
   consumer.subscribe({ topic: `${topicName}`, fromBeginning: true });
   consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log(`Consumer: Message Read - ${topicName}`);
-      // console.log({
-      //     key: message.key.toString(),
-      //     value: eventType.fromBuffer(message.value),
-      //     headers: message.headers,
-      // });
+      console.log(`Consumer: Message Read - ${message.value}`);
     },
   });
 }
