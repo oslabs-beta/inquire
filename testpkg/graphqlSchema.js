@@ -7,12 +7,21 @@ type Query {
 type Subscription {
 
 }
-type animals { 
-  category: categoryType! 
-  noise: String! 
+type Trip { 
+  id: String 
+  vehicleId: String 
 }
-enum categoryType { 
-  DOG,
-  CAT
+type Status { 
+  statusId: String 
+  tripId: String 
+  vehicleId: String 
+  position: Position 
+  batteryLevel: Int 
+  distance: Int 
+  timestamp: String 
+}
+type Position { 
+  lat: Float 
+  lon: Float 
 }
 `);
