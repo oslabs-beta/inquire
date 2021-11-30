@@ -11,7 +11,7 @@ for (let i = 0; i < config.topics.length; i++) {
   const topicName = config.topics[i];
   const consumer = kafka.consumer({ groupId: `${topicName}-group` });
   consumer.connect();
-  consumer.subscribe({ topic: `${topicName}`, fromBeginning: true });
+  consumer.subscribe({ topic: `${topicName}`, fromBeginning: false });
   consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       console.log(`Consumer: Message Read - ${message.value}`);
