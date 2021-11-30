@@ -6,7 +6,7 @@ const config = require('../kconfig.js'); // Information about Kafka Cluster and 
 
 const kafka = new Kafka(config);
 
-// Initiates a new consumer for every topic in config file
+// Initiates a new consumer for every topic in config
 for (let i = 0; i < config.topics.length; i++) {
   const topicName = config.topics[i];
   const consumer = kafka.consumer({ groupId: `${topicName}-group` });
