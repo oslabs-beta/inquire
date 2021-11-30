@@ -1,10 +1,7 @@
-const { gql } = require ('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
-module.exports = gql `
-  type Animal {
-    category: String!
-    noise: String!
-  }
+// GraphQL Schema
+module.exports = gql`
   type Status { 
     statusId: String! 
     tripId: String! 
@@ -27,7 +24,6 @@ module.exports = gql `
     exampleQuery: String!
   }
   type Subscription {
-    animals: Animal!
     status: Status!
   }
 `;

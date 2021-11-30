@@ -10,7 +10,7 @@ const producer = kafka.producer();
 const runProducer = async () => {
   try {
     await producer.connect();
-    const topicName = 'test';
+    const topicName = config.topics[0];
     const message = queueTripInfo();
     await producer.send({
       topic: topicName,
@@ -27,4 +27,4 @@ const runProducer = async () => {
 
 setInterval(() => {
   runProducer();
-}, 3000);
+}, 8000);

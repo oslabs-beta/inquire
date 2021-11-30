@@ -3,14 +3,22 @@
 // Once server is swapped, Apollo docs to use subscriptions: 
 // https://www.apollographql.com/docs/apollo-server/data/subscriptions/#enabling-subscriptions
 
-const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
-const typeDefs = require('./typeDefs.js');
-const { resolvers, pubsub } = require('./resolvers.js')
 const { createServer } = require('http');
 const { execute, subscribe } = require('graphql');
+
+const { ApolloServer } = require('apollo-server-express');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
+
+// Import schema and resolvers from files.
+const typeDefs = require('./topiQL/typeDefs.js');
+const resolvers = require('./topiQL/resolvers.js');
+
+// Import "publishers" from file. 
+// These "publishers" are consumers that read messages from a kafka topic and publish to a PubSub topic.
+const { publishers } = require('./topiQL/kafkaPublisher.js');
+publishers.publisherStatus();
 
 // Server start must be wrapped in async function
 (async function () {
@@ -48,29 +56,3 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
     console.log(`Server is now running on http://localhost:${PORT}/graphql`)
   );
 })();
-
-
-// TODO: Replace with actual Kafka in correct file.
-// Dummy Stream to Simulate Kafka Animals
-setInterval(() => {
-  pubsub.publish('ANIMALS', {
-    animals: {
-      category : 'CAT' , 
-      noise : 'meow'
-    }
-  });
-}, 6000);
-
-// Dummy Stream to Simulate Kafka Status
-setInterval(() => {
-  pubsub.publish('STATUS', {
-    status: {
-      "statusId":"7e2abc58-6fdd-44fc-92d3-cd6a5d3901ad",
-      "tripId":"3777488f-2705-4957-9774-6ef7b93f1180",
-      "vehicleId":"88b0e76a-a8c7-44e8-a58f-4e0c271e18eb",
-      "position":{"lat":0.9252176083292849,"lon":0.9599738892160283},
-      "batteryLevel":1510610093,
-      "distance":391601775,"timestamp":2113016417
-    }
-  });
-}, 6000);
