@@ -7,6 +7,11 @@ type Query {
 type Subscription {
 
 }
-type undefined { 
+type animals { 
+   noise: String! 
+   category: categoryType! 
+}
+type categoryType { 
+   undefined: Undefined! 
 }
 `);
