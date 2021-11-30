@@ -7,11 +7,6 @@ type Query {
 type Subscription {
 
 }
-type Trip { 
-}
-type Status { 
-  position: Position! 
-}
-type Position { 
+type undefined { 
 }
 `);

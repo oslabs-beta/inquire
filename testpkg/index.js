@@ -3,8 +3,8 @@ const fs = require('fs');
 
 const testpkg = () => {
   // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
-  // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
-  fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
+  fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
+    // fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
     let fileData = data;
     //checks if schema is defined within Avro's forSchema function call
     const expAvroRGX = /avro\.Type\.forSchema\(/g;
@@ -25,13 +25,13 @@ const testpkg = () => {
         const varDefRegex = new RegExp('(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)');
 
         innerData = fileData.match(varDefRegex).join("") + '}';
-        console.log("VAR NAME INNERDATA PROCESSED")
-        console.log(innerData)
+        // console.log("VAR NAME INNERDATA PROCESSED")
+        // console.log(innerData)
       }
       fileData = innerData;
       //reformat it so that it will work with our algorithm if necessary?
     }
-    console.log("-------------------------------------")
+    console.log("fileData:", fileData)
 
 
 
@@ -40,7 +40,7 @@ const testpkg = () => {
       let i = 0
       let res = []
       function backtrack(newObj) {
-        console.log("this is newObj:", newObj);
+        // console.log("this is newObj:", newObj);
         let tmpArr = []
         let flag = false
         if (Array.isArray(newObj)) {
@@ -79,7 +79,7 @@ const testpkg = () => {
               //no logic in here
               // console.log("key isn't record nor enum")
             } else if (key === 'type') {
-              console.log("key is type and its value is record or enum")
+              // console.log("key is type and its value is record or enum")
               flag = true
             } else if (key === 'name' && flag) {
               // console.log("saving name to tmpArr -> ", newObj[key])
@@ -88,7 +88,7 @@ const testpkg = () => {
               // console.log("entered field")
               for (let j = 0; j < newObj[key].length; j++) {
                 let tmpFieldEle = newObj[key][j]
-                console.log("in the for loop / fieldElement -> ", tmpFieldEle)
+                // console.log("in the for loop / fieldElement -> ", tmpFieldEle)
                 if (typeof tmpFieldEle.type === 'object') {
                   // console.log("recursive call")
                   backtrack(tmpFieldEle.type)
@@ -151,21 +151,38 @@ type Subscription {
   for (let i = newData.length - 1; i >= 0; i--) {
     let toAppend = '';
     let prefix = 'type';
-    if (Array.isArray(newData[i][1])) prefix = 'enum';
+
+    if (Array.isArray(newData[i][1])) {
+      console.log("should not be entered")
+      prefix = 'enum';
+    }
 
     toAppend += `${prefix} ${newData[i][0]} { \n`
     //add enum instead of type
+
     for (let j = 1; j < newData[i].length; j++) {
+
 
       const currProp = newData[i][j];
       if (prefix !== 'enum') {
+
         const typeDef = String(currProp.type);
         let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}!`;
-        if (currType === 'Null') { //create an array with custom type inside - how to deal with arrays as a type if just regular data type wanted? like an array of Strings
-          currType = `[${currProp.type[1].items[1].name}]`;
+
+
+        if (currType[0] === 'N') {
+          //create an array with custom type inside - how to deal with arrays as a type if just regular data type wanted? like an array of Strings
+          currType = `[${currProp.type[1].items[1].name}]`; //creates something like [Status] (array of custom types)
+          // console.log(currType);
         } else if (currType[0] === '[') {
-          currType = `${currProp.type.name}!`
-          console.log(currType);
+          console.log('666 cece')
+          currType = `${currProp.type.name}!` //creates something like Position! (simple custom type)
+          // console.log(currType);
+          toAppend += `  ${currProp.name}: ${currType} \n`
+        } else {
+          console.log(currType)
+          console.log('1000 cece')
+          console.log(currProp.name);
           toAppend += `  ${currProp.name}: ${currType} \n`
         }
       } else {
