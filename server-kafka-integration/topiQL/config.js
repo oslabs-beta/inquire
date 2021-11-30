@@ -31,4 +31,6 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
+  // schemaFile: fileLocation?, This is when schema is located locally
+  // can also add fields here to fetch schema directly from cloud, with commands on line 15, 17. post MVP?
 };
