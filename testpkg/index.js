@@ -2,8 +2,8 @@ const fs = require('fs');
 
 
 const testpkg = () => {
-  // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
-  fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
+  fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
+    // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
     // fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
     let fileData = data;
     //checks if schema is defined within Avro's forSchema function call
@@ -31,7 +31,7 @@ const testpkg = () => {
       fileData = innerData;
       //reformat it so that it will work with our algorithm if necessary?
     }
-    console.log("fileData:", fileData)
+    // console.log("fileData:", fileData)
 
 
 
@@ -51,58 +51,72 @@ const testpkg = () => {
             }
           }
         } else {
-          // // if newobj has type
-          // if (newObj.type) {
-          //   // and the type is record
-          //   if (newObj.type === 'record') {
-          //     // look for name & fields -> iterate over fields
-          //     if (newObj.name && newObj.fields) {
-          //       tmpArr.push(newObj.name);
-          //       for (let j = 0; j < newObj[fields].length; j++) {
-          //         let tmpFieldEle = newObj[fields][j];
-          //         if (typeof tmpFieldEle.type === 'object') {
-          //           backtrack(tmpFieldEle.type);
-          //         }
-          //         tmpArr.push(tmpFieldEle);
-          //       }
-          //     } else {
-          //       console.log("Syntax error with kafka stream producer schema: missing name or fields")
-          //     }
-          //   } else {
-          //     // check if there is items
-          //     // then recursively call that items
-          //   }
-          // }
-
-          for (const key in newObj) { //fields, name, type
-            if (key === 'type' && newObj[key] !== 'record' && newObj[key] !== 'enum') {
-              //no logic in here
-              // console.log("key isn't record nor enum")
-            } else if (key === 'type') {
-              // console.log("key is type and its value is record or enum")
-              flag = true
-            } else if (key === 'name' && flag) {
-              // console.log("saving name to tmpArr -> ", newObj[key])
-              tmpArr.push(newObj[key])
-            } else if (key === 'fields' && flag) {
-              // console.log("entered field")
-              for (let j = 0; j < newObj[key].length; j++) {
-                let tmpFieldEle = newObj[key][j]
-                // console.log("in the for loop / fieldElement -> ", tmpFieldEle)
-                if (typeof tmpFieldEle.type === 'object') {
-                  // console.log("recursive call")
-                  backtrack(tmpFieldEle.type)
+          // if newobj has type
+          if (newObj.type) {
+            // and the type is record
+            if (newObj.type === 'record' || newObj.type === 'enum') {
+              // look for name & fields -> iterate over fields
+              if (newObj.name) {
+                tmpArr.push(newObj.name);
+                if (newObj.fields) {
+                  console.log(newObj.fields)
+                  for (let j = 0; j < newObj.fields.length; j++) {
+                    console.log("1")
+                    let tmpFieldEle = newObj.fields[j];
+                    if (typeof tmpFieldEle.type === 'object') {
+                      backtrack(tmpFieldEle.type);
+                    }
+                    tmpArr.push(tmpFieldEle);
+                  }
+                } else if (newObj.symbols) {
+                  // you handle symbols
+                  tmpArr.push(newObj.symbols)
+                } else {
+                  console.log("Syntax error with kafka stream producer schema: missing both fields and symbols")
                 }
-                tmpArr.push(tmpFieldEle)
               }
-            } else if (key === 'symbols' && flag) {
-              // console.log("we found symbols, we are adding -> ", newObj[key])
-              tmpArr.push(newObj[key])
-            } else if (key === 'items') {
-              backtrack(newObj[key])
-              return
+              else {
+                console.log("Syntax error with kafka stream producer schema: missing both name and items")
+              }
+            } else {
+              if (newObj.items) {
+                backtrack(newObj.items)
+                return
+              }
+              // check if there is items
+              // then recursively call that items
             }
           }
+
+          // for (const key in newObj) { //fields, name, type
+          //   if (key === 'type' && newObj[key] !== 'record' && newObj[key] !== 'enum') {
+          //     //no logic in here
+          //     // console.log("key isn't record nor enum")
+          //   } else if (key === 'type') {
+          //     // console.log("key is type and its value is record or enum")
+          //     flag = true
+          //   } else if (key === 'name' && flag) {
+          //     // console.log("saving name to tmpArr -> ", newObj[key])
+          //     tmpArr.push(newObj[key])
+          //   } else if (key === 'fields' && flag) {
+          //     // console.log("entered field")
+          //     for (let j = 0; j < newObj[key].length; j++) {
+          //       let tmpFieldEle = newObj[key][j]
+          //       // console.log("in the for loop / fieldElement -> ", tmpFieldEle)
+          //       if (typeof tmpFieldEle.type === 'object') {
+          //         // console.log("recursive call")
+          //         backtrack(tmpFieldEle.type)
+          //       }
+          //       tmpArr.push(tmpFieldEle)
+          //     }
+          //   } else if (key === 'symbols' && flag) {
+          //     // console.log("we found symbols, we are adding -> ", newObj[key])
+          //     tmpArr.push(newObj[key])
+          //   } else if (key === 'items') {
+          //     backtrack(newObj[key])
+          //     return
+          //   }
+          // }
 
           res.push(tmpArr)
         }

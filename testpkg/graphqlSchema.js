@@ -7,6 +7,12 @@ type Query {
 type Subscription {
 
 }
-type undefined { 
+type animals { 
+  category: categoryType! 
+  noise: String! 
+}
+enum categoryType { 
+  DOG,
+  CAT
 }
 `);
