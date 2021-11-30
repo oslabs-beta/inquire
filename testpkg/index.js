@@ -3,8 +3,8 @@ const fs = require('fs');
 
 const testpkg = () => {
   // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
-  fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
-    // fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
+  // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
+  fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
     let fileData = data;
     //checks if schema is defined within Avro's forSchema function call
     const expAvroRGX = /avro\.Type\.forSchema\(/g;
@@ -77,26 +77,26 @@ const testpkg = () => {
           for (const key in newObj) { //fields, name, type
             if (key === 'type' && newObj[key] !== 'record' && newObj[key] !== 'enum') {
               //no logic in here
-              console.log("key isn't record nor enum")
+              // console.log("key isn't record nor enum")
             } else if (key === 'type') {
               console.log("key is type and its value is record or enum")
               flag = true
             } else if (key === 'name' && flag) {
-              console.log("saving name to tmpArr -> ", newObj[key])
+              // console.log("saving name to tmpArr -> ", newObj[key])
               tmpArr.push(newObj[key])
             } else if (key === 'fields' && flag) {
-              console.log("entered field")
+              // console.log("entered field")
               for (let j = 0; j < newObj[key].length; j++) {
                 let tmpFieldEle = newObj[key][j]
                 console.log("in the for loop / fieldElement -> ", tmpFieldEle)
                 if (typeof tmpFieldEle.type === 'object') {
-                  console.log("recursive call")
+                  // console.log("recursive call")
                   backtrack(tmpFieldEle.type)
                 }
                 tmpArr.push(tmpFieldEle)
               }
             } else if (key === 'symbols' && flag) {
-              console.log("we found symbols, we are adding -> ", newObj[key])
+              // console.log("we found symbols, we are adding -> ", newObj[key])
               tmpArr.push(newObj[key])
             } else if (key === 'items') {
               backtrack(newObj[key])
@@ -111,6 +111,8 @@ const testpkg = () => {
       // console.log(JSON.parse(fileData))
       // console.log("^^^^^^^^^^^^^^^^^^^^^^^")
       backtrack(JSON.parse(fileData))
+      // console.log("------------")
+      // console.log(res)
       makeSchema(res);
 
     } catch (err) {
@@ -129,8 +131,8 @@ testpkg();
 //find out based on its contents which other parent Type will go inside those brackets in the generated schema
 //is it [currIdx where type array was found].type[1].items.name?
 const makeSchema = (newData) => {
+  console.log("------------")
   console.log(newData);
-  console.log(newData[1][2].type);
 
   let result =
     `const { buildSchema } = require('graphql');
@@ -143,24 +145,45 @@ type Subscription {
 
 }\n`;
 
+
+
+
   for (let i = newData.length - 1; i >= 0; i--) {
     let toAppend = '';
-    toAppend += `type ${newData[i][0]} { \n`
+    let prefix = 'type';
+    if (Array.isArray(newData[i][1])) prefix = 'enum';
+
+    toAppend += `${prefix} ${newData[i][0]} { \n`
     //add enum instead of type
     for (let j = 1; j < newData[i].length; j++) {
 
       const currProp = newData[i][j];
-      const typeDef = String(currProp.type);
-      let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}!`;
-
-      if (currType === 'Null') { //create an array with custom type inside - how to deal with arrays as a type if just regular data type wanted? like an array of Strings
-        currType = `[${currProp.type[1].items[1].name}]`;
-      } else if (currType[0] === '[') {
-        currType = `${currProp.type.name}!`
-        console.log(currType);
+      if (prefix !== 'enum') {
+        const typeDef = String(currProp.type);
+        let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}!`;
+        if (currType === 'Null') { //create an array with custom type inside - how to deal with arrays as a type if just regular data type wanted? like an array of Strings
+          currType = `[${currProp.type[1].items[1].name}]`;
+        } else if (currType[0] === '[') {
+          currType = `${currProp.type.name}!`
+          console.log(currType);
+          toAppend += `  ${currProp.name}: ${currType} \n`
+        }
+      } else {
+        console.log(newData[i][j], "becomes --->");
+        console.log(newData[i][j][1])
+        //iterate through values in array and add to toAppend
+        for (let k = 0; k < newData[i][j].length - 1; k++) {
+          console.log("111111111111111")
+          toAppend += `  ${newData[i][j][k]},\n`
+          console.log("3333333333")
+        }
+        console.log("2222222222222")
+        toAppend += `  ${newData[i][j][newData.length - 1]}\n`
+        console.log("enum building string ->", toAppend)
       }
 
-      toAppend += `   ${currProp.name}: ${currType} \n`
+
+
     }
     toAppend += '}\n';
     result += toAppend;

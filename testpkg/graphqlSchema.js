@@ -7,11 +7,11 @@ type Query {
 type Subscription {
 
 }
-type animals { 
-   noise: String! 
-   category: categoryType! 
+type Trip { 
 }
-type categoryType { 
-   undefined: Undefined! 
+type Status { 
+  position: Position! 
+}
+type Position { 
 }
 `);
