@@ -1,0 +1,12 @@
+{
+  "name": "testpkg",
+  "version": "1.0.0",
+  "description": "test console.log pkg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cece": "node index.js"
+  },
+  "author": "c&h",
+  "license": "ISC"
+}
