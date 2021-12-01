@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:apollo": "node server-kafka-integration/server.js",
+    "start:apollo": "node server/server.js",
     "start:topiQL": "node testpkg/startTopiQL.js",
     "make:topiQL": "node testpkg/makeTopiQL.js"
   },

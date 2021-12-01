@@ -96,11 +96,10 @@ const testpkg = (fileData) => {
 
 const makeSchema = (newData) => {
   let result =
-    `const { buildSchema } = require('graphql');
+    `const { gql } = require('apollo-server-express');
 
-module.exports = buildSchema(\`
+module.exports = gql\`
 type Query {
-
 }
 type Subscription {
 
@@ -145,7 +144,7 @@ type Subscription {
     toAppend += '}\n';
     result += toAppend;
   }
-  result += '\`);'
+  result += '\`;'
   console.log(result);
   console.log(config.destinationFolder);
   fs.writeFileSync(`${config.destinationFolder}/typeDefs.js`, result);

@@ -32,6 +32,6 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFile: path.resolve(__dirname, '.../data/testData/avscSample.avsc'),
-  destinationFolder: path.resolve(__dirname, '../server/topiQL')
+  schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
+  destinationFolder: path.resolve(__dirname)
 };

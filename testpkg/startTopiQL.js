@@ -24,7 +24,7 @@ module.exports = {
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
   schemaFile: '',  
-  destinationFolder: '../server/topiQL'
+  destinationFolder: ''
 };`;
 
 fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/config.js'), result);
