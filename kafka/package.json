@@ -1,0 +1,26 @@
+{
+  "name": "kafka-instance",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --experimental-json-modules server/server.js",
+    "start:producer": "node producer/producer.js",
+    "start:consumer": "node consumer/consumer.js",
+    "start:all": "concurrently \"node --experimental-json-modules server/server.js\" \"node producer/producer.js\" \"node consumer/consumer.js\""
+  },
+  "author": "topiQL",
+  "license": "ISC",
+  "dependencies": {
+    "avsc": "^5.6.2",
+    "concurrently": "^6.4.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.7.2",
+    "graphql-subscriptions": "^2.0.0",
+    "http": "^0.0.1-security",
+    "kafkajs": "^1.15.0",
+    "path": "^0.12.7",
+    "subscriptions-transport-ws": "^0.11.0"
+  }
+}
