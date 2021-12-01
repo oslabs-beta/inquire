@@ -1,80 +1,94 @@
 const fs = require('fs');
+//import config file
 
-
-const testpkg = () => {
-  fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
+const toGraphQL = () => {
+  
+  try {
+    fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
     // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
-    // fs.readFile('../data/testData/avscSample.avsc', 'utf-8', function (err, data) {
-    let fileData = data;
-    //checks if schema is defined within Avro's forSchema function call
-    const expAvroRGX = /avro\.Type\.forSchema\(/g;
-    if (expAvroRGX.test(fileData)) {
+    // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
+      let fileData = data;
       
-      let innerData = fileData.match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0].trim();
-
-      //check if the argument is a variable name instead of explicitly defined object
-      if (innerData[0] !== '{') {
-        //find variable definition
-        const varDefRegex = new RegExp('(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)');
-        innerData = fileData.match(varDefRegex).join("") + '}';
+      //checks if schema is defined within Avro's forSchema function call
+      const expAvroRGX = /avro\.Type\.forSchema\(/g;
+      if (expAvroRGX.test(fileData)) {
+        //find schema object within forSchema call
+        let innerData = fileData.match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0].trim();
+    
+        //check if the argument is a variable name instead of explicitly defined object
+        if (innerData[0] !== '{') {
+          //find variable definition
+          const varDefRegex = new RegExp('(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)');
+          innerData = fileData.match(varDefRegex).join("") + '}';
+        }
+        //reassign fileData
+        fileData = innerData;
       }
-      fileData = innerData;
-    }
+      //call the parsing algorithm with extracted data
+      testpkg(fileData);
+    });
+  } catch (err) {
+    console.log('there was a problem finding, reading, or parsing the file containing your avro schema')
+  }
+}
 
-    try {
-      let i = 0
-      let res = []
-      function backtrack(newObj) {
-        let tmpArr = []
-        if (Array.isArray(newObj)) {
-          for (let k = 0; k < newObj.length; k++) {
-            if (typeof newObj[k] === 'object') {
-              backtrack(newObj[k])
+
+const testpkg = (fileData) => {
+  try {
+    let res = []
+    function backtrack(newObj) {
+      let tmpArr = []
+      //check if the curr obj is an array instance
+      if (Array.isArray(newObj)) {
+        //iterate and check for object type at each idx
+        for (let k = 0; k < newObj.length; k++) {
+          if (typeof newObj[k] === 'object') {
+            //recursive call
+            backtrack(newObj[k])
+            return
+          }
+        }
+      } else {
+        if (newObj.type) {
+          if (newObj.type === 'record' || newObj.type === 'enum') {
+            if (newObj.name) {
+              tmpArr.push(newObj.name);
+              if (newObj.fields) {
+                for (let j = 0; j < newObj.fields.length; j++) {
+                  let tmpFieldEle = newObj.fields[j];
+                  if (typeof tmpFieldEle.type === 'object') {
+                    backtrack(tmpFieldEle.type);
+                  }
+                  tmpArr.push(tmpFieldEle);
+                }
+              } else if (newObj.symbols) {
+                tmpArr.push(newObj.symbols)
+              } else {
+                console.log("Syntax error with kafka stream producer schema: missing both fields and symbols")
+              }
+            }
+            else {
+              console.log("Syntax error with kafka stream producer schema: missing both name and items")
+            }
+          } else {
+            if (newObj.items) {
+              backtrack(newObj.items)
               return
             }
           }
-        } else {
-          if (newObj.type) {
-            if (newObj.type === 'record' || newObj.type === 'enum') {
-              if (newObj.name) {
-                tmpArr.push(newObj.name);
-                if (newObj.fields) {
-                  console.log(newObj.fields)
-                  for (let j = 0; j < newObj.fields.length; j++) {
-                    let tmpFieldEle = newObj.fields[j];
-                    if (typeof tmpFieldEle.type === 'object') {
-                      backtrack(tmpFieldEle.type);
-                    }
-                    tmpArr.push(tmpFieldEle);
-                  }
-                } else if (newObj.symbols) {
-                  tmpArr.push(newObj.symbols)
-                } else {
-                  console.log("Syntax error with kafka stream producer schema: missing both fields and symbols")
-                }
-              }
-              else {
-                console.log("Syntax error with kafka stream producer schema: missing both name and items")
-              }
-            } else {
-              if (newObj.items) {
-                backtrack(newObj.items)
-                return
-              }
-            }
-          }
-
-          res.push(tmpArr)
         }
+
+        res.push(tmpArr)
       }
-      backtrack(JSON.parse(fileData))
-      makeSchema(res);
-    } catch (err) {
-      console.log("Error: there was an issue finding, reading, or parsing the schema");
     }
-  });
+    backtrack(JSON.parse(fileData));
+
+    makeSchema(res);
+  } catch (err) {
+    console.log("Error: there was an issue finding, reading, or parsing the schema");
+  }
 }
-testpkg();
+
 
 
 const makeSchema = (newData) => {
@@ -108,9 +122,9 @@ type Subscription {
         let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}`;
 
         if (currType[0] === 'N') {
-          //define array of custom types
+          //define array of custom types if Null
           currType = `[${currProp.type[1].items[1].name}]`;
-
+          toAppend += `  ${currProp.name}: ${currType} \n`;
         } else if (currType[0] === '[') {
           //define custom type
           currType = `${currProp.type.name}`;
@@ -129,5 +143,9 @@ type Subscription {
     result += toAppend;
   }
   result += '\`);'
+
   fs.writeFileSync('./graphqlSchema.js', result);
 }
+
+
+toGraphQL();

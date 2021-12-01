@@ -10,6 +10,7 @@ type Subscription {
 type Trip { 
   id: String 
   vehicleId: String 
+  route: [Status] 
 }
 type Status { 
   statusId: String 
