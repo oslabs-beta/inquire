@@ -41,7 +41,6 @@ const testpkg = () => {
                 if (newObj.fields) {
                   console.log(newObj.fields)
                   for (let j = 0; j < newObj.fields.length; j++) {
-                    console.log("1")
                     let tmpFieldEle = newObj.fields[j];
                     if (typeof tmpFieldEle.type === 'object') {
                       backtrack(tmpFieldEle.type);
