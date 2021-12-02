@@ -95,14 +95,19 @@ const testpkg = (fileData) => {
 
 
 const makeSchema = (newData) => {
+  // Pull out name of topics and types from config file
+  const topic = config.topics[0];
+  const type = config.topicTypes[0];
+
   let result =
     `const { gql } = require('apollo-server-express');
 
 module.exports = gql\`
 type Query {
+  exampleQuery: String!
 }
 type Subscription {
-
+  ${topic}: ${type}
 }\n`;
 
   for (let i = newData.length - 1; i >= 0; i--) {
@@ -288,7 +293,7 @@ const makeServer = () => {
   fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
 }
 
-//toGraphQL();
+toGraphQL();
 makeResolvers();
 makePublishers();
 makeServer();

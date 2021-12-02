@@ -8,6 +8,7 @@ fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
 
 let result =
 `// User Configuration File for Kafka - GraphQL connection using topiQL library
+const path = require('path');
 const username = ''
 const password = ''
 

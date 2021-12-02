@@ -25,6 +25,7 @@ const ssl = !!sasl
 
 module.exports = {
   topics: ['tripStatus'],
+  topicTypes: ['Status'],
   clientId: 'kafQL',
   brokers: ['pkc-lzvrd.us-west4.gcp.confluent.cloud:9092'],
   ssl,

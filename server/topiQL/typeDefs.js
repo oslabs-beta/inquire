@@ -5,7 +5,7 @@ type Query {
   exampleQuery: String!
 }
 type Subscription {
-  tripStatus: Status!
+  tripStatus: Status
 }
 type Trip { 
   id: String 
