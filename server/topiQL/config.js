@@ -7,7 +7,7 @@ const sasl = username && password ? { username, password, mechanism: 'plain' } :
 const ssl = !!sasl
 
 module.exports = {
-  topics: ['status'],
+  topics: ['tripStatus'],
   clientId: 'kafQL',
   brokers: ['pkc-lzvrd.us-west4.gcp.confluent.cloud:9092'],
   ssl,

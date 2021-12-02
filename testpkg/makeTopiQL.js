@@ -155,7 +155,45 @@ const makeResolvers = () => {
 }
 
 const makePublishers = () => {
+  // Pull out name of topics from config file
+  const topic = config.topics[0];
+  // Topic name version that is capitalized: tripStatus --> TripStatus
+  const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
+  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+  const topicAllCaps = topic.toUpperCase();
 
+  let result =
+  `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
+  const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
+  const { PubSub } = require('graphql-subscriptions');
+  
+  // This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
+  // Topics can be created online through confluent cloud portal
+  const pubsub = new PubSub();
+  const kafka = new Kafka(config);
+  
+  // For every topic listed in config file, we can pull out a topicName and corresponding consumer
+  const topicName = config.topics[0];
+  const consumerTest = kafka.consumer({ groupId: \`\${topicName}-group\` });
+  
+  const publishers = {
+    ` + `publisher${topicCapitalized}` + `: () => {
+      consumerTest.connect();
+      consumerTest.subscribe({ topic: \`\${topicName}\`, fromBeginning: false });
+      consumerTest.run({
+        eachMessage: async ({ topic, partition, message }) => {
+          pubsub.publish('`+`${topicAllCaps}`+`', {
+            status: JSON.parse(message.value)
+          });
+        },
+      });
+    }
+  }
+  
+  module.exports = { publishers, pubsub };
+  `;
+  
+  fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'), result);
 }
 
 const makeServer = () => {
@@ -223,7 +261,7 @@ const makeServer = () => {
   fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
 }
 
-toGraphQL();
+//toGraphQL();
 // makeResolvers();
-// makePublishers();
-makeServer();
+makePublishers();
+//makeServer();
