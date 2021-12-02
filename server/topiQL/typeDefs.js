@@ -1,11 +1,11 @@
-const { buildSchema } = require('graphql');
+const { gql } = require('apollo-server-express');
 
-module.exports = buildSchema(`
+module.exports = gql`
 type Query {
-
+  exampleQuery: String!
 }
 type Subscription {
-
+  tripStatus: Status
 }
 type Trip { 
   id: String 
@@ -25,4 +25,4 @@ type Position {
   lat: Float 
   lon: Float 
 }
-`);
+`;

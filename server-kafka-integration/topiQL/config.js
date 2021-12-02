@@ -16,6 +16,7 @@
 // Fetch latest version of schema
 // curl -s -u QYNK56V7RGVKVPAP:fc9MQL2zQ/cjkIftGgIz7jYeePz3yBAqwbKwNzg2dHgY/o9rp96KtSmJ0NfSzlRN GET https://psrc-q8qx7.us-central1.gcp.confluent.cloud/subjects/animals/versions/latest >> ./schema.json
 
+const path = require('path');
 const username = 'JUJA6GJGJCDSUYOP'
 const password = '1XIN/fry4johm7kHhZ+n88jeKc11xJR3G07QXzfRmtnKA/f+s7mcbdkdvRIi/ixc'
 
@@ -23,7 +24,8 @@ const sasl = username && password ? { username, password, mechanism: 'plain' } :
 const ssl = !!sasl
 
 module.exports = {
-  topics: ['status'],
+  topics: ['tripStatus'],
+  topicTypes: ['Status'],
   clientId: 'kafQL',
   brokers: ['pkc-lzvrd.us-west4.gcp.confluent.cloud:9092'],
   ssl,
@@ -31,6 +33,6 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  // schemaFile: fileLocation?, This is when schema is located locally
-  // can also add fields here to fetch schema directly from cloud, with commands on line 15, 17. post MVP?
+  schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
+  destinationFolder: path.resolve(__dirname)
 };
