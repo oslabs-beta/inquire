@@ -18,7 +18,7 @@ const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafk
       consumerTest.run({
         eachMessage: async ({ topic, partition, message }) => {
           pubsub.publish('TRIPSTATUS', {
-            status: JSON.parse(message.value)
+            tripStatus: JSON.parse(message.value)
           });
         },
       });

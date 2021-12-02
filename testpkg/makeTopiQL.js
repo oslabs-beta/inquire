@@ -151,7 +151,28 @@ type Subscription {
 }
 
 const makeResolvers = () => {
+    // Pull out name of topics from config file
+    const topic = config.topics[0];
+    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+    const topicAllCaps = topic.toUpperCase();
   
+    let result =
+    `const { pubsub } = require('./kafkaPublisher.js')
+
+    // GraphQL Resolvers
+    module.exports = {
+      Subscription: {
+        ${topic}: {
+          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
+        },
+      },
+      Query: {
+        exampleQuery: () => "Add Result Here"
+      }
+    }
+    `;
+    
+    fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/resolvers.js'), result);
 }
 
 const makePublishers = () => {
@@ -177,13 +198,13 @@ const makePublishers = () => {
   const consumerTest = kafka.consumer({ groupId: \`\${topicName}-group\` });
   
   const publishers = {
-    ` + `publisher${topicCapitalized}` + `: () => {
+    publisher${topicCapitalized}: () => {
       consumerTest.connect();
       consumerTest.subscribe({ topic: \`\${topicName}\`, fromBeginning: false });
       consumerTest.run({
         eachMessage: async ({ topic, partition, message }) => {
-          pubsub.publish('`+`${topicAllCaps}`+`', {
-            status: JSON.parse(message.value)
+          pubsub.publish('${topicAllCaps}', {
+            ${topic}: JSON.parse(message.value)
           });
         },
       });
@@ -197,6 +218,12 @@ const makePublishers = () => {
 }
 
 const makeServer = () => {
+  // Pull out name of topics from config file
+  const topic = config.topics[0];
+  // Topic name version that is capitalized: tripStatus --> TripStatus
+  const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
+  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+  const topicAllCaps = topic.toUpperCase();
   let result =
   `// Apollo docs describing how to swap apollo server: 
   // https://www.apollographql.com/docs/apollo-server/integrations/middleware/#swapping-out-apollo-server
@@ -218,7 +245,7 @@ const makeServer = () => {
   // Import "publishers" from file. 
   // These "publishers" are consumers that read messages from a kafka topic and publish to a PubSub topic.
   const { publishers } = require('./topiQL/kafkaPublisher.js');
-  publishers.publisherStatus();
+  publishers.publisher${topicCapitalized}();
   
   // Server start must be wrapped in async function
   (async function () {
@@ -262,6 +289,6 @@ const makeServer = () => {
 }
 
 //toGraphQL();
-// makeResolvers();
+makeResolvers();
 makePublishers();
-//makeServer();
+makeServer();
