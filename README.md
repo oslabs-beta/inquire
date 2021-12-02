@@ -1,2 +1,2 @@
-# KafQL
-GraphQL integration with Kafka Streams
+# TopiQL
+An NPM Package offering GraphQL integration for Kafka Topics
