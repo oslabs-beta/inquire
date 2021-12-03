@@ -12,5 +12,5 @@ jobs:
         with:
           node-version: '12'
       - run: npm install
-      - run: jest topiQLFolder.test.js
+      - run: npm test topiQLFolder.test.js
         
