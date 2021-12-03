@@ -3,7 +3,7 @@ on:
   push:
     branches: [ ying-testing ]
 jobs:
-  TestingMacos:
+  Testing:
     runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
