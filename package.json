@@ -1,11 +1,12 @@
 {
-  "name": "server-kafka-integration",
+  "name": "topiql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:apollo": "node server-kafka-integration/server.js",
-    "test": "jest"
+    "start:apollo": "node server/server.js",
+    "start:topiQL": "node testpkg/startTopiQL.js",
+    "make:topiQL": "node testpkg/makeTopiQL.js"
   },
   "author": "topiQL",
   "license": "ISC",
@@ -19,8 +20,5 @@
     "http": "^0.0.1-security",
     "kafkajs": "^1.15.0",
     "subscriptions-transport-ws": "^0.11.0"
-  },
-  "devDependencies": {
-    "jest": "^27.4.3"
   }
 }

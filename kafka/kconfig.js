@@ -17,13 +17,15 @@
 // curl -s -u QYNK56V7RGVKVPAP:fc9MQL2zQ/cjkIftGgIz7jYeePz3yBAqwbKwNzg2dHgY/o9rp96KtSmJ0NfSzlRN GET https://psrc-q8qx7.us-central1.gcp.confluent.cloud/subjects/animals/versions/latest >> ./schema.json
 
 const username = 'JUJA6GJGJCDSUYOP'
+// const username = 'ZZIPDXVO5AF4CG2D' // New Key Backup
 const password = '1XIN/fry4johm7kHhZ+n88jeKc11xJR3G07QXzfRmtnKA/f+s7mcbdkdvRIi/ixc'
+// const password = 'DDLPn6mQ+/pEmM9jdWprSHoeyEa3KwLOVc7dYcQcLxBU/4N0qvSihyhw9hzcjC8F' // New Key Backup
 
 const sasl = username && password ? { username, password, mechanism: 'plain' } : null
 const ssl = !!sasl
 
 module.exports = {
-  topics: ['status'],
+  topics: ['tripStatus'],
   clientId: 'kafQL',
   brokers: ['pkc-lzvrd.us-west4.gcp.confluent.cloud:9092'],
   ssl,
