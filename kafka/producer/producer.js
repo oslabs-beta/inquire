@@ -27,4 +27,4 @@ const runProducer = async () => {
 
 setInterval(() => {
   runProducer();
-}, 8000);
+}, 5000);
