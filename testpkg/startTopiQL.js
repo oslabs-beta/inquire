@@ -38,5 +38,6 @@ module.exports = {
 
 //after this file is run, user will run their configuration file? which will run index.js in testpkg.
 //index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
+initTopiQL();
 
 module.exports = initTopiQL;
