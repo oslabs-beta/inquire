@@ -4,25 +4,27 @@ const path = require('path');
 const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
 const config = require(configPath);
 
-
 const toGraphQL = () => {
-  
   try {
     fs.readFile(config.schemaFile, 'utf-8', function (err, data) {
-    // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
-    // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
+      // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
+      // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
       let fileData = data;
       //checks if schema is defined within Avro's forSchema function call
       const expAvroRGX = /avro\.Type\.forSchema\(/g;
       if (expAvroRGX.test(fileData)) {
         //find schema object within forSchema call
-        let innerData = fileData.match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0].trim();
-        
+        let innerData = fileData
+          .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
+          .trim();
+
         //check if the argument is a variable name instead of explicitly defined object
         if (innerData[0] !== '{') {
           //find variable definition
-          const varDefRegex = new RegExp('(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)');
-          innerData = fileData.match(varDefRegex).join("") + '}';
+          const varDefRegex = new RegExp(
+            '(?<=' + innerData + ' =' + ')[\\s\\S]*(?=};)'
+          );
+          innerData = fileData.match(varDefRegex).join('') + '}';
         }
         //reassign fileData
         fileData = innerData;
@@ -31,24 +33,25 @@ const toGraphQL = () => {
       testpkg(fileData);
     });
   } catch (err) {
-    console.log('there was a problem finding, reading, or parsing the file containing your avro schema')
+    console.log(
+      'there was a problem finding, reading, or parsing the file containing your avro schema'
+    );
   }
-}
-
+};
 
 const testpkg = (fileData) => {
   try {
-    let res = []
+    let res = [];
     function backtrack(newObj) {
-      let tmpArr = []
+      let tmpArr = [];
       //check if the curr obj is an array instance
       if (Array.isArray(newObj)) {
         //iterate and check for object type at each idx
         for (let k = 0; k < newObj.length; k++) {
           if (typeof newObj[k] === 'object') {
             //recursive call
-            backtrack(newObj[k])
-            return
+            backtrack(newObj[k]);
+            return;
           }
         }
       } else {
@@ -65,42 +68,44 @@ const testpkg = (fileData) => {
                   tmpArr.push(tmpFieldEle);
                 }
               } else if (newObj.symbols) {
-                tmpArr.push(newObj.symbols)
+                tmpArr.push(newObj.symbols);
               } else {
-                console.log("Syntax error with kafka stream producer schema: missing both fields and symbols")
+                console.log(
+                  'Syntax error with kafka stream producer schema: missing both fields and symbols'
+                );
               }
-            }
-            else {
-              console.log("Syntax error with kafka stream producer schema: missing both name and items")
+            } else {
+              console.log(
+                'Syntax error with kafka stream producer schema: missing both name and items'
+              );
             }
           } else {
             if (newObj.items) {
-              backtrack(newObj.items)
-              return
+              backtrack(newObj.items);
+              return;
             }
           }
         }
 
-        res.push(tmpArr)
+        res.push(tmpArr);
       }
     }
     backtrack(JSON.parse(fileData));
 
     makeSchema(res);
   } catch (err) {
-    console.log("Error: there was an issue finding, reading, or parsing the schema");
+    console.log(
+      'Error: there was an issue finding, reading, or parsing the schema'
+    );
   }
-}
-
-
+};
 
 const makeSchema = (newData) => {
   // Pull out name of topics and types from config file
   const topic = config.topics[0];
   const type = config.topicTypes[0];
 
-  let result =
-    `const { gql } = require('apollo-server-express');
+  let result = `const { gql } = require('apollo-server-express');
 
 module.exports = gql\`
 type Query {
@@ -118,11 +123,9 @@ type Subscription {
       prefix = 'enum';
     }
 
-    toAppend += `${prefix} ${newData[i][0]} { \n`
+    toAppend += `${prefix} ${newData[i][0]} { \n`;
 
     for (let j = 1; j < newData[i].length; j++) {
-
-
       const currProp = newData[i][j];
       if (prefix !== 'enum') {
         const typeDef = String(currProp.type);
@@ -142,27 +145,26 @@ type Subscription {
       } else {
         //iterate through values in array and add to toAppend
         for (let k = 0; k < newData[i][j].length; k++) {
-          toAppend += `  ${newData[i][j][k]}\n`
+          toAppend += `  ${newData[i][j][k]}\n`;
         }
       }
     }
     toAppend += '}\n';
     result += toAppend;
   }
-  result += '\`;'
-  console.log(result);
-  console.log(config.destinationFolder);
+  result += '`;';
+  // console.log(result);
+  // console.log(config.destinationFolder);
   fs.writeFileSync(`${config.destinationFolder}/typeDefs.js`, result);
-}
+};
 
 const makeResolvers = () => {
-    // Pull out name of topics from config file
-    const topic = config.topics[0];
-    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-    const topicAllCaps = topic.toUpperCase();
-  
-    let result =
-    `const { pubsub } = require('./kafkaPublisher.js')
+  // Pull out name of topics from config file
+  const topic = config.topics[0];
+  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+  const topicAllCaps = topic.toUpperCase();
+
+  let result = `const { pubsub } = require('./kafkaPublisher.js')
 
     // GraphQL Resolvers
     module.exports = {
@@ -176,9 +178,12 @@ const makeResolvers = () => {
       }
     }
     `;
-    
-    fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/resolvers.js'), result);
-}
+
+  fs.writeFileSync(
+    path.resolve(__dirname, '../server/topiQL/resolvers.js'),
+    result
+  );
+};
 
 const makePublishers = () => {
   // Pull out name of topics from config file
@@ -188,8 +193,7 @@ const makePublishers = () => {
   // Topic name version that is all caps: tripStatus --> TRIPSTATUS
   const topicAllCaps = topic.toUpperCase();
 
-  let result =
-  `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
+  let result = `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
   const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
   const { PubSub } = require('graphql-subscriptions');
   
@@ -218,9 +222,12 @@ const makePublishers = () => {
   
   module.exports = { publishers, pubsub };
   `;
-  
-  fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'), result);
-}
+
+  fs.writeFileSync(
+    path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'),
+    result
+  );
+};
 
 const makeServer = () => {
   // Pull out name of topics from config file
@@ -229,8 +236,7 @@ const makeServer = () => {
   const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
   // Topic name version that is all caps: tripStatus --> TRIPSTATUS
   const topicAllCaps = topic.toUpperCase();
-  let result =
-  `// Apollo docs describing how to swap apollo server: 
+  let result = `// Apollo docs describing how to swap apollo server: 
   // https://www.apollographql.com/docs/apollo-server/integrations/middleware/#swapping-out-apollo-server
   // Once server is swapped, Apollo docs to use subscriptions: 
   // https://www.apollographql.com/docs/apollo-server/data/subscriptions/#enabling-subscriptions
@@ -289,11 +295,18 @@ const makeServer = () => {
     );
   })();
   `;
-  
+
   fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
-}
+};
 
 toGraphQL();
 makeResolvers();
 makePublishers();
 makeServer();
+
+module.exports = {
+  toGraphQL,
+  makeResolvers,
+  makePublishers,
+  makeServer,
+};
