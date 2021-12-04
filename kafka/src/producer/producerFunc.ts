@@ -1,5 +1,6 @@
 export {}; // This line of code prevents TS error 'Cannot redeclare block-scoped variable' in unrelated files
 
+// GENERATE TRIP STATUS
 function queueTripInfo() : TripInfo {
   const tripId : string = getRandomTripId();
   const statusId : string = getStatusId(tripId);
@@ -81,5 +82,46 @@ function getDistance() : Function {
 }
 const distanceFunc = getDistance();
 
+// GENERATE PASSENGER INFO
+function passengerInfo() : PassengerInfo {
+  const name : string = getRandomPassenger();
+  const street : string = getPassengerAddress(name);
 
-module.exports = queueTripInfo;
+  const passengerInfo : PassengerInfo = {
+    name,
+    street,
+  }
+  return passengerInfo;
+}
+
+const passengerNames : string[] = [
+  "Carla",
+  "Joseph",
+  "Megan",
+  "Roland",
+  "Stacey",
+  "Maria",
+  "Henry",
+  "Peter"
+]
+
+const addressBook : {[key: string] : string} = {
+  "Carla": "CherryLane",
+  "Joseph" : "FifthAvenue",
+  "Megan" : "FourteenthStreet",
+  "Roland" : "PerlmanRoad",
+  "Stacey" : "BroadStreet",
+  "Maria" : "SecondAvenue",
+  "Henry" : "BleekerStreet",
+  "Peter" : "LexingtonAvenue"
+}
+
+function getRandomPassenger() : string {
+  const index = Math.floor(Math.random() * 8)
+  return passengerNames[index];
+}
+function getPassengerAddress(name : string) : string {
+  return addressBook[name];
+}
+
+module.exports = { queueTripInfo, passengerInfo };

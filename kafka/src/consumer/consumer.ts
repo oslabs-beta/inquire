@@ -1,7 +1,7 @@
 export {}; // This line of code prevents TS error 'Cannot redeclare block-scoped variable' in unrelated files
 
 const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
-const config = require('../../kconfig.js'); // Information about Kafka Cluster and Topics
+const config = require('../kconfig.js'); // Information about Kafka Cluster and Topics
 
 // This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
 // Topics can be created online through confluent cloud portal
@@ -19,7 +19,7 @@ for (let i = 0; i < config.topics.length; i++) {
   consumer.run({
     eachMessage: async ({ message } : { message: any}) => {
       // If topic and partition are needed, expand async function arguments to include: { topic, partition, message }
-      console.log(`Consumer: Message Read - Partition  ${message.value}`);
+      console.log(`Consumer: Message Read - ${message.value}`);
     },
   });
   } catch (err) {

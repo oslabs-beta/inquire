@@ -1,3 +1,4 @@
+export {}; // This line of code prevents TS error 'Cannot redeclare block-scoped variable' in unrelated files
 const avro = require('avsc');
 module.exports = avro.Type.forSchema({
   type: 'record',

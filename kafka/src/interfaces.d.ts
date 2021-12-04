@@ -13,6 +13,11 @@ interface TripInfo {
   timestamp: string;
 }
 
+interface PassengerInfo {
+  name: string;
+  street: string;
+}
+
 interface KafkaSettings {
   topics: string[];
   clientId: string;
