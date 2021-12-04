@@ -6,7 +6,7 @@
   "scripts": {
     "initTopiql": "testpkg 1 2",
     "makeTopiql": "testpkg 3 4",
-    "startTopiql": "testpkg"
+    "testTopiql": "testpkg"
   },
   "keywords": [],
   "author": "",

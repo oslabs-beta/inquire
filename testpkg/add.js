@@ -1,5 +1,6 @@
-function add(a, b) {
-  return a + b;
+function double(a) {
+  console.log('Before doubling: hi Ying!')
+  return a + a;
 }
 
-module.exports = add;
+module.exports = double;

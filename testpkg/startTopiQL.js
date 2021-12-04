@@ -3,7 +3,8 @@ const path = require('path');
 
 //make a directory in destination folder (server) called topiQL
 
-const initTopiQL = () => {
+const initTopiQL = (relativePath) => {
+  return relativePath;
   fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
 
   fs.writeFileSync(
