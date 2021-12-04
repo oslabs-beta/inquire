@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:apollo": "node server/server.js",
     "start:topiQL": "node testpkg/startTopiQL.js",
     "make:topiQL": "node testpkg/makeTopiQL.js",
+    "start:apollo": "node server/server.js",
     "test": "jest"
   },
   "author": "topiQL",

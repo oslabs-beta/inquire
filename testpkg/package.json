@@ -2,11 +2,15 @@
   "name": "testpkg",
   "version": "1.0.0",
   "description": "test console.log pkg",
-  "main": "index.js",
+  "main": "add.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cece": "node index.js"
   },
+  "bin": "cli.js",
   "author": "c&h",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^17.3.0"
+  }
 }
