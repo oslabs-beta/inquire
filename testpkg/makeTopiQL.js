@@ -27,19 +27,23 @@ const toGraphQL = () => {
 };
 
 const makeResolvers = () => {
+  let subscriptions = ``;
+
   // Pull out name of topics from config file
-  const topic = config.topics[0];
-  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-  const topicAllCaps = topic.toUpperCase();
+  for (const topic of config.topics) {
+    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+    const topicAllCaps = topic.toUpperCase();
+    subscriptions += `
+        ${topic}: {
+          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
+        },`
+  }
 
   let result = `const { pubsub } = require('./kafkaPublisher.js')
 
     // GraphQL Resolvers
     module.exports = {
-      Subscription: {
-        ${topic}: {
-          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
-        },
+      Subscription: {${subscriptions}
       },
       Query: {
         exampleQuery: () => "Add Result Here"
