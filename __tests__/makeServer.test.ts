@@ -12,7 +12,7 @@ describe('server.js creation', () => {
     '__tests__',
     ''
   );
-  test('can call the fs.writeFileSync function and create a new file', () => {
+  test('can call fs.writeFileSync function and create a new file', () => {
     fs.existsSync.mockReturnValue(false);
     makeServer();
     expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
