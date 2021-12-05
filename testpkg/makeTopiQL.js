@@ -10,10 +10,13 @@ const toGraphQL = () => {
       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
       let fileData = data;
+      console.log('fileData---->', fileData);
       //checks if schema is defined within Avro's forSchema function call
       const expAvroRGX = /avro\.Type\.forSchema\(/g;
+      console.log('expAvroRGX.test', expAvroRGX.test(fileData));
       if (expAvroRGX.test(fileData)) {
         //find schema object within forSchema call
+        console.log('in expAvro true');
         let innerData = fileData
           .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
           .trim();
@@ -91,7 +94,7 @@ const testpkg = (fileData) => {
       }
     }
     backtrack(JSON.parse(fileData));
-
+    console.log('res', res);
     makeSchema(res);
   } catch (err) {
     console.log(
@@ -315,11 +318,12 @@ makeServer();
 writeSchemaFile();
 
 module.exports = {
+  configPath,
   toGraphQL,
   testpkg,
   makeSchema,
   makeResolvers,
   makePublishers,
   makeServer,
-  writeSchemaFile
+  writeSchemaFile,
 };
