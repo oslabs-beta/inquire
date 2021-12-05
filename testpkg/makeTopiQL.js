@@ -152,10 +152,19 @@ type Subscription {
     toAppend += '}\n';
     result += toAppend;
   }
-  result += '`;';
   // console.log(result);
+  return (result += '`;');
+
   // console.log(config.destinationFolder);
-  fs.writeFileSync(`${config.destinationFolder}/typeDefs.js`, result);
+};
+
+const writeSchemaFile = () => {
+  try {
+    const result = toGraphQL();
+    fs.writeFileSync(`${config.destinationFolder}/typeDefs.js`, result);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 const makeResolvers = () => {
@@ -299,14 +308,18 @@ const makeServer = () => {
   fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
 };
 
-toGraphQL();
+// toGraphQL();
 makeResolvers();
 makePublishers();
 makeServer();
+writeSchemaFile();
 
 module.exports = {
   toGraphQL,
+  testpkg,
+  makeSchema,
   makeResolvers,
   makePublishers,
   makeServer,
+  writeSchemaFile
 };
