@@ -29,7 +29,7 @@ const toGraphQL = () => {
         parsedData,
         config
       );
-      fs.writeFileSync(graphqlSchemaDest, formattedData);
+      return formattedData;
     });
   } catch (err) {
     console.log(
@@ -37,6 +37,12 @@ const toGraphQL = () => {
     );
   }
 };
+
+const writeSchemaFile = () => {
+  const formattedData = toGraphQL();
+  fs.writeFileSync(graphqlSchemaDest, formattedData);
+};
+writeSchemaFile();
 
 const makeResolvers = () => {
   let subscriptions = ``;
@@ -306,6 +312,7 @@ oldMakeServer();
 
 module.exports = {
   toGraphQL,
+  writeSchemaFile,
   makeResolvers,
   makePublishers,
   makeServer,

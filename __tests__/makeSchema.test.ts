@@ -3,7 +3,7 @@ const { toGraphQL, writeSchemaFile } = require('../testpkg/makeTopiQL');
 const fs = require('fs');
 jest.mock('fs');
 
-beforeEach(() => {
+beforeEach(async () => {
   return jest.resetAllMocks();
 });
 
@@ -12,8 +12,8 @@ describe('typeDefs.js creation', () => {
     '__tests__',
     ''
   );
-  test('can call the readFile function and create a new file', async () => {
-    const data = await toGraphQL();
+  test('can call the readFile function', async () => {
+    await toGraphQL();
     expect(fs.readFile).toHaveBeenCalledTimes(1);
   });
 
