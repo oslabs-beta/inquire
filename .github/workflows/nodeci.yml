@@ -2,7 +2,7 @@ name: testing
 
 on:
   push:
-    branches: [ packaging ]
+    branches: [ packaging, dev ]
 
 jobs:
   build:
