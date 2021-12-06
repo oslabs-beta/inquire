@@ -9,7 +9,10 @@ const graphqlSchemaDestFolder = config.destinationFolder;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
 const topics = config.topics;
 const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
-const publisherPath = path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js');
+const publisherPath = path.resolve(
+  __dirname,
+  '../server/topiQL/kafkaPublisher.js'
+);
 const serverPath = path.resolve(__dirname, '../server/server.js');
 
 const toGraphQL = () => {
@@ -19,10 +22,13 @@ const toGraphQL = () => {
       // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
 
       // remove trails and trim the file
-      const innerData = graphqlSchemaTool.getInnerKafkaSchema(data)
+      const innerData = graphqlSchemaTool.getInnerKafkaSchema(data);
       //call the parsing function, format the data, write it to graphql schema file
       const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-      const formattedData = graphqlSchemaTool.formatGQLSchema(parsedData, config)
+      const formattedData = graphqlSchemaTool.formatGQLSchema(
+        parsedData,
+        config
+      );
       fs.writeFileSync(graphqlSchemaDest, formattedData);
     });
   } catch (err) {
@@ -42,7 +48,7 @@ const makeResolvers = () => {
     subscriptions += `
         ${topic}: {
           subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
-        },`
+        },`;
   }
 
   let result = `const { pubsub } = require('./kafkaPublisher.js')
@@ -57,10 +63,7 @@ const makeResolvers = () => {
     }
     `;
 
-  fs.writeFileSync(
-    resolverPath,
-    result
-  );
+  fs.writeFileSync(resolverPath, result);
 };
 
 const makePublishers = () => {
@@ -107,10 +110,7 @@ const publishers = {
 module.exports = { publishers, pubsub };
 `;
 
-  fs.writeFileSync(
-    publisherPath,
-    result
-  );
+  fs.writeFileSync(publisherPath, result);
 };
 
 const oldMakePublishers = () => {
@@ -155,7 +155,7 @@ const oldMakePublishers = () => {
     path.resolve(__dirname, '../server/topiQL/oldKafkaPublisher.js'),
     result
   );
-}
+};
 
 const makeServer = () => {
   let publishers = ``;
@@ -224,10 +224,7 @@ const makeServer = () => {
   })();
   `;
 
-  fs.writeFileSync(
-    serverPath,
-    result
-  );
+  fs.writeFileSync(serverPath, result);
 };
 
 const oldMakeServer = () => {
@@ -313,5 +310,5 @@ module.exports = {
   makePublishers,
   makeServer,
   oldMakePublishers,
-  oldMakeServer
+  oldMakeServer,
 };
