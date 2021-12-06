@@ -6,13 +6,42 @@ const config = require(configPath);
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
 const kafkaSchemaFile = config.schemaFile;
 const graphqlSchemaDestFolder = config.destinationFolder;
+const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
 const topics = config.topics;
 const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
 const publisherPath = path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js');
 const serverPath = path.resolve(__dirname, '../server/server.js');
 
+const schemaFolder = config.schemaFolder;
+
 const toGraphQL = () => {
+  fs.readdir(schemaFolder, (err, filenames) => {
+    if (err) {
+      console.log(`ERR: while reading files in schema Folder - ${err}`)
+      return
+    }
+    let formattedData = ``;
+    filenames.forEach(filename => {
+      if (path.extname(filename) === '.avsc') {
+        try {
+          const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
+          // remove trails and trim the file
+          const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead)
+          // call the parsing function, format the data, write it to graphql schema file
+          const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+          formattedData += graphqlSchemaTool.formatGQLSchema(parsedData)
+        } catch (err) {
+          console.log(`ERR: while reading ${filename} - ${err}`)
+        }
+      }
+    })
+    const completeTypedefData = graphqlSchemaTool.completeTypeDef(formattedData, config)
+    fs.writeFileSync(graphqlSchemaDest, completeTypedefData);
+  })
+}
+
+const oldToGraphQL = () => {
   try {
     fs.readFile(kafkaSchemaFile, 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
@@ -23,7 +52,8 @@ const toGraphQL = () => {
       //call the parsing function, format the data, write it to graphql schema file
       const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
       const formattedData = graphqlSchemaTool.formatGQLSchema(parsedData, config)
-      fs.writeFileSync(graphqlSchemaDest, formattedData);
+      const completeTypedefData = graphqlSchemaTool.completeTypeDef(formattedData, config)
+      fs.writeFileSync(oldGraphqlSchemaDest, completeTypedefData);
     });
   } catch (err) {
     console.log(
@@ -301,6 +331,7 @@ const oldMakeServer = () => {
 };
 
 toGraphQL();
+oldToGraphQL();
 makeResolvers();
 makePublishers();
 makeServer();
@@ -309,6 +340,7 @@ oldMakeServer();
 
 module.exports = {
   toGraphQL,
+  oldToGraphQL,
   makeResolvers,
   makePublishers,
   makeServer,

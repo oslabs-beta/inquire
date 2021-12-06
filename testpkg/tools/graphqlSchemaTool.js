@@ -1,8 +1,11 @@
+const fs = require('fs');
 /**
  * getInnerKafkaSchema function takes raw written file as input
  * parse unnecessary trails of the file and return
  * inner data only.
  */
+
+const { forStatement } = require("@babel/types");
 
 const getInnerKafkaSchema = (fileData) => {
   try {
@@ -104,22 +107,9 @@ const parseKafkaSchema = (fileData) => {
  * and return reformatted script which will be used to write
  * graphql schema file
  */
-const formatGQLSchema = (newData, config) => {
+const formatGQLSchema = (newData) => {
   try {
-    // Pull out name of topics and types from config file
-    const topic = config.topics[0];
-    const type = config.topicTypes[0];
-
-    let result = `const { gql } = require('apollo-server-express');
-
-module.exports = gql\`
-type Query {
-  exampleQuery: String!
-}
-type Subscription {
-  ${topic}: ${type}
-}\n`;
-
+    let result = ``;
     for (let i = newData.length - 1; i >= 0; i--) {
       let toAppend = '';
       let prefix = 'type';
@@ -157,7 +147,6 @@ type Subscription {
       toAppend += '}\n';
       result += toAppend;
     }
-    result += '`;';
     return result
 
   } catch (err) {
@@ -166,8 +155,29 @@ type Subscription {
   }
 };
 
+const completeTypeDef = (formattedData, config) => {
+  // Pull out name of topics and types from config file
+  const topic = config.topics[0];
+  const type = config.topicTypes[0];
+
+  let result = `const { gql } = require('apollo-server-express');
+
+module.exports = gql\`
+type Query {
+  exampleQuery: String!
+}
+type Subscription {
+  ${topic}: ${type}
+}\n`;
+
+  result += formattedData
+  result += '`;';
+  return result
+}
+
 module.exports = {
   parseKafkaSchema,
   formatGQLSchema,
-  getInnerKafkaSchema
+  getInnerKafkaSchema,
+  completeTypeDef
 }
