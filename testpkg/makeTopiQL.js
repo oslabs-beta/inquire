@@ -1,14 +1,20 @@
 const fs = require('fs');
 const path = require('path');
-//import config file
 const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
 const config = require(configPath);
 
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
+const kafkaSchemaFile = config.schemaFile;
+const graphqlSchemaDestFolder = config.destinationFolder;
+const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
+const topics = config.topics;
+const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
+const publisherPath = path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js');
+const serverPath = path.resolve(__dirname, '../server/server.js');
 
 const toGraphQL = () => {
   try {
-    fs.readFile(config.schemaFile, 'utf-8', function (err, data) {
+    fs.readFile(kafkaSchemaFile, 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
 
@@ -17,7 +23,7 @@ const toGraphQL = () => {
       //call the parsing function, format the data, write it to graphql schema file
       const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
       const formattedData = graphqlSchemaTool.formatGQLSchema(parsedData, config)
-      fs.writeFileSync(`${config.destinationFolder}/typeDefs.js`, formattedData);
+      fs.writeFileSync(graphqlSchemaDest, formattedData);
     });
   } catch (err) {
     console.log(
@@ -30,7 +36,7 @@ const makeResolvers = () => {
   let subscriptions = ``;
 
   // Pull out name of topics from config file
-  for (const topic of config.topics) {
+  for (const topic of topics) {
     // Topic name version that is all caps: tripStatus --> TRIPSTATUS
     const topicAllCaps = topic.toUpperCase();
     subscriptions += `
@@ -52,7 +58,7 @@ const makeResolvers = () => {
     `;
 
   fs.writeFileSync(
-    path.resolve(__dirname, '../server/topiQL/resolvers.js'),
+    resolverPath,
     result
   );
 };
@@ -60,7 +66,7 @@ const makeResolvers = () => {
 const makePublishers = () => {
   let topicNameLine = ``;
   let publisherStatus = ``;
-  for (const topic of config.topics) {
+  for (const topic of topics) {
     // Topic name version that is all caps: tripStatus --> TRIPSTATUS
     const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
     const topicAllCaps = topic.toUpperCase();
@@ -81,7 +87,6 @@ const consumer${topic} = kafka.consumer({ groupId: '${topic}-group'});
   },
   `;
   }
-  console.log(topicNameLine)
 
   let result = `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
 const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
@@ -102,16 +107,15 @@ const publishers = {
 module.exports = { publishers, pubsub };
 `;
 
-
   fs.writeFileSync(
-    path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'),
+    publisherPath,
     result
   );
 };
 
 const oldMakePublishers = () => {
   // Pull out name of topics from config file
-  const topic = config.topics[0];
+  const topic = topics[0];
   // Topic name version that is capitalized: tripStatus --> TripStatus
   const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
   // Topic name version that is all caps: tripStatus --> TRIPSTATUS
@@ -154,15 +158,8 @@ const oldMakePublishers = () => {
 }
 
 const makeServer = () => {
-  // Pull out name of topics from config file
-  const topic = config.topics[0];
-  // Topic name version that is capitalized: tripStatus --> TripStatus
-  const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
-  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-  const topicAllCaps = topic.toUpperCase();
-
   let publishers = ``;
-  for (const topic of config.topics) {
+  for (const topic of topics) {
     const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
     publishers += `publishers.publisher${topicCapitalized}();
   `;
@@ -227,12 +224,15 @@ const makeServer = () => {
   })();
   `;
 
-  fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
+  fs.writeFileSync(
+    serverPath,
+    result
+  );
 };
 
 const oldMakeServer = () => {
   // Pull out name of topics from config file
-  const topic = config.topics[0];
+  const topic = topics[0];
   // Topic name version that is capitalized: tripStatus --> TripStatus
   const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
   // Topic name version that is all caps: tripStatus --> TRIPSTATUS
