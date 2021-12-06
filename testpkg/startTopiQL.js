@@ -14,7 +14,7 @@ const initTopiQL = () => {
 
 //make a file there called config.js with boilerplate - user will just fill in the blanks.
 
-let result = `// User Configuration File for Kafka - GraphQL connection using topiQL library
+const result = `// User Configuration File for Kafka - GraphQL connection using topiQL library
 const path = require('path');
 //input username and password for Confluent Cloud
 const username = ''
@@ -45,4 +45,4 @@ module.exports = {
 //index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
 initTopiQL();
 
-module.exports = initTopiQL;
+module.exports = { initTopiQL, result };

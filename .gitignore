@@ -105,3 +105,6 @@ dist
 
 # VS Code settings
 *.vscode
+
+# Environment variables and passcodes
+.env
