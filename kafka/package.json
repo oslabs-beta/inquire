@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:producer": "node producer/producer.js",
-    "start:consumer": "node consumer/consumer.js",
-    "start:all": "concurrently \"node producer/producer.js\" \"node consumer/consumer.js\""
+    "start:producer": "node public/producer/producer.js",
+    "start:consumer": "node public/consumer/consumer.js",
+    "start:all": "concurrently \"node public/producer/producer.js\" \"node public/consumer/consumer.js\""
   },
   "author": "topiQL",
   "license": "ISC",
@@ -16,5 +16,8 @@
     "express": "^4.17.1",
     "kafkajs": "^1.15.0",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2"
   }
 }
