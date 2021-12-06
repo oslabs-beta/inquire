@@ -32,8 +32,6 @@ const toGraphQL = () => {
     }
   })
   const completeTypedefData = graphqlSchemaTool.completeTypeDef(formattedData, config)
-  console.log('-----------')
-  console.log(completeTypedefData)
   return completeTypedefData
 }
 
