@@ -1,0 +1,40 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "type": {
+        "name": "nameType",
+        "symbols": [
+          "Carla",
+          "Joseph",
+          "Megan",
+          "Roland",
+          "Stacey",
+          "Maria",
+          "Henry",
+          "Peter"
+        ],
+        "type": "enum"
+      }
+    },
+    {
+      "name": "street",
+      "type": {
+        "name": "emailType",
+        "symbols": [
+          "CherryLane",
+          "FifthAvenue",
+          "FourteenthStreet",
+          "PerlmanRoad",
+          "BroadStreet",
+          "SecondAvenue",
+          "BleekerStreet",
+          "LexingtonAvenue"
+        ],
+        "type": "enum"
+      }
+    }
+  ],
+  "name": "Passenger",
+  "type": "record"
+}

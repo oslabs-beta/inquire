@@ -6,30 +6,48 @@ const config = require(configPath);
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
 const kafkaSchemaFile = config.schemaFile;
 const graphqlSchemaDestFolder = config.destinationFolder;
+const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
 const topics = config.topics;
 const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
-const publisherPath = path.resolve(
-  __dirname,
-  '../server/topiQL/kafkaPublisher.js'
-);
+const publisherPath = path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js');
 const serverPath = path.resolve(__dirname, '../server/server.js');
 
+const schemaFolder = config.schemaFolder;
+
 const toGraphQL = () => {
+  let formattedData = ``;
+  fs.readdirSync(schemaFolder).forEach(filename => {
+    if (path.extname(filename) === '.avsc') {
+      try {
+        const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
+        // remove trails and trim the file
+        const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead)
+        // call the parsing function, format the data, write it to graphql schema file
+        const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+        formattedData += graphqlSchemaTool.formatGQLSchema(parsedData)
+      } catch (err) {
+        console.log(`ERR: while reading ${filename} - ${err}`)
+      }
+    }
+  })
+  const completeTypedefData = graphqlSchemaTool.completeTypeDef(formattedData, config)
+  return completeTypedefData
+}
+
+const oldToGraphQL = () => {
   try {
     fs.readFile(kafkaSchemaFile, 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
 
       // remove trails and trim the file
-      const innerData = graphqlSchemaTool.getInnerKafkaSchema(data);
+      const innerData = graphqlSchemaTool.getInnerKafkaSchema(data)
       //call the parsing function, format the data, write it to graphql schema file
       const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-      const formattedData = graphqlSchemaTool.formatGQLSchema(
-        parsedData,
-        config
-      );
-      fs.writeFileSync(graphqlSchemaDest, formattedData);
+      const formattedData = graphqlSchemaTool.formatGQLSchema(parsedData, config)
+      const completeTypedefData = graphqlSchemaTool.completeTypeDef(formattedData, config)
+      fs.writeFileSync(oldGraphqlSchemaDest, completeTypedefData);
     });
   } catch (err) {
     console.log(
@@ -48,7 +66,7 @@ const makeResolvers = () => {
     subscriptions += `
         ${topic}: {
           subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
-        },`;
+        },`
   }
 
   let result = `const { pubsub } = require('./kafkaPublisher.js')
@@ -62,8 +80,7 @@ const makeResolvers = () => {
       }
     }
     `;
-
-  fs.writeFileSync(resolverPath, result);
+  return result
 };
 
 const makePublishers = () => {
@@ -109,8 +126,7 @@ const publishers = {
 
 module.exports = { publishers, pubsub };
 `;
-
-  fs.writeFileSync(publisherPath, result);
+  return result
 };
 
 const oldMakePublishers = () => {
@@ -155,7 +171,7 @@ const oldMakePublishers = () => {
     path.resolve(__dirname, '../server/topiQL/oldKafkaPublisher.js'),
     result
   );
-};
+}
 
 const makeServer = () => {
   let publishers = ``;
@@ -223,9 +239,26 @@ const makeServer = () => {
     );
   })();
   `;
-
-  fs.writeFileSync(serverPath, result);
+  return result;
 };
+
+const writeGraphQLSchema = () => {
+  const graphQLData = toGraphQL()
+  fs.writeFileSync(graphqlSchemaDest, graphQLData)
+}
+const writeResolver = () => {
+  const resolverData = makeResolvers();
+  fs.writeFileSync(resolverPath, resolverData)
+}
+const writePublisher = () => {
+  const publisherData = makePublishers();
+  fs.writeFileSync(publisherPath, publisherData)
+}
+
+const writeServer = () => {
+  const serverData = makeServer();
+  fs.writeFileSync(serverPath, serverData)
+}
 
 const oldMakeServer = () => {
   // Pull out name of topics from config file
@@ -297,18 +330,25 @@ const oldMakeServer = () => {
   fs.writeFileSync(path.resolve(__dirname, '../server/oldServer.js'), result);
 };
 
-toGraphQL();
-makeResolvers();
-makePublishers();
-makeServer();
+oldToGraphQL();
 oldMakePublishers();
 oldMakeServer();
 
+writeGraphQLSchema();
+writeResolver();
+writePublisher();
+writeServer();
+
 module.exports = {
   toGraphQL,
+  oldToGraphQL,
   makeResolvers,
   makePublishers,
   makeServer,
   oldMakePublishers,
   oldMakeServer,
+  writeGraphQLSchema,
+  writeResolver,
+  writePublisher,
+  writeServer,
 };
