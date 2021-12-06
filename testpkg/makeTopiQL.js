@@ -27,19 +27,23 @@ const toGraphQL = () => {
 };
 
 const makeResolvers = () => {
+  let subscriptions = ``;
+
   // Pull out name of topics from config file
-  const topic = config.topics[0];
-  // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-  const topicAllCaps = topic.toUpperCase();
+  for (const topic of config.topics) {
+    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+    const topicAllCaps = topic.toUpperCase();
+    subscriptions += `
+        ${topic}: {
+          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
+        },`
+  }
 
   let result = `const { pubsub } = require('./kafkaPublisher.js')
 
     // GraphQL Resolvers
     module.exports = {
-      Subscription: {
-        ${topic}: {
-          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
-        },
+      Subscription: {${subscriptions}
       },
       Query: {
         exampleQuery: () => "Add Result Here"
@@ -54,6 +58,58 @@ const makeResolvers = () => {
 };
 
 const makePublishers = () => {
+  let topicNameLine = ``;
+  let publisherStatus = ``;
+  for (const topic of config.topics) {
+    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
+    const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
+    const topicAllCaps = topic.toUpperCase();
+    topicNameLine += `const topic${topicCapitalized} = '${topic}';
+const consumer${topic} = kafka.consumer({ groupId: '${topic}-group'});
+`;
+
+    publisherStatus += `publisher${topicCapitalized}: () => {
+    consumer${topic}.connect();
+    consumer${topic}.subscribe({ topic: \`\${topic${topicCapitalized}}\`, fromBeginning: false });
+    consumer${topic}.run({
+      eachMessage: async ({ topic, partition, message }) => {
+        pubsub.publish('${topicAllCaps}', {
+          ${topic}: JSON.parse(message.value)
+        });
+      },
+    });
+  },
+  `;
+  }
+  console.log(topicNameLine)
+
+  let result = `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
+const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
+const { PubSub } = require('graphql-subscriptions');
+
+// This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
+// Topics can be created online through confluent cloud portal
+const pubsub = new PubSub();
+const kafka = new Kafka(config);
+
+// For every topic listed in config file, we can pull out a topicName and corresponding consumer
+${topicNameLine}
+
+const publishers = {
+  ${publisherStatus}
+}
+
+module.exports = { publishers, pubsub };
+`;
+
+
+  fs.writeFileSync(
+    path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'),
+    result
+  );
+};
+
+const oldMakePublishers = () => {
   // Pull out name of topics from config file
   const topic = config.topics[0];
   // Topic name version that is capitalized: tripStatus --> TripStatus
@@ -64,16 +120,16 @@ const makePublishers = () => {
   let result = `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
   const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
   const { PubSub } = require('graphql-subscriptions');
-  
+
   // This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
   // Topics can be created online through confluent cloud portal
   const pubsub = new PubSub();
   const kafka = new Kafka(config);
-  
+
   // For every topic listed in config file, we can pull out a topicName and corresponding consumer
   const topicName = config.topics[0];
   const consumerTest = kafka.consumer({ groupId: \`\${topicName}-group\` });
-  
+
   const publishers = {
     publisher${topicCapitalized}: () => {
       consumerTest.connect();
@@ -87,15 +143,15 @@ const makePublishers = () => {
       });
     }
   }
-  
+
   module.exports = { publishers, pubsub };
   `;
 
   fs.writeFileSync(
-    path.resolve(__dirname, '../server/topiQL/kafkaPublisher.js'),
+    path.resolve(__dirname, '../server/topiQL/oldKafkaPublisher.js'),
     result
   );
-};
+}
 
 const makeServer = () => {
   // Pull out name of topics from config file
@@ -171,10 +227,12 @@ toGraphQL();
 makeResolvers();
 makePublishers();
 makeServer();
+oldMakePublishers();
 
 module.exports = {
   toGraphQL,
   makeResolvers,
   makePublishers,
   makeServer,
+  oldMakePublishers
 };
