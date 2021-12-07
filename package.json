@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:apollo": "node server/server.js",
+    "start:testapollo": "node server-kafka-integration/server.js",
     "start:topiQL": "node testpkg/startTopiQL.js",
     "make:topiQL": "node testpkg/makeTopiQL.js",
     "test": "jest"
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
+    "dotenv": "^10.0.0",
     "jest": "^27.4.3",
     "mock-fs": "^5.1.2",
     "ts-jest": "^27.0.7",

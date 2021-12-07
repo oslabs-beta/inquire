@@ -12,7 +12,7 @@ const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafk
   const consumerTest = kafka.consumer({ groupId: `${topicName}-group` });
   
   const publishers = {
-    publisherTripStatus: () => {
+    publisherTripStatus: async () => {
       consumerTest.connect();
       consumerTest.subscribe({ topic: `${topicName}`, fromBeginning: false });
       consumerTest.run({
@@ -22,6 +22,7 @@ const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafk
           });
         },
       });
+      consumerTest.disconnect();
     }
   }
   
