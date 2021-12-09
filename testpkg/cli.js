@@ -19,11 +19,11 @@ const initTopiQL = require('./startTopiQL');
 //take one argument, relative path wherein to create topiQL folder
 const builder = command => {
   command
-  .positional("relativePath", {
-    describe: "Relative path to destination folder for topiQL"
+  .positional("absPath", {
+    describe: "absolute path to destination folder for topiQL"
   })
 }
 
-const handler = ({relativePath}) => console.log(initTopiQL(relativePath));
+const handler = ({absPath}) => console.log(initTopiQL(absPath));
 
-yargs.command("* <relativePath>", false, builder, handler).parse();
+yargs.command("* <absPath>", false, builder, handler).parse();

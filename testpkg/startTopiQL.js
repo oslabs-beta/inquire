@@ -3,12 +3,11 @@ const path = require('path');
 
 //make a directory in destination folder (server) called topiQL
 
-const initTopiQL = (relativePath) => {
+const initTopiQL = async (absPath) => {
+  await fs.mkdirSync(path.resolve(__dirname, `${absPath}/topiQL`), {recursive: true});
   
-  fs.mkdirSync(path.resolve(__dirname, `${relativePath}/topiQL`), {recursive: true});
-  return "folder made"
   fs.writeFileSync(
-    path.resolve(__dirname, '../server/topiQL/config.js'),
+    `${absPath}/topiQL/config.js`,
     result
   );
 };
