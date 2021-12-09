@@ -20,20 +20,24 @@ const schemaFolder = config.schemaFolder;
 
 const toGraphQL = () => {
   let formattedData = ``;
-  fs.readdirSync(schemaFolder).forEach((filename) => {
-    if (path.extname(filename) === '.avsc') {
-      try {
-        const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
-        // remove trails and trim the file
-        const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
-        // call the parsing function, format the data, write it to graphql schema file
-        const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-        formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
-      } catch (err) {
-        console.log(`ERR: while reading ${filename} - ${err}`);
+  const dirs = fs.readdirSync(schemaFolder);
+  if (dirs) {
+    dirs.forEach((filename) => {
+      if (path.extname(filename) === '.avsc') {
+        try {
+          const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
+          // remove trails and trim the file
+          const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+          // call the parsing function, format the data, write it to graphql schema file
+          const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+          formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
+        } catch (err) {
+          console.log(`ERR: while reading ${filename} - ${err}`);
+        }
       }
-    }
-  });
+    });
+  }
+
   const completeTypedefData = graphqlSchemaTool.completeTypeDef(
     formattedData,
     config
@@ -353,6 +357,7 @@ writeServer();
 
 module.exports = {
   toGraphQL,
+  schemaFolder,
   oldToGraphQL,
   makeResolvers,
   makePublishers,
