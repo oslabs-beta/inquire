@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { graphql } = require('graphql');
 const path = require('path');
 const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
 const config = require(configPath);
@@ -21,56 +22,68 @@ const schemaFolder = config.schemaFolder;
 const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
+  const topicsTypesZip = []
   if (filenames) {
-    filenames.forEach((filename) => {
-      if (path.extname(filename) === '.avsc') {
-        try {
-          const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
-          // remove trails and trim the file
-          const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
-          // call the parsing function, format the data, write it to graphql schema file
-          const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-          formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
-        } catch (err) {
-          console.log(`ERR: while reading ${filename} - ${err}`);
+
+    //below iteration should perform in a order that target's order which is written in the config
+    if (config.mode === 1) {
+      filenames.forEach((filename, topicsIdx) => {
+        if (path.extname(filename) === '.avsc') {
+          try {
+            const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
+            const topicType = graphqlSchemaTool.zipTopicTypes(config.topics[topicsIdx], tmpRead)
+            console.log("111111111")
+            console.log(topicType)
+            topicsTypesZip.push(topicType)
+            console.log("22222222222")
+            console.log(topicsTypesZip)
+            // remove trails and trim the file
+            const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+            // call the parsing function, format the data, write it to graphql schema file
+            const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+            formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
+          } catch (err) {
+            console.log(`ERR: while reading ${filename} - ${err}`);
+          }
         }
-      }
-    });
+      });
+
+    }
   }
 
   const completeTypedefData = graphqlSchemaTool.completeTypeDef(
     formattedData,
-    config
+    topicsTypesZip
   );
   return completeTypedefData;
 };
 
-const oldToGraphQL = () => {
-  try {
-    fs.readFile(kafkaSchemaFile, 'utf-8', function (err, data) {
-      // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
-      // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
+// const oldToGraphQL = () => {
+//   try {
+//     fs.readFile(kafkaSchemaFile, 'utf-8', function (err, data) {
+//       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
+//       // fs.readFile('../data/testData/expAvVarSample.js', 'utf-8', function (err, data) {
 
-      // remove trails and trim the file
-      const innerData = graphqlSchemaTool.getInnerKafkaSchema(data);
-      //call the parsing function, format the data, write it to graphql schema file
-      const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-      const formattedData = graphqlSchemaTool.formatGQLSchema(
-        parsedData,
-        config
-      );
-      const completeTypedefData = graphqlSchemaTool.completeTypeDef(
-        formattedData,
-        config
-      );
-      fs.writeFileSync(oldGraphqlSchemaDest, completeTypedefData);
-    });
-  } catch (err) {
-    console.log(
-      'there was a problem finding, reading, or parsing the file containing your avro schema'
-    );
-  }
-};
+//       // remove trails and trim the file
+//       const innerData = graphqlSchemaTool.getInnerKafkaSchema(data);
+//       //call the parsing function, format the data, write it to graphql schema file
+//       const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+//       const formattedData = graphqlSchemaTool.formatGQLSchema(
+//         parsedData,
+//         config
+//       );
+//       const completeTypedefData = graphqlSchemaTool.completeTypeDef(
+//         formattedData,
+//         config
+//       );
+//       fs.writeFileSync(oldGraphqlSchemaDest, completeTypedefData);
+//     });
+//   } catch (err) {
+//     console.log(
+//       'there was a problem finding, reading, or parsing the file containing your avro schema'
+//     );
+//   }
+// };
 
 const makeResolvers = () => {
   let subscriptions = ``;
@@ -346,7 +359,7 @@ const oldMakeServer = () => {
   fs.writeFileSync(path.resolve(__dirname, '../server/oldServer.js'), result);
 };
 
-oldToGraphQL();
+// oldToGraphQL();
 oldMakePublishers();
 oldMakeServer();
 
@@ -358,7 +371,7 @@ writeServer();
 module.exports = {
   toGraphQL,
   schemaFolder,
-  oldToGraphQL,
+  // oldToGraphQL,
   makeResolvers,
   makePublishers,
   makeServer,
