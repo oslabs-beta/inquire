@@ -21,7 +21,7 @@ const schemaFolder = config.schemaFolder;
 const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
-  if (dirs) {
+  if (filenames) {
     filenames.forEach((filename) => {
       if (path.extname(filename) === '.avsc') {
         try {
