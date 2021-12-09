@@ -9,8 +9,8 @@ const sasl =
 const ssl = !!sasl;
 
 module.exports = {
-  topics: ['tripStatus'],
-  topicTypes: ['Status'],
+  topics: ['tripStatus', 'testing1', 'testing2'],
+  topicTypes: ['Status', 'Status', 'Status'],
   clientId: 'kafQL',
   brokers: ['pkc-lzvrd.us-west4.gcp.confluent.cloud:9092'],
   ssl,
@@ -19,5 +19,6 @@ module.exports = {
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
   schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
+  schemaFolder: path.resolve(__dirname, '../../data/testData/'),
   destinationFolder: path.resolve(__dirname),
 };
