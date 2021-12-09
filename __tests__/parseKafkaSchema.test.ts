@@ -1,6 +1,6 @@
 const { parseKafkaSchema } = require('../testpkg/tools/graphqlSchemaTool.js');
 
-const mockTripData1 = `{
+const mockTripData = `{
   "type": "record",
   "name": "Trip",
   "fields": [
@@ -20,7 +20,7 @@ const mockTripData1 = `{
 let parsedAvroSchema1 = '';
 
 beforeEach(() => {
-  return (parsedAvroSchema1 = parseKafkaSchema(mockTripData1));
+  return (parsedAvroSchema1 = parseKafkaSchema(mockTripData));
 });
 
 describe('parsing avro schema', () => {
