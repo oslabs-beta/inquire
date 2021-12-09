@@ -1,5 +1,5 @@
 export {};
-const { makeResolvers } = require('../testpkg/makeTopiQL');
+const { writeResolver } = require('../testpkg/makeTopiQL');
 const fs = require('fs');
 jest.mock('fs');
 
@@ -14,7 +14,7 @@ describe('resolvers.js creation', () => {
   );
   test('can call the fs.writeFileSync function and create a new file', () => {
     fs.existsSync.mockReturnValue(false);
-    makeResolvers();
+    writeResolver();
     expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
   });
 });

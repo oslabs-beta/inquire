@@ -7,7 +7,7 @@
     "start:apollo": "node server/server.js",
     "start:topiQL": "node testpkg/startTopiQL.js",
     "make:topiQL": "node testpkg/makeTopiQL.js",
-    "test": "jest"
+    "test": "export NODE_ENV=test; jest"
   },
   "author": "topiQL",
   "license": "ISC",

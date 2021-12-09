@@ -1,5 +1,5 @@
 export {};
-const { makePublishers } = require('../testpkg/makeTopiQL');
+const { writePublisher } = require('../testpkg/makeTopiQL');
 const fs = require('fs');
 jest.mock('fs');
 
@@ -13,7 +13,7 @@ describe('kafKaPublisher.js creation', () => {
   ).replace('__tests__', '');
   test('can call the fs.writeFileSync function and create a new file', () => {
     fs.existsSync.mockReturnValue(false);
-    makePublishers();
+    writePublisher();
     expect(fs.writeFileSync).toHaveBeenCalled();
   });
 });
