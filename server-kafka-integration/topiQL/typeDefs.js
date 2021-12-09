@@ -6,6 +6,11 @@ type Query {
 }
 type Subscription {
   tripStatus: Status
+  passengerInfo: Passenger
+}
+type Passenger {
+  name: String
+  street: String
 }
 type Trip { 
   id: String 

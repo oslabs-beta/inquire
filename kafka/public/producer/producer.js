@@ -44,4 +44,4 @@ const runProducers = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 setInterval(() => {
     runProducers();
-}, 8000);
+}, 4000);

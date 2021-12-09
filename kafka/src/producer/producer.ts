@@ -40,4 +40,4 @@ const runProducers = async () => {
 
 setInterval(() => {
   runProducers();
-}, 8000);
+}, 4000);
