@@ -48,6 +48,29 @@ const toGraphQL = () => {
         }
       });
 
+    } else if (config.mode === 2) {
+      const targetZip = graphqlSchemaTool.zipTargets(config.topics, config.targets)
+      filenames.forEach((filename) => {
+        if (path.extname(filename) === '.avsc') {
+          try {
+            console.log(targetZip)
+            console.log(path.parse(filename).name)
+            if (targetZip.has(path.parse(filename).name)) {
+              console.log("hello?")
+              const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
+              const topicType = graphqlSchemaTool.zipTopicTypes(targetZip.get(path.parse(filename).name), tmpRead);
+              console.log("noona")
+              console.log(topicType)
+              topicsTypesZip.push(topicType);
+              const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+              const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+              formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
+            }
+          } catch (err) {
+            console.log(`ERR: while reading ${filename} on SELECT mode - ${err}`)
+          }
+        }
+      })
     }
   }
 

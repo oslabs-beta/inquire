@@ -46,8 +46,7 @@ const zipTargets = (topics, targets) => {
     console.log("ERR: there must be one topic for each kafak schema file - please review your configuration");
     return
   }
-
-  for (let i = 0; i < targets.length(); i++) {
+  for (let i = 0; i < targets.length; i++) {
     zipMap.set(targets[i], topics[i])
   }
   return zipMap
