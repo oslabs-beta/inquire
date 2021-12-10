@@ -34,6 +34,39 @@ const getInnerKafkaSchema = (fileData) => {
 
 }
 
+const zipTargets = (topics, targets) => {
+  const zipMap = new Map();
+  if (!Array.isArray(topics) || !topics.length) {
+    console.log("ERR: Your 'topics' in configuration isn't array or empty - please review your configuration")
+    return
+  } else if (!Array.isArray(targets) || !targets.length) {
+    console.log("ERR: Your 'targets' in configuration isn't array or empty - Did you mean to use 'ALL-MODE'?")
+    return
+  } if (topics.length !== targets.length) {
+    console.log("ERR: there must be one topic for each kafak schema file - please review your configuration");
+    return
+  }
+  for (let i = 0; i < targets.length; i++) {
+    zipMap.set(targets[i], topics[i])
+  }
+  return zipMap
+
+}
+
+const zipTopicTypes = (topic, fileData) => {
+  try {
+    let res = []
+    const data = JSON.parse(fileData)
+    const topicType = data.name
+    res.push(topic)
+    res.push(topicType)
+    return res
+  } catch (err) {
+    console.log(`Err: ZipTopicTypes in graphqlSchemaTool - ${err}`)
+    return
+  }
+}
+
 /**
  * ParseKafkaSchema function takes read file of kafkaschema as input
  * recursively collect data that will be used in writing
@@ -155,10 +188,17 @@ const formatGQLSchema = (newData) => {
   }
 };
 
-const completeTypeDef = (formattedData, config) => {
+const completeTypeDef = (formattedData, topicsTypesZip) => {
   // Pull out name of topics and types from config file
-  const topic = config.topics[0];
-  const type = config.topicTypes[0];
+  // const topic = config.topics[0];
+  // type should be retrieved from reading the files
+  // type should be outter most name in the avsc files
+  // const type = config.topicTypes[0];
+  let subs = ``;
+  for (const topicType of topicsTypesZip) {
+    subs += `  ${topicType[0]}: ${topicType[1]}
+`;
+  }
 
   let result = `const { gql } = require('apollo-server-express');
 
@@ -167,8 +207,7 @@ type Query {
   exampleQuery: String!
 }
 type Subscription {
-  ${topic}: ${type}
-}\n`;
+${subs}}\n`;
 
   result += formattedData
   result += '`;';
@@ -179,5 +218,7 @@ module.exports = {
   parseKafkaSchema,
   formatGQLSchema,
   getInnerKafkaSchema,
-  completeTypeDef
+  completeTypeDef,
+  zipTargets,
+  zipTopicTypes
 }
