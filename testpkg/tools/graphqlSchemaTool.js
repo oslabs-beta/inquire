@@ -1,8 +1,11 @@
+const fs = require('fs');
 /**
  * getInnerKafkaSchema function takes raw written file as input
  * parse unnecessary trails of the file and return
  * inner data only.
  */
+
+const { forStatement } = require("@babel/types");
 
 const getInnerKafkaSchema = (fileData) => {
   try {
@@ -29,6 +32,39 @@ const getInnerKafkaSchema = (fileData) => {
     return
   }
 
+}
+
+const zipTargets = (topics, targets) => {
+  const zipMap = new Map();
+  if (!Array.isArray(topics) || !topics.length) {
+    console.log("ERR: Your 'topics' in configuration isn't array or empty - please review your configuration")
+    return
+  } else if (!Array.isArray(targets) || !targets.length) {
+    console.log("ERR: Your 'targets' in configuration isn't array or empty - Did you mean to use 'ALL-MODE'?")
+    return
+  } if (topics.length !== targets.length) {
+    console.log("ERR: there must be one topic for each kafak schema file - please review your configuration");
+    return
+  }
+  for (let i = 0; i < targets.length; i++) {
+    zipMap.set(targets[i], topics[i])
+  }
+  return zipMap
+
+}
+
+const zipTopicTypes = (topic, fileData) => {
+  try {
+    let res = []
+    const data = JSON.parse(fileData)
+    const topicType = data.name
+    res.push(topic)
+    res.push(topicType)
+    return res
+  } catch (err) {
+    console.log(`Err: ZipTopicTypes in graphqlSchemaTool - ${err}`)
+    return
+  }
 }
 
 /**
@@ -104,22 +140,9 @@ const parseKafkaSchema = (fileData) => {
  * and return reformatted script which will be used to write
  * graphql schema file
  */
-const formatGQLSchema = (newData, config) => {
+const formatGQLSchema = (newData) => {
   try {
-    // Pull out name of topics and types from config file
-    const topic = config.topics[0];
-    const type = config.topicTypes[0];
-
-    let result = `const { gql } = require('apollo-server-express');
-
-module.exports = gql\`
-type Query {
-  exampleQuery: String!
-}
-type Subscription {
-  ${topic}: ${type}
-}\n`;
-
+    let result = ``;
     for (let i = newData.length - 1; i >= 0; i--) {
       let toAppend = '';
       let prefix = 'type';
@@ -157,7 +180,6 @@ type Subscription {
       toAppend += '}\n';
       result += toAppend;
     }
-    result += '`;';
     return result
 
   } catch (err) {
@@ -166,8 +188,37 @@ type Subscription {
   }
 };
 
+const completeTypeDef = (formattedData, topicsTypesZip) => {
+  // Pull out name of topics and types from config file
+  // const topic = config.topics[0];
+  // type should be retrieved from reading the files
+  // type should be outter most name in the avsc files
+  // const type = config.topicTypes[0];
+  let subs = ``;
+  for (const topicType of topicsTypesZip) {
+    subs += `  ${topicType[0]}: ${topicType[1]}
+`;
+  }
+
+  let result = `const { gql } = require('apollo-server-express');
+
+module.exports = gql\`
+type Query {
+  exampleQuery: String!
+}
+type Subscription {
+${subs}}\n`;
+
+  result += formattedData
+  result += '`;';
+  return result
+}
+
 module.exports = {
   parseKafkaSchema,
   formatGQLSchema,
-  getInnerKafkaSchema
+  getInnerKafkaSchema,
+  completeTypeDef,
+  zipTargets,
+  zipTopicTypes
 }

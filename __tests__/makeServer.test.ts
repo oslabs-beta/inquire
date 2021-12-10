@@ -1,5 +1,5 @@
 export {};
-const { makeServer } = require('../testpkg/makeTopiQL');
+const { writeServer } = require('../testpkg/makeTopiQL');
 const fs = require('fs');
 jest.mock('fs');
 
@@ -14,7 +14,7 @@ describe('server.js creation', () => {
   );
   test('can call fs.writeFileSync function and create a new file', () => {
     fs.existsSync.mockReturnValue(false);
-    makeServer();
+    writeServer();
     expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
   });
 });

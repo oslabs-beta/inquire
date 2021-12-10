@@ -1,47 +1,41 @@
+const { defaultInputTarget } = require('concurrently/src/defaults');
 const fs = require('fs');
 const path = require('path');
+const { rawListeners } = require('process');
+const startTopiQLTool = require('./tools/startTopiQLTool');
 
 //make a directory in destination folder (server) called topiQL
 
-const initTopiQL = () => {
-  fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
+let pickedMode;
 
-  fs.writeFileSync(
-    path.resolve(__dirname, '../server/topiQL/config.js'),
-    result
-  );
+
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+const initTopiQL = () => {
+  readline.question('what MODE do you want? => 0 for \'AUTO generation' +
+    'from Kafka Stream / 1 for \'ALL\' Mode to generate GQL schema from all avsc' +
+    ' files in the cloud / 2 for \'SELECT\' Mode to selectively create GQL schema' +
+    ' from files\n', mode => {
+      pickedMode = mode
+      readline.close()
+    })
+  readline.on('close', () => {
+    const targets = startTopiQLTool.createTargets(pickedMode);
+    const config = startTopiQLTool.createConfig(targets, pickedMode)
+    fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
+    fs.writeFileSync(
+      path.resolve(__dirname, '../server/topiQL/config.js'),
+      config
+    );
+  })
 };
 
-//make a file there called config.js with boilerplate - user will just fill in the blanks.
-
-const result = `// User Configuration File for Kafka - GraphQL connection using topiQL library
-const path = require('path');
-//input username and password for Confluent Cloud
-const username = ''
-const password = ''
-
-const sasl = username && password ? { username, password, mechanism: 'plain' } : null
-const ssl = !!sasl
-
-module.exports = {
-  //input topic(s) Kafka producers are writing to & topics expected from GQL query
-  topics: [],
-  topicTypes: [],
-  //input Kafka client ID and brokers
-  clientId: '',
-  brokers: [],
-  ssl,
-  sasl,
-  connectionTimeout: 3000,
-  authenticationTimeout: 1000,
-  reauthenticationThreshold: 10000,
-  //input file containing your Avro schema
-  schemaFile: '',  
-  destinationFolder: path.resolve(__dirname)
-};`;
 
 //after this file is run, user will run their configuration file? which will run index.js in testpkg.
 //index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
 initTopiQL();
 
-module.exports = { initTopiQL, result };
+module.exports = { initTopiQL };
