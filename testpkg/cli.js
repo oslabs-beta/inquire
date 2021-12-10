@@ -7,7 +7,6 @@ const fs = require('fs');
 const initTopiQL = require('./startTopiQL');
 const makeTopiQL = require('./makeTopiQL');
 
-
 //take one argument, relative path wherein to create topiQL folder
 const builder = command => {
   command
@@ -17,22 +16,23 @@ const builder = command => {
 }
 
 const initHandler = ({absPath}) => {
-  fs.writeFileSync(path.resolve(__dirname, 'file.json'), JSON.stringify(absPath));
+  // fs.writeFileSync(path.resolve(__dirname, 'file.json'), JSON.stringify(absPath));
+  console.log("destination", topiQLdest)
   initTopiQL(absPath); //will this work with Han's mode selection? Think so
 }
 
 const configHandler = () => {
   const storedPath = path.resolve(__dirname, 'file.json');
+  console.log(storedPath);
   if (fs.existsSync(storedPath)) {
-    const config = fs.readFileSync(storedPath);
-    makeTopiQL.toGraphQL(config);
+    const folderDest = JSON.parse(fs.readFileSync(storedPath));
+    makeTopiQL.toGraphQL(folderDest);
     //read the file - if file exists, use the contents + topiQL/config.js
     //hide file, potentially change its file properties
     //makeTopiQL.toGraphQL(config);
   } else {
     console.log("no config file found");
   }
-  
 }
 
 yargs.command("init <absPath>", false, builder, initHandler).parse();

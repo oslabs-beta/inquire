@@ -4,9 +4,11 @@ const path = require('path');
 // const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
 // const config = require(configPath);
 
-const toGraphQL = (config) => {
+const toGraphQL = (folderDest) => {
   console.log("made it to makeTopiQL.toGraphQL!")
-  // console.log(config);
+  console.log("received", folderDest);
+  const config = require(`${folderDest}/topiQL/config.js`)
+  console.log(config);
   return;
   try {
     fs.readFile(config.schemaFile, 'utf-8', function (err, data) {
