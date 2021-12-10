@@ -55,13 +55,11 @@ const zipTargets = (topics, targets) => {
 
 const zipTopicTypes = (topic, fileData) => {
   try {
-    console.log("this is topic: ", topic)
     let res = []
     const data = JSON.parse(fileData)
     const topicType = data.name
     res.push(topic)
     res.push(topicType)
-    console.log(res)
     return res
   } catch (err) {
     console.log(`Err: ZipTopicTypes in graphqlSchemaTool - ${err}`)
@@ -196,17 +194,11 @@ const completeTypeDef = (formattedData, topicsTypesZip) => {
   // type should be retrieved from reading the files
   // type should be outter most name in the avsc files
   // const type = config.topicTypes[0];
-  console.log("33333333333333333")
-  console.log(topicsTypesZip)
   let subs = ``;
   for (const topicType of topicsTypesZip) {
-    console.log("4444444444")
-    console.log(topicType)
     subs += `  ${topicType[0]}: ${topicType[1]}
 `;
   }
-  console.log("555555555555")
-  console.log(subs)
 
   let result = `const { gql } = require('apollo-server-express');
 
