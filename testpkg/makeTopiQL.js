@@ -1,10 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 //import config file
-const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
-const config = require(configPath);
+// const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
+// const config = require(configPath);
 
-const toGraphQL = () => {
+const toGraphQL = (config) => {
+  console.log("made it to makeTopiQL.toGraphQL!")
+  // console.log(config);
+  return;
   try {
     fs.readFile(config.schemaFile, 'utf-8', function (err, data) {
       // fs.readFile('../data/testData/expAvroSample.js', 'utf-8', function (err, data) {
@@ -39,6 +42,7 @@ const toGraphQL = () => {
   }
 };
 
+//name functions better
 const testpkg = (fileData) => {
   try {
     let res = [];
@@ -298,11 +302,6 @@ const makeServer = () => {
 
   fs.writeFileSync(path.resolve(__dirname, '../server/server.js'), result);
 };
-
-toGraphQL();
-makeResolvers();
-makePublishers();
-makeServer();
 
 module.exports = {
   toGraphQL,

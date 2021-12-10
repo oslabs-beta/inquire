@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "initTopiql": "testpkg 1 2",
-    "makeTopiql": "testpkg 3 4",
-    "testTopiql": "testpkg"
+    "initTopiql": "testpkg"
   },
   "keywords": [],
   "author": "",

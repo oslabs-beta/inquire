@@ -3,13 +3,29 @@ const path = require('path');
 
 //make a directory in destination folder (server) called topiQL
 
-const initTopiQL = async (absPath) => {
-  await fs.mkdirSync(path.resolve(__dirname, `${absPath}/topiQL`), {recursive: true});
+// const initTopiQL = (absPath) => {
+//   if (!fs.existsSync(`${absPath}/topiQL`)) {
+//     fs.mkdirSync(`${absPath}/topiQL`);
+    
+//     fs.writeFileSync(
+//       `${absPath}/topiQL/config.js`,
+//       result
+//     );
+//   }
+// };
+
+const initTopiQL = (absPath) => {
+  try {
+    fs.mkdirSync(`${absPath}/topiQL`);
   
-  fs.writeFileSync(
-    `${absPath}/topiQL/config.js`,
-    result
-  );
+    fs.writeFileSync(
+      `${absPath}/topiQL/config.js`,
+      result
+    );
+  } catch (err) {
+    console.log("file creation failed");
+    throw new Error("file exists or failed to be created")
+  }
 };
 
 //make a file there called config.js with boilerplate - user will just fill in the blanks.
@@ -42,6 +58,5 @@ module.exports = {
 
 //after this file is run, user will run their configuration file? which will run index.js in testpkg.
 //index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
-initTopiQL();
 
 module.exports = initTopiQL;

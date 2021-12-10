@@ -4,8 +4,7 @@
   "description": "test console.log pkg",
   "main": "startTopiQL.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cece": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": "cli.js",
   "author": "c&h",
