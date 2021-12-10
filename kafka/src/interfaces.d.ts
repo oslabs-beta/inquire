@@ -21,7 +21,7 @@ interface PassengerInfo {
 interface KafkaSettings {
   topics: string[];
   clientId: string;
-  brokers: string[];
+  brokers: (string | undefined)[];
   ssl: boolean;
   sasl: SASLSetting | null;
   connectionTimeout: number;

@@ -56,6 +56,6 @@
       "type": "string"
     }
   ],
-  "name": "status",
+  "name": "Status",
   "type": "record"
 }
