@@ -11,9 +11,9 @@ const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
 const topics = config.topics;
 const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
-const publisherPath = path.resolve(
+const asyncIteratorPath = path.resolve(
   __dirname,
-  '../server/topiQL/kafkaPublisher.js'
+  '../server/topiQL/asyncIterator.js'
 );
 const serverPath = path.resolve(__dirname, '../server/server.js');
 
@@ -72,20 +72,18 @@ const toGraphQL = () => {
   return completeTypedefData;
 };
 
-const makeResolvers = () => {
+const makeResolver = () => {
   let subscriptions = ``;
 
   // Pull out name of topics from config file
   for (const topic of topics) {
-    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-    const topicAllCaps = topic.toUpperCase();
     subscriptions += `
         ${topic}: {
-          subscribe: () => pubsub.asyncIterator('${topicAllCaps}'),
+          subscribe: () => kafkaEventToAsyncIterator('${topic}'),
         },`;
   }
 
-  let result = `const { pubsub } = require('./kafkaPublisher.js')
+  let result = `const kafkaEventToAsyncIterator = require('./asyncIterator.js')
 
     // GraphQL Resolvers
     module.exports = {
@@ -99,60 +97,60 @@ const makeResolvers = () => {
   return result;
 };
 
-const makePublishers = () => {
-  let topicNameLine = ``;
-  let publisherStatus = ``;
-  for (const topic of topics) {
-    // Topic name version that is all caps: tripStatus --> TRIPSTATUS
-    const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
-    const topicAllCaps = topic.toUpperCase();
-    topicNameLine += `const topic${topicCapitalized} = '${topic}';
-const consumer${topic} = kafka.consumer({ groupId: '${topic}-group'});
-`;
-
-    publisherStatus += `publisher${topicCapitalized}: () => {
-    consumer${topic}.connect();
-    consumer${topic}.subscribe({ topic: \`\${topic${topicCapitalized}}\`, fromBeginning: false });
-    consumer${topic}.run({
-      eachMessage: async ({ topic, partition, message }) => {
-        pubsub.publish('${topicAllCaps}', {
-          ${topic}: JSON.parse(message.value)
-        });
-      },
-    });
-  },
-  `;
+const makeAsyncIterator = () => {
+  return `const { $$asyncIterator } = require ('iterall');
+  const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
+  const config = require('./config.js'); // Information about Kafka Cluster and Topics
+  const client = new Kafka(config);
+  
+  // Helper function to initiate consumers
+  const getConsumer = async (topic) => {
+    try {
+      const consumer = client.consumer({ groupId: \`\${topic}-group-\${Math.random() * 100}\` });
+      consumer.connect();
+      consumer.subscribe({ topic: \`\${topic}\`, fromBeginning: false });
+      return consumer;
+    } catch (err) {console.log(err)}
   }
-
-  let result = `const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
-const config = require('../../kafka/kconfig.js'); // Information about Kafka Cluster and Topics
-const { PubSub } = require('graphql-subscriptions');
-
-// This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
-// Topics can be created online through confluent cloud portal
-const pubsub = new PubSub();
-const kafka = new Kafka(config);
-
-// For every topic listed in config file, we can pull out a topicName and corresponding consumer
-${topicNameLine}
-
-const publishers = {
-  ${publisherStatus}
-}
-
-module.exports = { publishers, pubsub };
-`;
-  return result;
+  
+  // Function returns an async iterator tied to Kafka topic
+  const kafkaEventToAsyncIterator = async (topicName) => {
+    let promiseResolve;
+    const consumer = await getConsumer(topicName);
+    try {
+      await consumer.run({
+        eachMessage: ({ topic, partition, message }) => {
+          let parsedMessage = {[topicName]: JSON.parse(message.value)}
+          if (promiseResolve && topicName == topic) {
+            promiseResolve(parsedMessage);
+          }
+        }
+      });
+    } catch (err) {console.log(err)}
+    return {
+      next() {
+        return new Promise(resolve => {
+          promiseResolve = resolve;
+        }).then(value => { return {done: false, value} }
+        );
+      },
+      return() {
+        return Promise.resolve({ done: true, value: undefined });
+      },
+      throw(e) {
+        return Promise.reject(e);
+      },
+      [$$asyncIterator]() {
+        return this;
+      },
+    };
+  };
+  
+  module.exports = kafkaEventToAsyncIterator;
+  `
 };
 
 const makeServer = () => {
-  let publishers = ``;
-  for (const topic of topics) {
-    const topicCapitalized = topic.charAt(0).toUpperCase() + topic.slice(1);
-    publishers += `publishers.publisher${topicCapitalized}();
-  `;
-  }
-
   let result = `// Apollo docs describing how to swap apollo server: 
   // https://www.apollographql.com/docs/apollo-server/integrations/middleware/#swapping-out-apollo-server
   // Once server is swapped, Apollo docs to use subscriptions: 
@@ -170,10 +168,6 @@ const makeServer = () => {
   const typeDefs = require('./topiQL/typeDefs.js');
   const resolvers = require('./topiQL/resolvers.js');
   
-  // Import "publishers" from file. 
-  // These "publishers" are consumers that read messages from a kafka topic and publish to a PubSub topic.
-  const { publishers } = require('./topiQL/kafkaPublisher.js');
-  ${publishers}
   // Server start must be wrapped in async function
   (async function () {
     const app = express();
@@ -219,12 +213,12 @@ const writeGraphQLSchema = () => {
   fs.writeFileSync(graphqlSchemaDest, graphQLData);
 };
 const writeResolver = () => {
-  const resolverData = makeResolvers();
+  const resolverData = makeResolver();
   fs.writeFileSync(resolverPath, resolverData);
 };
-const writePublisher = () => {
-  const publisherData = makePublishers();
-  fs.writeFileSync(publisherPath, publisherData);
+const writeAsyncIterator = () => {
+  const asyncIteratorData = makeAsyncIterator();
+  fs.writeFileSync(asyncIteratorPath, asyncIteratorData);
 };
 
 const writeServer = () => {
@@ -234,16 +228,16 @@ const writeServer = () => {
 
 writeGraphQLSchema();
 writeResolver();
-writePublisher();
+writeAsyncIterator();
 writeServer();
 
 module.exports = {
   toGraphQL,
-  makeResolvers,
-  makePublishers,
+  makeResolver,
+  makeAsyncIterator,
   makeServer,
   writeGraphQLSchema,
   writeResolver,
-  writePublisher,
+  writeAsyncIterator,
   writeServer,
 };

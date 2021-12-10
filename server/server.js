@@ -15,13 +15,6 @@
   const typeDefs = require('./topiQL/typeDefs.js');
   const resolvers = require('./topiQL/resolvers.js');
   
-  // Import "publishers" from file. 
-  // These "publishers" are consumers that read messages from a kafka topic and publish to a PubSub topic.
-  const { publishers } = require('./topiQL/kafkaPublisher.js');
-  publishers.publisherTripStatus();
-  publishers.publisherTesting1();
-  publishers.publisherTesting2();
-  
   // Server start must be wrapped in async function
   (async function () {
     const app = express();

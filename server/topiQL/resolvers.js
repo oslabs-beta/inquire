@@ -1,16 +1,13 @@
-const { pubsub } = require('./kafkaPublisher.js')
+const kafkaEventToAsyncIterator = require('./asyncIterator.js')
 
     // GraphQL Resolvers
     module.exports = {
       Subscription: {
         tripStatus: {
-          subscribe: () => pubsub.asyncIterator('TRIPSTATUS'),
+          subscribe: () => kafkaEventToAsyncIterator('tripStatus'),
         },
-        testing1: {
-          subscribe: () => pubsub.asyncIterator('TESTING1'),
-        },
-        testing2: {
-          subscribe: () => pubsub.asyncIterator('TESTING2'),
+        passengerInfo: {
+          subscribe: () => kafkaEventToAsyncIterator('passengerInfo'),
         },
       },
       Query: {
