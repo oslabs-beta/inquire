@@ -1,11 +1,16 @@
-// User Configuration File for Kafka - GraphQL connection using topiQL library
-  const path = require('path');
-  //input username and password for Confluent Cloud
-  const username = ''
-  const password = ''
-  
-  const sasl = username && password ? { username, password, mechanism: 'plain' } : null
-  const ssl = !!sasl
+const dotenv = require('dotenv'); // Allows us to safely store and reference credentials in a .env file that is not uploaded to github
+const path = require('path');
+
+const envFile = path.resolve(__dirname,'../../.env')
+dotenv.config({ path: envFile }); 
+
+const username = process.env.DEMO_KAFKA_CLUSTER_USER;
+const password = process.env.DEMO_KAFKA_CLUSTER_PW;
+const broker = process.env.DEMO_KAFKA_BROKER;
+
+const sasl = username && password ? { username, password, mechanism: 'plain' } : null
+const ssl = !!sasl
+
   const MODE = {
     // AUTO will retrieve all schema from kafka and build gql schema -> fill topics only
     AUTO: 0,
@@ -30,7 +35,7 @@
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
-  schemaFolder: path.resolve(__dirname, '../../data/testData/'),
+  schemaFile: path.resolve(__dirname, '../../../data/testData/avscSample.avsc'),
+  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
   destinationFolder: path.resolve(__dirname),
   };

@@ -24,8 +24,7 @@ const buildHandler = () => {
   const storedPath = path.resolve(__dirname, 'pathStore.json');
   if (fs.existsSync(storedPath)) {
     const folderDest = JSON.parse(fs.readFileSync(storedPath));
-    console.log(folderDest);
-    // makeTopiQL.write____(folderDest);
+    makeTopiQL.writeGraphQLSchema();
   } else {
     console.log("no config file found");
   }

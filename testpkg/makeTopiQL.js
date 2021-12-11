@@ -1,22 +1,20 @@
 const fs = require('fs');
 const { graphql } = require('graphql');
 const path = require('path');
-const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
-let config = require(configPath);
-
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
+
+const storedPath = JSON.parse(fs.readFileSync(path.resolve(__dirname, './pathStore.json')));
+const configPath = `${storedPath}/topiQL/config.js`;
+const config = require(configPath);
 const kafkaSchemaFile = config.schemaFile;
-const graphqlSchemaDestFolder = config.destinationFolder;
+const graphqlSchemaDestFolder = `${storedPath}/topiQL`;
 const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
-const topics = config.topics;
-const resolverPath = path.resolve(__dirname, '../server/topiQL/resolvers.js');
-const asyncIteratorPath = path.resolve(
-  __dirname,
-  '../server/topiQL/asyncIterator.js'
-);
-const serverPath = path.resolve(__dirname, '../server/server.js');
+const resolverPath = `${storedPath}/topiQL/resolvers.js`;
+const asyncIteratorPath = `${storedPath}/topiQL/asyncIterator.js`;
+const serverPath = `${storedPath}/server.js`;
 
+const topics = config.topics;
 const schemaFolder = config.schemaFolder;
 
 const toGraphQL = () => {
@@ -225,11 +223,6 @@ const writeServer = () => {
   const serverData = makeServer();
   fs.writeFileSync(serverPath, serverData);
 };
-
-writeGraphQLSchema();
-writeResolver();
-writeAsyncIterator();
-writeServer();
 
 module.exports = {
   toGraphQL,
