@@ -13,7 +13,8 @@ const getInnerKafkaSchema = (fileData) => {
     const expAvroRGX = /avro\.Type\.forSchema\(/g;
     if (expAvroRGX.test(fileData)) {
       //find schema object within forSchema call
-      fileData
+      fileData = fileData
+        .toString()
         .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
         .trim();
 
@@ -62,7 +63,7 @@ const zipTopicTypes = (topic, fileData) => {
     res.push(topicType)
     return res
   } catch (err) {
-    console.log(`Err: ZipTopicTypes in graphqlSchemaTool - ${err}`)
+    console.log(`Err: ZipTopicTypes in graphqlSchemaTool on ${topic} - ${err}`)
     return
   }
 }

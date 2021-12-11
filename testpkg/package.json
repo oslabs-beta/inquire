@@ -2,11 +2,12 @@
   "name": "testpkg",
   "version": "1.0.0",
   "description": "test console.log pkg",
-  "main": "index.js",
+  "main": "startTopiQL.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cece": "node index.js"
   },
+  "bin": "cli.js",
   "author": "c&h",
   "license": "ISC"
 }

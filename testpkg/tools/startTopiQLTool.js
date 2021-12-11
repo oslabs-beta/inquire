@@ -71,7 +71,6 @@ const createConfig = (targetArr, mode) => {
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
     //input file containing your Avro schema
-    schemaFile: '',
     schemaFolder: '',  
     destinationFolder: path.resolve(__dirname)
   };`;
