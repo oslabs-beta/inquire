@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 //goal is to get one string argument from this, send it to initTopiQL function in testpkg/startTopiQL.js
-const initTopiQL = require('./startTopiQL');
+const startTopiQL = require('./startTopiQL');
 const makeTopiQL = require('./makeTopiQL');
 
 //take one argument, relative path wherein to create topiQL folder
@@ -17,8 +17,7 @@ const builder = command => {
 
 const initHandler = ({absPath}) => {
   fs.writeFileSync(path.resolve(__dirname, 'pathStore.json'), JSON.stringify(absPath));
-  console.log("destination", topiQLdest)
-  // initTopiQL(absPath); //will this work with Han's mode selection? Think so
+  startTopiQL.initTopiQL(absPath); //will this work with Han's mode selection? Think so
 }
 
 const configHandler = () => {
