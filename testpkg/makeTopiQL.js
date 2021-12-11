@@ -1,12 +1,11 @@
 const fs = require('fs');
-const { graphql } = require('graphql');
 const path = require('path');
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
 
+//this does not work for first-time people using "init" command, for some reason trying to run although files don't exist yet
 const storedPath = JSON.parse(fs.readFileSync(path.resolve(__dirname, './pathStore.json')));
 const configPath = `${storedPath}/topiQL/config.js`;
 const config = require(configPath);
-const kafkaSchemaFile = config.schemaFile;
 const graphqlSchemaDestFolder = `${storedPath}/topiQL`;
 const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
 const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
@@ -17,6 +16,7 @@ const serverPath = `${storedPath}/server.js`;
 const topics = config.topics;
 const schemaFolder = config.schemaFolder;
 
+
 const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
@@ -26,26 +26,26 @@ const toGraphQL = () => {
     //below iteration should perform in a order that target's order which is written in the config
     if (config.mode === 1) {
       filenames.forEach((filename, topicsIdx) => {
-        if (path.extname(filename) === '.avsc') {
+        // if (path.extname(filename) === '.avsc') {
           try {
             const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
-            const topicType = graphqlSchemaTool.zipTopicTypes(config.topics[topicsIdx], tmpRead)
+            const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+            const topicType = graphqlSchemaTool.zipTopicTypes(config.topics[topicsIdx], innerData)
             topicsTypesZip.push(topicType)
             // remove trails and trim the file
-            const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
             // call the parsing function, format the data, write it to graphql schema file
             const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
             formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
           } catch (err) {
             console.log(`ERR: while reading ${filename} - ${err}`);
           }
-        }
+        // }
       });
 
     } else if (config.mode === 2) {
       const targetZip = graphqlSchemaTool.zipTargets(config.topics, config.targets)
       filenames.forEach((filename) => {
-        if (path.extname(filename) === '.avsc') {
+        // if (path.extname(filename) === '.avsc') {
           try {
             if (targetZip.has(path.parse(filename).name)) {
               const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
@@ -58,7 +58,7 @@ const toGraphQL = () => {
           } catch (err) {
             console.log(`ERR: while reading ${filename} on SELECT mode - ${err}`)
           }
-        }
+        // }
       })
     }
   }
@@ -210,10 +210,12 @@ const writeGraphQLSchema = () => {
   const graphQLData = toGraphQL();
   fs.writeFileSync(graphqlSchemaDest, graphQLData);
 };
+
 const writeResolver = () => {
   const resolverData = makeResolver();
   fs.writeFileSync(resolverPath, resolverData);
 };
+
 const writeAsyncIterator = () => {
   const asyncIteratorData = makeAsyncIterator();
   fs.writeFileSync(asyncIteratorPath, asyncIteratorData);
