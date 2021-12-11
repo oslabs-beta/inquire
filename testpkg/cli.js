@@ -20,19 +20,16 @@ const initHandler = ({absPath}) => {
   startTopiQL.initTopiQL(absPath); //will this work with Han's mode selection? Think so
 }
 
-const configHandler = () => {
+const buildHandler = () => {
   const storedPath = path.resolve(__dirname, 'pathStore.json');
-  console.log(storedPath);
-  // if (fs.existsSync(storedPath)) {
-  //   const folderDest = JSON.parse(fs.readFileSync(storedPath));
-  //   makeTopiQL.toGraphQL(folderDest);
-  //   //read the file - if file exists, use the contents + topiQL/config.js
-  //   //hide file, potentially change its file properties
-  //   //makeTopiQL.toGraphQL(config);
-  // } else {
-  //   console.log("no config file found");
-  // }
+  if (fs.existsSync(storedPath)) {
+    const folderDest = JSON.parse(fs.readFileSync(storedPath));
+    console.log(folderDest);
+    // makeTopiQL.write____(folderDest);
+  } else {
+    console.log("no config file found");
+  }
 }
 
 yargs.command("init <absPath>", false, builder, initHandler).parse();
-yargs.command("config", false, builder, configHandler).parse();
+yargs.command("build", false, builder, buildHandler).parse();

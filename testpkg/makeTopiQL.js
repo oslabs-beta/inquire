@@ -2,7 +2,7 @@ const fs = require('fs');
 const { graphql } = require('graphql');
 const path = require('path');
 const configPath = path.resolve(__dirname, '../server/topiQL/config.js');
-const config = require(configPath);
+let config = require(configPath);
 
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
 const kafkaSchemaFile = config.schemaFile;

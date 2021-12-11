@@ -17,21 +17,20 @@
   
   module.exports = {
     mode: MODE.SELECT,
-    // input topic(s) Kafka producers are writing to & topics expected from GQL query
-    // please fill one topic per a schema file in targets with matching sequence of order
-    topics: [],
-    // for SELECT mode, please fill the file name you desire to transform into GQL schema without extension of the file
-    targets: [],
-    //input Kafka client ID and brokers
-    clientId: '',
-    brokers: [],
-    ssl,
-    sasl,
-    connectionTimeout: 3000,
-    authenticationTimeout: 1000,
-    reauthenticationThreshold: 10000,
-    //input file containing your Avro schema
-    schemaFile: '',
-    schemaFolder: '',  
-    destinationFolder: path.resolve(__dirname)
+  // for Mode.All -> please fill out one topic per schema file in an ORDERED as shown in the directory
+  // topics: ['avscSample', 'passengerStatus', 'testSchema', 'tripStatus'],
+  topics: ['tripStatus', 'passengerInfo'],
+  // topicTypes: ['Status', 'Status', 'Status'],
+  // topicTypes are removed
+  targets: ['tripStatus', 'passengerInfo'],
+  clientId: 'kafQL',
+  brokers: [broker],
+  ssl,
+  sasl,
+  connectionTimeout: 3000,
+  authenticationTimeout: 1000,
+  reauthenticationThreshold: 10000,
+  schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
+  schemaFolder: path.resolve(__dirname, '../../data/testData/'),
+  destinationFolder: path.resolve(__dirname),
   };
