@@ -34,7 +34,7 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFile: path.resolve(__dirname, '../../../data/testData/avscSample.avsc'),
-  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
+  schemaFile: path.resolve(__dirname, '../../../data/testDataFolder/avscSample.avsc'),
+  schemaFolder: path.resolve(__dirname, '../../../data/testDataFolder/'),
   destinationFolder: path.resolve(__dirname),
 };

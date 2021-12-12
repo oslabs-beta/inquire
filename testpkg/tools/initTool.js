@@ -1,12 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 // this path should be specified pre-hand by end user somehow maybe from commandline
-const schemaFolder = path.resolve(__dirname, '../../data/testData/');
 
-const createTargets = (mode) => {
+const createTargets = (mode, dataFolder) => {
     let targets = ``
     if (mode === '1') {
-        const filenames = fs.readdirSync(schemaFolder);
+        const filenames = fs.readdirSync(dataFolder);
         targets += '['
         let i = 0
         while (i < filenames.length - 1) {
