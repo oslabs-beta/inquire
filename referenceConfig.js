@@ -1,7 +1,7 @@
 const dotenv = require('dotenv'); // Allows us to safely store and reference credentials in a .env file that is not uploaded to github
 const path = require('path');
 
-const envFile = path.resolve(__dirname,'../../.env')
+const envFile = path.resolve(__dirname,'../../../.env')
 dotenv.config({ path: envFile }); 
 
 const username = process.env.DEMO_KAFKA_CLUSTER_USER;
