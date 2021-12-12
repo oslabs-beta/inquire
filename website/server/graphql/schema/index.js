@@ -12,7 +12,7 @@ const graphqlSchema = buildSchema(`
       _id: ID!
       topic: String!
       avro: String!
-      graphql: String
+      graphql: String!
       creator: User!
     }
 

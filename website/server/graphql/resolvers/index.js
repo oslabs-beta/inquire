@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const User = require('../../models/user');
 const AvroSchema = require('../../models/avro');
+const {
+  parseKafkaSchema,
+  formatGQLSchema,
+} = require('../../tools/coversionFuncs');
 
 const avros = async (schemaIds) => {
   try {
@@ -41,6 +45,12 @@ const user = async (userId) => {
   }
 };
 
+const handleConversion = (avroString) => {
+  const avroParsed = parseKafkaSchema(JSON.parse(avroString));
+  const gqlFormatted = formatGQLSchema(avroParsed);
+  return JSON.stringify(gqlFormatted);
+};
+
 const graphqlResolvers = {
   avroSchema: async (args) => {
     try {
@@ -69,26 +79,26 @@ const graphqlResolvers = {
   },
 
   createSchema: (args) => {
+    const avroStr = args.schemaInput.avro;
+    let graphqlStr = handleConversion(JSON.stringify(avroStr));
     const avro = new AvroSchema({
       topic: args.schemaInput.topic,
-      avro: args.schemaInput.avro,
-      // graphql: args.schemaInput.graphql,
-      creator: '61b605b2ebdddc097c015c0e',
+      avro: avroStr,
+      graphql: graphqlStr,
+      creator: '61b64fb11a8d83fa78923900',
     });
     let createdSchema;
-
+    console.log('here-->', avro);
     return avro
       .save()
       .then((result) => {
-        console.log('result--->', result);
         createdSchema = {
           ...result._doc,
           creator: user.bind(this, result._doc.creator),
         };
-        return User.findById('61b605b2ebdddc097c015c0e');
+        return User.findById('61b64fb11a8d83fa78923900');
       })
       .then((user) => {
-        console.log('user--->', user);
         if (!user) {
           throw new Error('User not found.');
         }
