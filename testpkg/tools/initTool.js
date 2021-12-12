@@ -22,7 +22,7 @@ const createTargets = (mode, dataFolder) => {
 
 
 //make a file there called config.js with boilerplate - user will just fill in the blanks.
-const createConfig = (targetArr, mode) => {
+const createConfig = (targetArr, mode, dataFolder) => {
     let currMode;
     switch (mode) {
         case "0":
@@ -69,8 +69,8 @@ const createConfig = (targetArr, mode) => {
     connectionTimeout: 3000,
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
-    //input file containing your Avro schema
-    schemaFolder: '',  
+    //input folder containing your Avro schema
+    schemaFolder: '${dataFolder}',  
     destinationFolder: path.resolve(__dirname)
   };`;
     return result;

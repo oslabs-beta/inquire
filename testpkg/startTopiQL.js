@@ -43,7 +43,7 @@ const initTopiQL = async (absPath) => {
   await dataPrompt();
   rl.on('close', async () => {
     const targets = await initTool.createTargets(pickedMode, dataFolder);
-    const config = await initTool.createConfig(targets, pickedMode)
+    const config = await initTool.createConfig(targets, pickedMode, dataFolder);
     if (!fs.existsSync(`${absPath}/topiQL`)) {
       fs.mkdirSync(`${absPath}/topiQL`);
     }
