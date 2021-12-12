@@ -14,7 +14,7 @@ const readline = require('readline').createInterface({
   output: process.stdout
 })
 
-const initTopiQL = () => {
+const initTopiQL = (absPath) => {
   readline.question('what MODE do you want? => 0 for \'AUTO generation' +
     'from Kafka Stream / 1 for \'ALL\' Mode to generate GQL schema from all avsc' +
     ' files in the cloud / 2 for \'SELECT\' Mode to selectively create GQL schema' +
@@ -22,12 +22,14 @@ const initTopiQL = () => {
       pickedMode = mode
       readline.close()
     })
-  readline.on('close', () => {
-    const targets = startTopiQLTool.createTargets(pickedMode);
-    const config = startTopiQLTool.createConfig(targets, pickedMode)
-    fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
+  readline.on('close', async () => {
+    const targets = await startTopiQLTool.createTargets(pickedMode);
+    const config = await startTopiQLTool.createConfig(targets, pickedMode)
+    if (!fs.existsSync(`${absPath}/topiQL`)) {
+      fs.mkdirSync(`${absPath}/topiQL`);
+    }
     fs.writeFileSync(
-      path.resolve(__dirname, '../server/topiQL/config.js'),
+      `${absPath}/topiQL/config.js`,
       config
     );
   })
@@ -36,6 +38,6 @@ const initTopiQL = () => {
 
 //after this file is run, user will run their configuration file? which will run index.js in testpkg.
 //index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
-initTopiQL();
+// initTopiQL();
 
 module.exports = { initTopiQL };

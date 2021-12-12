@@ -1,3 +1,4 @@
+let i = 2;
 const avro = require ('avsc');
 
 /* The purpose of this comment is to exist in a space where it should be 
