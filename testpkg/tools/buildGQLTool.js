@@ -73,7 +73,7 @@ const zipTopicTypes = (topic, fileData) => {
     console.log("result: ", res);
     return res
   } catch (err) {
-    console.log(`Err: ZipTopicTypes in graphqlSchemaTool on ${topic} - ${err}`)
+    console.log(`Err: ZipTopicTypes in buildGQLTool on ${topic} - ${err}`)
     return
   }
 }

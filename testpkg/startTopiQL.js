@@ -2,7 +2,7 @@ const { defaultInputTarget } = require('concurrently/src/defaults');
 const fs = require('fs');
 const path = require('path');
 const { rawListeners } = require('process');
-const startTopiQLTool = require('./tools/startTopiQLTool');
+const initTool = require('./tools/initTool');
 
 //make a directory in destination folder (server) called topiQL
 
@@ -23,8 +23,8 @@ const initTopiQL = (absPath) => {
       readline.close()
     })
   readline.on('close', async () => {
-    const targets = await startTopiQLTool.createTargets(pickedMode);
-    const config = await startTopiQLTool.createConfig(targets, pickedMode)
+    const targets = await initTool.createTargets(pickedMode);
+    const config = await initTool.createConfig(targets, pickedMode)
     if (!fs.existsSync(`${absPath}/topiQL`)) {
       fs.mkdirSync(`${absPath}/topiQL`);
     }

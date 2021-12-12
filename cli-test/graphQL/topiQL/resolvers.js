@@ -1,8 +1,8 @@
 const kafkaEventToAsyncIterator = require('./asyncIterator.js')
 
-    // GraphQL Resolvers
-    module.exports = {
-      Subscription: {
+// GraphQL Resolvers
+module.exports = {
+  Subscription: {
         avscTopic: {
           subscribe: () => kafkaEventToAsyncIterator('avscTopic'),
         },
@@ -12,12 +12,8 @@ const kafkaEventToAsyncIterator = require('./asyncIterator.js')
         cece: {
           subscribe: () => kafkaEventToAsyncIterator('cece'),
         },
-        tripStatus: {
-          subscribe: () => kafkaEventToAsyncIterator('tripStatus'),
-        },
-      },
-      Query: {
-        exampleQuery: () => "Add Result Here"
-      }
-    }
-    
+  },
+  Query: {
+    exampleQuery: () => "Add Result Here"
+  }
+}
