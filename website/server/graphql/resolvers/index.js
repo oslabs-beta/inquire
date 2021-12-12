@@ -44,8 +44,11 @@ const user = async (userId) => {
 const graphqlResolvers = {
   avroSchema: async (args) => {
     try {
-      const fetchedSchema = await AvroSchema.findOne({ _id: args.id });
-      return fetchedSchema;
+      const avro = await AvroSchema.findById(args._id);
+      return {
+        ...avro._doc,
+        creator: user.bind(this, avro.creator),
+      };
     } catch (err) {
       throw err;
     }
@@ -70,7 +73,7 @@ const graphqlResolvers = {
       topic: args.schemaInput.topic,
       avro: args.schemaInput.avro,
       // graphql: args.schemaInput.graphql,
-      creator: '61b53f5aff9686a42478072f',
+      creator: '61b605b2ebdddc097c015c0e',
     });
     let createdSchema;
 
@@ -82,7 +85,7 @@ const graphqlResolvers = {
           ...result._doc,
           creator: user.bind(this, result._doc.creator),
         };
-        return User.findById('61b53f5aff9686a42478072f');
+        return User.findById('61b605b2ebdddc097c015c0e');
       })
       .then((user) => {
         console.log('user--->', user);
@@ -99,6 +102,29 @@ const graphqlResolvers = {
         console.log(err);
         throw err;
       });
+  },
+
+  deleteSchema: async (args) => {
+    try {
+      const avro = await AvroSchema.findById(args.schemaId);
+
+      const creator = avro._doc.creator;
+      console.log(creator);
+      const deletedSchema = await AvroSchema.findOneAndDelete({
+        _id: args.schemaId,
+      });
+      await User.updateOne(
+        { _id: creator },
+        {
+          $pullAll: {
+            createdSchemas: [deletedSchema],
+          },
+        }
+      );
+      return deletedSchema;
+    } catch (err) {
+      throw err;
+    }
   },
 
   createUser: async (args) => {

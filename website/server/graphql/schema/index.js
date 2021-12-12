@@ -29,14 +29,14 @@ const graphqlSchema = buildSchema(`
 
     type RootQuery {
       avroSchemas: [AvroSchema]
-      avroSchema(id: ID!): AvroSchema
+      avroSchema(_id: ID!): AvroSchema!
     }
 
     type RootMutation {
       createSchema(schemaInput: SchemaInput): AvroSchema
       createUser(userInput: UserInput): User
-      modifySchema(schemaId: ID!): AvroSchema!
-      deleteSchema(schemaId: ID!): AvroSchema!
+      modifySchema(schemaInput: SchemaInput): AvroSchema
+      deleteSchema(schemaId: ID!): AvroSchema
     }
 
     schema {
