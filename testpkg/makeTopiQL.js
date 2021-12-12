@@ -2,63 +2,69 @@ const fs = require('fs');
 const path = require('path');
 const graphqlSchemaTool = require('./tools/graphqlSchemaTool.js');
 
-//this does not work for first-time people using "init" command, for some reason trying to run although files don't exist yet
+// pathStore.json is generated when user initializes destination folder for graphQL Schemas
 const storedPath = JSON.parse(fs.readFileSync(path.resolve(__dirname, './pathStore.json')));
 const configPath = `${storedPath}/topiQL/config.js`;
 const config = require(configPath);
-const graphqlSchemaDestFolder = `${storedPath}/topiQL`;
-const oldGraphqlSchemaDest = `${graphqlSchemaDestFolder}/oldTypeDefs.js`;
-const graphqlSchemaDest = `${graphqlSchemaDestFolder}/typeDefs.js`;
-const resolverPath = `${storedPath}/topiQL/resolvers.js`;
+
+const topics = config.topics;
+const targets = config.targets;
+const mode = config.mode;
+const schemaFolder = config.schemaFolder;
+
+const typeDefsPath = `${storedPath}/topiQL/typeDefs.js`;
+const resolversPath = `${storedPath}/topiQL/resolvers.js`;
 const asyncIteratorPath = `${storedPath}/topiQL/asyncIterator.js`;
 const serverPath = `${storedPath}/server.js`;
 
-const topics = config.topics;
-const schemaFolder = config.schemaFolder;
-
-
+/**
+ * 
+ */
 const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
   const topicsTypesZip = []
   if (filenames) {
-
-    //below iteration should perform in a order that target's order which is written in the config
-    if (config.mode === 1) {
+    if (mode === 1) {
+      console.log("mode 1 entered and filenames are -> ", filenames)
       filenames.forEach((filename, topicsIdx) => {
-        // if (path.extname(filename) === '.avsc') {
           try {
             const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
             const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
-            const topicType = graphqlSchemaTool.zipTopicTypes(config.topics[topicsIdx], innerData)
+            const topicType = graphqlSchemaTool.zipTopicTypes(topics[topicsIdx], innerData)
+            console.log("**********************")
             topicsTypesZip.push(topicType)
-            // remove trails and trim the file
-            // call the parsing function, format the data, write it to graphql schema file
+            console.log("**********************")
             const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
             formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
           } catch (err) {
             console.log(`ERR: while reading ${filename} - ${err}`);
           }
-        // }
       });
 
-    } else if (config.mode === 2) {
-      const targetZip = graphqlSchemaTool.zipTargets(config.topics, config.targets)
+    } else if (mode === 2) {
+      console.log("this is fkin topics types zip !!!! -> ,", topicsTypesZip)
+      console.log("mode 2 entered and filenames are -> ", filenames)
+      const targetZip = graphqlSchemaTool.zipTargets(topics, targets)
+      console.log("mode 2 retriving -> ", targetZip)
       filenames.forEach((filename) => {
-        // if (path.extname(filename) === '.avsc') {
           try {
-            if (targetZip.has(path.parse(filename).name)) {
+            console.log("this is fkin topics types zip !!!! -> ,", topicsTypesZip)
+            console.log("mode 2 checking the file name -> ", filename)
+            if (targetZip.has(filename)) {
+              console.log("filename is in the targetZip")
               const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
-              const topicType = graphqlSchemaTool.zipTopicTypes(targetZip.get(path.parse(filename).name), tmpRead);
-              topicsTypesZip.push(topicType);
               const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+              console.log("getting filename from targetZip -> ", targetZip.get(filename))
+              const topicType = graphqlSchemaTool.zipTopicTypes(targetZip.get(filename), innerData);
+              topicsTypesZip.push(topicType);
+              console.log("this is topicsTypesZip in mode 2 after each iteration, ", topicsTypesZip)
               const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
               formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
             }
           } catch (err) {
             console.log(`ERR: while reading ${filename} on SELECT mode - ${err}`)
           }
-        // }
       })
     }
   }
@@ -95,6 +101,9 @@ const makeResolver = () => {
   return result;
 };
 
+/**
+ * 
+ */
 const makeAsyncIterator = () => {
   return `const { $$asyncIterator } = require ('iterall');
   const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafka
@@ -148,6 +157,9 @@ const makeAsyncIterator = () => {
   `
 };
 
+/**
+ * 
+ */
 const makeServer = () => {
   let result = `// Apollo docs describing how to swap apollo server: 
   // https://www.apollographql.com/docs/apollo-server/integrations/middleware/#swapping-out-apollo-server
@@ -206,21 +218,33 @@ const makeServer = () => {
   return result;
 };
 
+/**
+ * 
+ */
 const writeGraphQLSchema = () => {
   const graphQLData = toGraphQL();
-  fs.writeFileSync(graphqlSchemaDest, graphQLData);
+  fs.writeFileSync(typeDefsPath, graphQLData);
 };
 
+/**
+ * 
+ */
 const writeResolver = () => {
   const resolverData = makeResolver();
-  fs.writeFileSync(resolverPath, resolverData);
+  fs.writeFileSync(resolversPath, resolverData);
 };
 
+/**
+ * 
+ */
 const writeAsyncIterator = () => {
   const asyncIteratorData = makeAsyncIterator();
   fs.writeFileSync(asyncIteratorPath, asyncIteratorData);
 };
 
+/**
+ * 
+ */
 const writeServer = () => {
   const serverData = makeServer();
   fs.writeFileSync(serverPath, serverData);

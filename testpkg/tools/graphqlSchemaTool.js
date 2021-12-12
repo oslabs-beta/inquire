@@ -8,23 +8,27 @@ const fs = require('fs');
 const { forStatement } = require("@babel/types");
 
 const getInnerKafkaSchema = (fileData) => {
+  console.log("getInnerKafkaSchema entered with file data");
   try {
     //checks if schema is defined within Avro's forSchema function call
     const expAvroRGX = /avro\.Type\.forSchema\(/g;
     if (expAvroRGX.test(fileData)) {
+      console.log("fileData is a .js file");
       //find schema object within forSchema call
       fileData = fileData
         .toString()
         .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
         .trim();
-
+        console.log("processed fileData after RGX1: ", fileData);
       //check if the argument is a variable name instead of explicitly defined object
       if (fileData[0] !== '{') {
+        console.log("schema in fileData is assigned to a variable");
         //find variable definition
         const varDefRegex = new RegExp(
           '(?<=' + fileData + ' =' + ')[\\s\\S]*(?=};)'
         );
         fileData = fileData.match(varDefRegex).join('') + '}';
+        console.log("extracted fileData: ", fileData);
       }
     }
     return fileData
@@ -36,7 +40,9 @@ const getInnerKafkaSchema = (fileData) => {
 }
 
 const zipTargets = (topics, targets) => {
+  console.log("zipTargets entered");
   const zipMap = new Map();
+  console.log("zipMap: ", zipMap)
   if (!Array.isArray(topics) || !topics.length) {
     console.log("ERR: Your 'topics' in configuration isn't array or empty - please review your configuration")
     return
@@ -50,17 +56,21 @@ const zipTargets = (topics, targets) => {
   for (let i = 0; i < targets.length; i++) {
     zipMap.set(targets[i], topics[i])
   }
+  console.log("zipMap after for loop: ", zipMap);
   return zipMap
 
 }
 
 const zipTopicTypes = (topic, fileData) => {
+  console.log("zipTopicTypes entered");
   try {
     let res = []
     const data = JSON.parse(fileData)
     const topicType = data.name
+    console.log("topicType: ", topicType)
     res.push(topic)
     res.push(topicType)
+    console.log("result: ", res);
     return res
   } catch (err) {
     console.log(`Err: ZipTopicTypes in graphqlSchemaTool on ${topic} - ${err}`)

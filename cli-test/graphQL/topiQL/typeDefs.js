@@ -5,8 +5,35 @@ type Query {
   exampleQuery: String!
 }
 type Subscription {
-  passengerInfo: Passenger
-  tripStatus: Status
+  avscTopic: Trip
+  han: animals
+  cece: Passenger
+}
+type Trip { 
+  id: String 
+  vehicleId: String 
+  route: [Status] 
+}
+type Status { 
+  statusId: String 
+  tripId: String 
+  vehicleId: String 
+  position: Position 
+  batteryLevel: Int 
+  distance: Int 
+  timestamp: String 
+}
+type Position { 
+  lat: Float 
+  lon: Float 
+}
+type animals { 
+  category: categoryType 
+  noise: String 
+}
+enum categoryType { 
+  DOG
+  CAT
 }
 type Passenger { 
   name: nameType 
@@ -31,26 +58,5 @@ enum nameType {
   Maria
   Henry
   Peter
-}
-type Status { 
-  statusId: String 
-  tripId: tripIdType 
-  vehicleId: vehicleIdType 
-  position: Position 
-  batteryLevel: Int 
-  distance: Int 
-  timestamp: String 
-}
-type Position { 
-  lat: Float 
-  lon: Float 
-}
-enum vehicleIdType { 
-  car1
-  car2
-}
-enum tripIdType { 
-  trip1
-  trip2
 }
 `;
