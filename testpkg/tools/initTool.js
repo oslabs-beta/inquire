@@ -1,12 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 // this path should be specified pre-hand by end user somehow maybe from commandline
-const schemaFolder = path.resolve(__dirname, '../../data/testData/');
 
-const createTargets = (mode) => {
+const createTargets = (mode, dataFolder) => {
     let targets = ``
     if (mode === '1') {
-        const filenames = fs.readdirSync(schemaFolder);
+        const filenames = fs.readdirSync(dataFolder);
         targets += '['
         let i = 0
         while (i < filenames.length - 1) {
@@ -23,7 +22,7 @@ const createTargets = (mode) => {
 
 
 //make a file there called config.js with boilerplate - user will just fill in the blanks.
-const createConfig = (targetArr, mode) => {
+const createConfig = (targetArr, mode, dataFolder) => {
     let currMode;
     switch (mode) {
         case "0":
@@ -70,8 +69,8 @@ const createConfig = (targetArr, mode) => {
     connectionTimeout: 3000,
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
-    //input file containing your Avro schema
-    schemaFolder: '',  
+    //input folder containing your Avro schema
+    schemaFolder: '${dataFolder}',  
     destinationFolder: path.resolve(__dirname)
   };`;
     return result;

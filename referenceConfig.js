@@ -34,7 +34,6 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFile: path.resolve(__dirname, '../../../data/testData/avscSample.avsc'),
-  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
+  schemaFolder: '/Users/cecilyjansen/Github/Codesmith/Projects/OSP2/topiQL/data/testDataFolder',
   destinationFolder: path.resolve(__dirname),
 };

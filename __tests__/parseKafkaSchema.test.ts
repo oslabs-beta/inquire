@@ -1,4 +1,4 @@
-const { parseKafkaSchema } = require('../testpkg/tools/graphqlSchemaTool.js');
+const { parseKafkaSchema } = require('../testpkg/tools/buildGQLTool.js');
 
 const mockTripData = `{
   "type": "record",
