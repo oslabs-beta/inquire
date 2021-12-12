@@ -15,7 +15,7 @@ const mockTripData = `{
   ]
 }`;
 
-console.log(parseKafkaSchema(mockTripData));
+// console.log(parseKafkaSchema(mockTripData1));
 
 let parsedAvroSchema1 = '';
 

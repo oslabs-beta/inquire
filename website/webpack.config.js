@@ -2,26 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
   entry: './client/index.jsx',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
   },
-  devServer: {
-    static: {
-      publicPath: './build',
-      directory: path.resolve(__dirname, 'build'),
-    },
-    proxy: {
-      '/api': 'http://localhost:3000',
-    },
-    historyApiFallback: true,
-  },
+  mode: process.env.NODE_ENV,
   plugins: [
     new HtmlWebpackPlugin({
       title: 'development',
-      template: './index.html',
+      template: './client/index.html',
     }),
   ],
   module: {
@@ -57,7 +47,16 @@ module.exports = {
       },
     ],
   },
-  
+  devServer: {
+    static: {
+      publicPath: '/build',
+      directory: path.resolve(__dirname, 'build'),
+    },
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+    historyApiFallback: true,
+  },
   performance: {
     hints: false,
   },
