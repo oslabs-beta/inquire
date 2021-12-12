@@ -24,9 +24,9 @@ module.exports = {
   mode: MODE.SELECT,
   // input topic(s) Kafka producers are writing to & topics expected from GQL query
   // please fill one topic per a schema file in targets with matching sequence of order
-  topics: ['avscTopic', 'han', 'cece'],
+  topics: ['avscTopic', 'han', 'cece', 'tripStatus'],
   // for SELECT mode, please fill the file name you desire to transform into GQL schema without extension of the file
-  targets: ['avscSample.avsc', 'expAvroSample.js', 'passengerInfo.avsc'],
+  targets: ['avscSample.avsc', 'expAvroSample.js', 'passengerInfo.avsc', 'tripStatus.avsc'],
   clientId: 'kafQL',
   brokers: [broker],
   ssl,

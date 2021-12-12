@@ -12,6 +12,9 @@ const kafkaEventToAsyncIterator = require('./asyncIterator.js')
         cece: {
           subscribe: () => kafkaEventToAsyncIterator('cece'),
         },
+        tripStatus: {
+          subscribe: () => kafkaEventToAsyncIterator('tripStatus'),
+        },
       },
       Query: {
         exampleQuery: () => "Add Result Here"

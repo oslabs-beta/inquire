@@ -8,6 +8,7 @@ type Subscription {
   avscTopic: Trip
   han: animals
   cece: Passenger
+  tripStatus: Status
 }
 type Trip { 
   id: String 
@@ -58,5 +59,26 @@ enum nameType {
   Maria
   Henry
   Peter
+}
+type Status { 
+  statusId: String 
+  tripId: tripIdType 
+  vehicleId: vehicleIdType 
+  position: Position 
+  batteryLevel: Int 
+  distance: Int 
+  timestamp: String 
+}
+type Position { 
+  lat: Float 
+  lon: Float 
+}
+enum vehicleIdType { 
+  car1
+  car2
+}
+enum tripIdType { 
+  trip1
+  trip2
 }
 `;

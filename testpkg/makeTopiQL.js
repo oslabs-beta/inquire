@@ -24,51 +24,30 @@ const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
   const topicsTypesZip = []
-  if (filenames) {
-    if (mode === 1) {
-      console.log("mode 1 entered and filenames are -> ", filenames)
-      filenames.forEach((filename, topicsIdx) => {
-          try {
-            const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
-            const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
-            const topicType = graphqlSchemaTool.zipTopicTypes(topics[topicsIdx], innerData)
-            console.log("**********************")
-            topicsTypesZip.push(topicType)
-            console.log("**********************")
-            const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-            formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
-          } catch (err) {
-            console.log(`ERR: while reading ${filename} - ${err}`);
-          }
-      });
-
-    } else if (mode === 2) {
-      console.log("this is fkin topics types zip !!!! -> ,", topicsTypesZip)
-      console.log("mode 2 entered and filenames are -> ", filenames)
-      const targetZip = graphqlSchemaTool.zipTargets(topics, targets)
-      console.log("mode 2 retriving -> ", targetZip)
-      filenames.forEach((filename) => {
-          try {
-            console.log("this is fkin topics types zip !!!! -> ,", topicsTypesZip)
-            console.log("mode 2 checking the file name -> ", filename)
-            if (targetZip.has(filename)) {
-              console.log("filename is in the targetZip")
-              const tmpRead = fs.readFileSync(schemaFolder + '/' + filename)
-              const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
-              console.log("getting filename from targetZip -> ", targetZip.get(filename))
-              const topicType = graphqlSchemaTool.zipTopicTypes(targetZip.get(filename), innerData);
-              topicsTypesZip.push(topicType);
-              console.log("this is topicsTypesZip in mode 2 after each iteration, ", topicsTypesZip)
-              const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
-              formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
-            }
-          } catch (err) {
-            console.log(`ERR: while reading ${filename} on SELECT mode - ${err}`)
-          }
-      })
-    }
+  let targetZip;
+  let currTopic;
+  if (mode === 2) {
+    targetZip = graphqlSchemaTool.zipTargets(topics, targets)
   }
-
+  filenames.forEach((filename, topicsIdx) => {
+      try {
+        if (mode === 2 && targetZip.has(filename)) {
+          currTopic = targetZip.get(filename)
+        } else if (mode === 2) {
+          return
+        } else {
+          currTopic = topics[topicsIdx]
+        }
+        const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
+        const innerData = graphqlSchemaTool.getInnerKafkaSchema(tmpRead);
+        const topicType = graphqlSchemaTool.zipTopicTypes(currTopic, innerData)
+        topicsTypesZip.push(topicType)
+        const parsedData = graphqlSchemaTool.parseKafkaSchema(innerData);
+        formattedData += graphqlSchemaTool.formatGQLSchema(parsedData);
+      } catch (err) {
+        console.log(`ERR: while reading ${filename} - ${err}`);
+      }
+  });
   const completeTypedefData = graphqlSchemaTool.completeTypeDef(
     formattedData,
     topicsTypesZip
