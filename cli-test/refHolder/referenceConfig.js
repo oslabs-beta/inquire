@@ -13,9 +13,9 @@ const ssl = !!sasl
 
 const MODE = {
   // ALL is to read all avsc files in the directory to be transformed into GQL schema
-  ALL: 0,
+  ALL: 1,
   // SELECT is to read ONLY files in the 'targets' to be transformed into GQL Schema
-  SELECT: 1
+  SELECT: 2
 };
 
 module.exports = {
