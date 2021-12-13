@@ -15,10 +15,9 @@ const builder = command => {
 }
 
 const initHandler = ({absPath}) => {
-  console.log("starting init process");
+  console.log("cli.js init command executing...");
   fs.writeFileSync(path.resolve(__dirname, 'pathStore.json'), JSON.stringify(absPath));
-  console.log("should have created file")
-  startTopiQL.initTopiQL(absPath); //will this work with Han's mode selection? Think so
+  startTopiQL.initTopiQL(absPath);
 }
 
 const buildHandler = () => {
