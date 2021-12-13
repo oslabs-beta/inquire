@@ -32,5 +32,4 @@ module.exports = {
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
   schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
-  destinationFolder: path.resolve(__dirname),
 };

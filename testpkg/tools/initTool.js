@@ -78,7 +78,6 @@ const createConfig = (targetArr, mode, dataFolder) => {
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
     schemaFolder: '${dataFolder}',  
-    destinationFolder: path.resolve(__dirname)
   };`;
     return result;
 }
