@@ -11,7 +11,7 @@ const getInnerData = (fileData) => {
   fileData = fileData.toString('utf-8');
   try {
     //check if current file contains "Avro.type.forSchema("
-    const expAvroRGX = /avro\.Type\.forSchema\(/g; 
+    const expAvroRGX = /avro\.Type\.forSchema\(/g;
     if (expAvroRGX.test(fileData)) {
       let extractedData;
       //find schema object or variable name between parentheses
@@ -71,12 +71,8 @@ const zipTargets = (topics, targets) => {
  */
 const zipTopicTypes = (topic, fileData) => {
   try {
-    let res = []
     const data = JSON.parse(fileData)
-    const topicType = data.name
-    res.push(topic)
-    res.push(topicType)
-    return res
+    return [topic, data.name]
   } catch (err) {
     console.log(`Err: ZipTopicTypes in buildGQLTool on ${topic} - ${err}`)
     return
