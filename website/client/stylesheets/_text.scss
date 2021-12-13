@@ -19,43 +19,51 @@ h3 {
   color: $color-text-white;
 }
 
-p1 {
+.p1 {
   font-family: 'Raleway';
   font-size: $paragraph-size-large;
   color: $color-text-white;
 }
 
-p2 {
+.p2 {
   font-family: 'Raleway';
   font-size: $paragraph-size-large;
   color: $color-text-gray;
 }
 
-p3 {
+.p3 {
   font-family: 'Raleway';
   font-size: $paragraph-size-medium;
   color: $color-text-white;
 }
 
-p4 {
+.p4 {
   font-family: 'Raleway';
   font-size: $paragraph-size-medium;
   color: $color-text-gray;
+  font-weight: 300;
 }
 
-p5 {
+.p4b {
+  font-family: 'Raleway';
+  font-size: $paragraph-size-medium;
+  color: $color-text-gray;
+  font-weight: 900;
+}
+
+.p5 {
   font-family: 'Raleway';
   font-size: $paragraph-size-small;
   color: $color-text-white;
 }
 
-p6 {
+.p6 {
   font-family: 'Raleway';
   font-size: $paragraph-size-small;  
   color: $color-text-gray;
 }
 
-p7 {
+.p7 {
   font-family: 'Courier New';
   font-size: $code-size-small;
   color: $color-text-white;

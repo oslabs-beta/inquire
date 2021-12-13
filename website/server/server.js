@@ -11,7 +11,8 @@ const graphqlResolvers = require('./graphql/resolvers/index.js');
 
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT;
+// VSCode restart may be needed when running for the first time on a new computer in order for env variables to be read
+const PORT = process.env.PORT; 
 
 // Statically serve everything in the build folder on the route '/build'
 // app.use('/build', express.static(path.join(__dirname, '../build')));

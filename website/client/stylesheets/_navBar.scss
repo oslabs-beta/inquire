@@ -1,0 +1,55 @@
+@import '_variables';
+
+// iPad Portrait
+@media screen and (max-width: 768px) {}
+@media screen and (max-height: 1024px) {}
+
+// iPad Landscape
+@media screen and (max-width: 1024px) {}
+@media screen and (max-height: 768px) {}
+
+// Surface Duo
+@media screen and (max-width: 540px) {
+  .navButton {
+    font-size: 2vh;
+    min-height: 5vh;
+  }
+}
+
+// iPhone 6/7/8 Plus or smaller
+@media screen and (max-width: 414px) {
+  .navButton {
+    font-size: 3vh;
+    min-width: 40%;
+    min-height: 5vh;
+  }
+  .navBar {
+    overflow-x: scroll;
+  }
+}
+
+// Larger than iPhone 6/7/8 Plus
+@media screen and (min-width: 414px) {
+  .navBar {
+    justify-content: space-around;
+  }
+}
+
+@media screen and (max-height: 812px) {}
+
+.navBar {
+  background-color: $color-yellow;
+  width: 100%;
+  min-height: 8vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.navButton {
+  background-color: transparent;
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
