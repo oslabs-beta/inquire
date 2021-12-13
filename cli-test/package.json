@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "topiql": "testpkg",
+    "topiql": "topiql",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "testpkg": "file:../testpkg"
+    "topiql": "^1.0.1"
   }
 }
