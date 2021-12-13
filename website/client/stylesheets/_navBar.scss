@@ -20,7 +20,7 @@
 @media screen and (max-width: 414px) {
   .navButton {
     font-size: 3vh;
-    min-width: 40%;
+    min-width: 40vw;
     min-height: 5vh;
   }
   .navBar {
@@ -37,10 +37,11 @@
 
 @media screen and (max-height: 812px) {}
 
+// Desktop Settings
 .navBar {
   background-color: $color-yellow;
-  width: 100%;
-  min-height: 8vh;
+  width: 100vw;
+  height: $navBar-height;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,8 +49,14 @@
 
 .navButton {
   background-color: transparent;
-  width: 15%;
+  width: 15vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  cursor: default;
+  &:hover {
+    position: relative;
+    top: -2px;
+  }
 }

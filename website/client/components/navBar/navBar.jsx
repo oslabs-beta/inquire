@@ -20,19 +20,15 @@ class NavBar extends Component {
   }
 
   render() {
+    // Create an array containing as many button elements as there are pages
+    // Pass corresponding text to each button. "buttonText" has values such as "home" or "meet the team"
     const navBarButtons = [];
     for (let i = 0; i < this.props.allPages.length; i++) {
       navBarButtons.push(<NavButton buttonText={this.props.allPages[i]}  key={`pageButton${i}`}/>);
     }
     return(
       <div className="navBar">
-        {/* <div className="p4">Something</div> */}
-        {/* <p><b>Location: </b> { this.props.marketInfo.location }</p>
-        <p><b>Cards: </b> { this.props.marketInfo.cards }</p>
-        <p><b>% of total: </b> { Math.round(this.props.marketInfo.cards / this.props.totalCards * 100) }</p> */}
         {navBarButtons}
-        {/* <button onClick={({payload = this.props.marketInfo.marketId}) => this.props.addCard(payload)} type='button'>Add Card</button>
-        <button onClick={({payload = this.props.marketInfo.marketId}) => this.props.deleteCard(payload)} type='button'>Delete Card</button> */}
       </div>
     );
   }

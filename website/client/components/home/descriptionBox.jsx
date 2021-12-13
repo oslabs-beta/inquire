@@ -19,15 +19,18 @@ class DescriptionBox extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
+    const descriptionText1 = `
+      Topic is an NPM package that allows developers to quickly serve a GraphQL endpoint
+      associated with one or more Kafka topics. The module is able to infer a complete
+      set of GraphQL schemas, resolvers, and async iterators from AVRO schemas provided by 
+      the end user. Package is currently developed around a GraphQL Apollo server.
+    `
     return(
       <div className="descriptionBox">
-        {/* <p><b>Location: </b> { this.props.marketInfo.location }</p>
-        <p><b>Cards: </b> { this.props.marketInfo.cards }</p>
-        <p><b>% of total: </b> { Math.round(this.props.marketInfo.cards / this.props.totalCards * 100) }</p>
-        <button onClick={({payload = this.props.marketInfo.marketId}) => this.props.addCard(payload)} type='button'>Add Card</button>
-        <button onClick={({payload = this.props.marketInfo.marketId}) => this.props.deleteCard(payload)} type='button'>Delete Card</button> */}
+        <h1>TOPIC</h1>
+        <div className="p1">{ descriptionText1 }</div>
       </div>
     );
   }

@@ -10,8 +10,8 @@ module.exports = {
   },
   devServer: {
     static: {
-      publicPath: './build',
-      directory: path.resolve(__dirname, 'build'),
+      publicPath: './assets', // Changed this since last commit to try and serve static assets
+      directory: path.resolve(__dirname, 'assets'), // Changed this since last commit to try and serve static assets
     },
     proxy: {
       '/api': 'http://localhost:3000',
@@ -54,6 +54,14 @@ module.exports = {
         test: /\.js$/,
         enforce: 'pre',
         use: ['source-map-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       },
     ],
   },

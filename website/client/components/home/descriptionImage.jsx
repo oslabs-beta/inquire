@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import DescriptionImage from './descriptionImage.jsx';
-import DescriptionBox from './descriptionBox.jsx';
-// import { addCardActionCreator } from '../actions/actions';
-// import { deleteCardActionCreator } from '../actions/actions';
+import homepageLogo from '../../assets/homepageLogo.png'
+// import { changePageActionCreator } from '../../actions/actions.js';
 
 const mapDispatchToProps = dispatch => (
   {
@@ -19,19 +16,20 @@ const mapStateToProps = state => ({
   // totalMarkets: state.markets.totalMarkets,
 });
 
-class HomeContainer extends Component {
+class DescriptionImage extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return(
-      <div className="homeContainer">
-        <DescriptionImage/>
-        <DescriptionBox/>
+      <div className="descriptionImage" >
+        <div className="homePageImageContianer">
+          <img src={homepageLogo} alt="my-logo"></img>
+        </div>
       </div>
     );
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (HomeContainer);
+export default connect (mapStateToProps, mapDispatchToProps) (DescriptionImage);
