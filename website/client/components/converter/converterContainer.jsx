@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import ConvertingBox from './convertingBox.jsx';
+import ConvertingDescription from './convertingDescription.jsx';
 // import DescriptionImage from './descriptionImage.jsx';
 // import DescriptionBox from './descriptionBox.jsx';
 // import { addCardActionCreator } from '../actions/actions';
@@ -27,8 +28,8 @@ class ConverterContainer extends Component {
   render() {
     return(
       <div className="converterContainer">
-        {/* <DescriptionImage/>
-        <DescriptionBox/> */}
+        <ConvertingDescription/>
+        <ConvertingBox/>
       </div>
     );
   }

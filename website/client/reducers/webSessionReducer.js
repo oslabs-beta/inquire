@@ -13,7 +13,7 @@ const initialState = {
   isLoggedIn: false,
   userName: '',
   savedAvroSchemas : [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
-  currPage: 'home',
+  currPage: 'use online', // 'home' by default
   allPages: [
     'user portal',
     'documentation',

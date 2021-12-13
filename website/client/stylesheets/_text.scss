@@ -23,7 +23,7 @@ h3 {
   font-family: 'Raleway';
   font-size: $paragraph-size-large;
   color: $color-text-white;
-  font-weight: 300;
+  font-weight: 370;
   line-height: $paragraph-lineHeight-large;
 }
 
@@ -31,21 +31,22 @@ h3 {
   font-family: 'Raleway';
   font-size: $paragraph-size-large;
   color: $color-text-gray;
-  font-weight: 300;
+  font-weight: 370;
+  line-height: $paragraph-lineHeight-large;
 }
 
 .p3 {
   font-family: 'Raleway';
   font-size: $paragraph-size-medium;
   color: $color-text-white;
-  font-weight: 300;
+  font-weight: 370;
 }
 
 .p4 {
   font-family: 'Raleway';
   font-size: $paragraph-size-medium;
   color: $color-text-gray;
-  font-weight: 300;
+  font-weight: 370;
 }
 
 .p4b {
@@ -59,18 +60,20 @@ h3 {
   font-family: 'Raleway';
   font-size: $paragraph-size-small;
   color: $color-text-white;
-  font-weight: 300;
+  font-weight: 370;
 }
 
 .p6 {
   font-family: 'Raleway';
   font-size: $paragraph-size-small;  
   color: $color-text-gray;
-  font-weight: 300;
+  font-weight: 370;
 }
 
 .p7 {
   font-family: 'Courier New';
   font-size: $code-size-small;
   color: $color-text-white;
+  font-weight: 350;
+  line-height: $paragraph-lineHeight-small;
 }

@@ -1,15 +1,78 @@
 @import '_variables';
 
 .converterContainer {
-  background: $color-green;
   width: 100vw;
   height: $nonNavBar-height;
+  display: flex;
 }
 
 .convertingBox {
-
+  background: $color-green;
+  width: 70vw;
+  height: $nonNavBar-height;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5vh
 }
 
 .convertingDescription {
+  width: 30vw;
+  height: $nonNavBar-height;
+  display: flex;
+  flex-direction: column;
+  padding: 8vh;
+  padding-top: 5vh;
+  text-align: left;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: scroll;
+}
+.convertingDescription::-webkit-scrollbar{
+  width: 0;
+}     
+
+.inputOutputBox {
+  border-style: dashed;
+  padding: 3.5vh;
+  border-color: $color-offwhite;
+  border-width: 1.5px;
+  width: 25vw;
+  height: 70vh;
+  display: flex;
+  overflow-y: scroll;
+}
+.inputOutputBox::-webkit-scrollbar{
+  width: 0;
+}    
+
+.buttonContainer {
+ display: flex;
+ flex-direction: column;
+}
+
+.converterButton {
+  background: $color-green;
+  margin-top: 1.2vh;
+  width: 13vw;
+  min-width: 130px;
+  height: 4vh;
+  display: flex;
+  flex-direction: row;
+  padding: 1vh;
+  justify-content: space-between;
+  align-items: center;
+  &:hover {
+    position: relative;
+    background: $color-red;
+    top: -2px;
+  }
+  &:active {
+    background: $color-red;
+  }
+}
+
+.copyButton {
 
 }

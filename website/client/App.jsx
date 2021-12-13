@@ -36,7 +36,6 @@ class App extends Component {
   render() {
     const displayComponents = [];
     displayComponents.push(<NavBar key="navBar"/>)
-    console.log(this.props.currPage)
     switch (this.props.currPage) {
       case 'home' :
         displayComponents.push(<HomeContainer key="homeContainer"/>)

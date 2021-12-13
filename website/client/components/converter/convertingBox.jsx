@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import homepageLogo from '../../assets/homepageLogo.png'
+import AvroInput from './avroInput.jsx';
+import GraphQLOutput from './graphQLOutput.jsx';
 // import { changePageActionCreator } from '../../actions/actions.js';
 
 const mapDispatchToProps = dispatch => (
@@ -16,20 +17,19 @@ const mapStateToProps = state => ({
   // totalMarkets: state.markets.totalMarkets,
 });
 
-class DescriptionImage extends Component {
+class ConvertingBox extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
     return(
-      <div className="descriptionImage" >
-        <div className="homePageImageContianer">
-          <img style={{leftMargin: "2px"}} src={homepageLogo} alt="my-logo"></img>
-        </div>
+      <div className="convertingBox">
+        <AvroInput/>
+        <GraphQLOutput/>
       </div>
     );
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (DescriptionImage);
+export default connect (mapStateToProps, mapDispatchToProps) (ConvertingBox);
