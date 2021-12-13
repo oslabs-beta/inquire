@@ -1,53 +1,51 @@
 const fs = require('fs');
+
 /**
- * getInnerKafkaSchema function takes raw written file as input
- * parse unnecessary trails of the file and return
- * inner data only.
+ * AVRO file can be written in different formats and different extensions
+ * getInnerData will trim out the outter structure of the files 
+ * 
+ * @param {String} fileData raw file contents read from an AVRO schema file
+ * @returns trimmed file contents maybe in need to create GQL schema
  */
-
-const { forStatement } = require("@babel/types");
-
-const getInnerKafkaSchema = (fileData) => {
-  console.log("getInnerKafkaSchema entered with file data");
+const getInnerData = (fileData) => {
   try {
-    //checks if schema is defined within Avro's forSchema function call
-    const expAvroRGX = /avro\.Type\.forSchema\(/g;
+    const expAvroRGX = /avro\.Type\.forSchema\(/g; // checking if schema id defined with AVRO's forSchema function call
     if (expAvroRGX.test(fileData)) {
-      console.log("fileData is a .js file");
       //find schema object within forSchema call
       fileData = fileData
         .toString()
         .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
         .trim();
-        console.log("processed fileData after RGX1: ", fileData);
-      //check if the argument is a variable name instead of explicitly defined object
-      if (fileData[0] !== '{') {
-        console.log("schema in fileData is assigned to a variable");
-        //find variable definition
-        const varDefRegex = new RegExp(
-          '(?<=' + fileData + ' =' + ')[\\s\\S]*(?=};)'
-        );
+
+      if (fileData[0] !== '{') { //check if the arg is a variable name instead of explcitly defined object
+        const varDefRegex = new RegExp('(?<=' + fileData + ' =' + ')[\\s\\S]*(?=};)'); // find variable definition
         fileData = fileData.match(varDefRegex).join('') + '}';
-        console.log("extracted fileData: ", fileData);
       }
     }
+
     return fileData
   } catch (err) {
     console.log(`Error: while getting inner data of kafka stream - ${err}`)
     return
   }
-
 }
 
+/**
+ * Couples target-filename and topic-name to be searched while iteration of all files in the
+ * AVRO schema folders. Key which is filename will be looked up during the iteration
+ * and once the file is found, its topic-name will be used as topic.
+ * 
+ * @param {String[]} topics topic names specified in config.js
+ * @param {String[]} targets name of AVSC files in config.js 
+ * @returns map that consist of KEY: name of file VALUE: name of corresponding topic
+ */
 const zipTargets = (topics, targets) => {
-  console.log("zipTargets entered");
   const zipMap = new Map();
-  console.log("zipMap: ", zipMap)
   if (!Array.isArray(topics) || !topics.length) {
-    console.log("ERR: Your 'topics' in configuration isn't array or empty - please review your configuration")
+    console.log("ERR: Your 'topics' in configuration isn't array or is empty - please review your configuration")
     return
   } else if (!Array.isArray(targets) || !targets.length) {
-    console.log("ERR: Your 'targets' in configuration isn't array or empty - Did you mean to use 'ALL-MODE'?")
+    console.log("ERR: Your 'targets' in configuration isn't array or is empty - Did you mean to use 'ALL-MODE'?")
     return
   } if (topics.length !== targets.length) {
     console.log("ERR: there must be one topic for each kafak schema file - please review your configuration");
@@ -56,21 +54,24 @@ const zipTargets = (topics, targets) => {
   for (let i = 0; i < targets.length; i++) {
     zipMap.set(targets[i], topics[i])
   }
-  console.log("zipMap after for loop: ", zipMap);
-  return zipMap
 
+  return zipMap
 }
 
+/**
+ * Retrieves topic-type from filedata and match with corresponing name of topic
+ * 
+ * @param {String} topic topic name of currently found interested AVRO schema during iteration
+ * @param {String} fileData trimmed filedata of currently scanned AVRO schema file
+ * @returns {[String, String]} returns matched topic and topic-type 
+ */
 const zipTopicTypes = (topic, fileData) => {
-  console.log("zipTopicTypes entered");
   try {
     let res = []
     const data = JSON.parse(fileData)
     const topicType = data.name
-    console.log("topicType: ", topicType)
     res.push(topic)
     res.push(topicType)
-    console.log("result: ", res);
     return res
   } catch (err) {
     console.log(`Err: ZipTopicTypes in buildGQLTool on ${topic} - ${err}`)
@@ -79,49 +80,50 @@ const zipTopicTypes = (topic, fileData) => {
 }
 
 /**
- * ParseKafkaSchema function takes read file of kafkaschema as input
- * recursively collect data that will be used in writing
- * graphql Schema
+ * Recursively retrieve GQL schema data from AVRO schema, written order of properties of AVRO schema
+ * can be varied, so depends on the scanning situation, the function will be called recursively
+ * to collect data by backtracking algorithm.
+ * 
+ * @param {String} fileData trimmed fildata of currently scanned AVRO schema file
+ * @returns {[[]]} ******************** fix here ********************
  */
 const parseKafkaSchema = (fileData) => {
   try {
     let res = [];
+
     function backtrack(newObj) {
       let tmpArr = [];
-      //check if the curr obj is an array instance
-      if (Array.isArray(newObj)) {
-        //iterate and check for object type at each idx
+      if (Array.isArray(newObj)) { // array check is required as basecase
         for (let k = 0; k < newObj.length; k++) {
-          if (typeof newObj[k] === 'object') {
-            //recursive call
+          if (typeof newObj[k] === 'object') { // only interested in object type in the when array is found
             backtrack(newObj[k]);
             return;
           }
         }
       } else {
         if (newObj.type) {
+          // only interested when the current layer's type is record or enum
           if (newObj.type === 'record' || newObj.type === 'enum') {
             if (newObj.name) {
-              tmpArr.push(newObj.name);
+              tmpArr.push(newObj.name); // then save the name of current layer
               if (newObj.fields) {
-                for (let j = 0; j < newObj.fields.length; j++) {
+                for (let j = 0; j < newObj.fields.length; j++) { // retrieve each data in the field
                   let tmpFieldEle = newObj.fields[j];
+                  /* if element of field has 'type' property as object type this means there are 
+                   more layer of AVRO schema data to be transformed into graphql schema; therefore
+                   we recursively search deeper */
                   if (typeof tmpFieldEle.type === 'object') {
                     backtrack(tmpFieldEle.type);
                   }
-                  tmpArr.push(tmpFieldEle);
+                  tmpArr.push(tmpFieldEle); // keep collect the current layer's data
                 }
               } else if (newObj.symbols) {
                 tmpArr.push(newObj.symbols);
               } else {
-                console.log(
-                  'Syntax error with kafka stream producer schema: missing both fields and symbols'
-                );
+                console.log('Syntax error with kafka stream producer schema: missing both fields and symbols');
               }
             } else {
-              console.log(
-                'Syntax error with kafka stream producer schema: missing both name and items'
-              );
+              console.log('Syntax error with kafka stream producer schema: missing both name and items');
             }
           } else {
             if (newObj.items) {
@@ -130,7 +132,6 @@ const parseKafkaSchema = (fileData) => {
             }
           }
         }
-
         res.push(tmpArr);
       }
     }
@@ -146,10 +147,10 @@ const parseKafkaSchema = (fileData) => {
 };
 
 /**
- * formatGQLSchema takes collected data from 'parseKafkaStream' function
- * and topic names and types from configuration
- * and return reformatted script which will be used to write
- * graphql schema file
+ * formats to form of graphQL schema by iterating over parsed data from inner data of AVRO file
+ * 
+ * @param {[[]]} newData **fix type here** parsed data from parseKafkaSchema
+ * @returns formatted data in a form of graphQL schema
  */
 const formatGQLSchema = (newData) => {
   try {
@@ -161,7 +162,6 @@ const formatGQLSchema = (newData) => {
       if (Array.isArray(newData[i][1])) {
         prefix = 'enum';
       }
-
       toAppend += `${prefix} ${newData[i][0]} { \n`;
 
       for (let j = 1; j < newData[i].length; j++) {
@@ -199,12 +199,15 @@ const formatGQLSchema = (newData) => {
   }
 };
 
+/**
+ * Wrap the processed GQL schema data with subscription to be written to final
+ * form of graphqlSchema
+ * 
+ * @param {String} formattedData final graphql schema portion 
+ * @param {Array of [String, String]} topicsTypesZip collected return from zipTopicTypes function
+ * @returns complete form of graphql schema file
+ */
 const completeTypeDef = (formattedData, topicsTypesZip) => {
-  // Pull out name of topics and types from config file
-  // const topic = config.topics[0];
-  // type should be retrieved from reading the files
-  // type should be outter most name in the avsc files
-  // const type = config.topicTypes[0];
   let subs = ``;
   for (const topicType of topicsTypesZip) {
     subs += `  ${topicType[0]}: ${topicType[1]}
@@ -228,7 +231,7 @@ ${subs}}\n`;
 module.exports = {
   parseKafkaSchema,
   formatGQLSchema,
-  getInnerKafkaSchema,
+  getInnerData,
   completeTypeDef,
   zipTargets,
   zipTopicTypes
