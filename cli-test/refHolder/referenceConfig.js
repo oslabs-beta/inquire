@@ -13,9 +13,9 @@ const ssl = !!sasl
 
 const MODE = {
   // ALL is to read all avsc files in the directory to be transformed into GQL schema
-  ALL: 0,
+  ALL: 1,
   // SELECT is to read ONLY files in the 'targets' to be transformed into GQL Schema
-  SELECT: 1
+  SELECT: 2
 };
 
 module.exports = {
@@ -31,6 +31,5 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
-  destinationFolder: path.resolve(__dirname),
+  schemaFolder: path.resolve(__dirname, '../../../data/testDataFolder/'),
 };

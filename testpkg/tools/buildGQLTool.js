@@ -8,22 +8,26 @@ const fs = require('fs');
  * @returns trimmed file contents maybe in need to create GQL schema
  */
 const getInnerData = (fileData) => {
+  fileData = fileData.toString('utf-8');
   try {
-    const expAvroRGX = /avro\.Type\.forSchema\(/g; // checking if schema id defined with AVRO's forSchema function call
+    //check if current file contains "Avro.type.forSchema("
+    const expAvroRGX = /avro\.Type\.forSchema\(/g; 
     if (expAvroRGX.test(fileData)) {
-      //find schema object within forSchema call
-      fileData = fileData
+      let extractedData;
+      //find schema object or variable name between parentheses
+      extractedData = fileData
         .toString()
         .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
         .trim();
 
-      if (fileData[0] !== '{') { //check if the arg is a variable name instead of explcitly defined object
-        const varDefRegex = new RegExp('(?<=' + fileData + ' =' + ')[\\s\\S]*(?=};)'); // find variable definition
-        fileData = fileData.match(varDefRegex).join('') + '}';
+      if (extractedData[0] !== '{') {
+        //extract variable following its assignment
+        const varDefRegex = new RegExp('(?<=' + extractedData + ' =' + ')[\\s\\S]*(?=};)'); // find variable definition
+        extractedData = fileData.match(varDefRegex).join('') + '}';
       }
+      fileData = extractedData
     }
-
-    return fileData
+    return fileData;
   } catch (err) {
     console.log(`Error: while getting inner data of kafka stream - ${err}`)
     return

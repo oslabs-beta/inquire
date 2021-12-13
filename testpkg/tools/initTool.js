@@ -10,7 +10,7 @@ const fs = require('fs')
  */
 const createTargets = (mode, dataFolder) => {
     let targets = ``
-    if (mode === '0') {
+    if (mode === '1') {
         const filenames = fs.readdirSync(dataFolder);
         targets += '['
         let i = 0
@@ -20,7 +20,7 @@ const createTargets = (mode, dataFolder) => {
         }
         targets += `'${filenames[i]}']`
         return targets
-    } else if (mode === '1') {
+    } else if (mode === '2') {
         targets += `[]`
         return targets
     }
@@ -57,9 +57,9 @@ const createConfig = (targetArr, mode, dataFolder) => {
   const ssl = !!sasl
   const MODE = {
     // ALL is to read all avsc files in the directory to be transformed into GQL schema
-    ALL: 0,
+    ALL: 1,
     // SELECT is to read ONLY files in the 'targets' to be transformed into GQL Schema
-    SELECT: 1
+    SELECT: 2
   };
   
   module.exports = {
@@ -78,7 +78,6 @@ const createConfig = (targetArr, mode, dataFolder) => {
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
     schemaFolder: '${dataFolder}',  
-    destinationFolder: path.resolve(__dirname)
   };`;
     return result;
 }
