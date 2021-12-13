@@ -1,7 +1,7 @@
 const dotenv = require('dotenv'); // Allows us to safely store and reference credentials in a .env file that is not uploaded to github
 const path = require('path');
 
-const envFile = path.resolve(__dirname,'../../.env')
+const envFile = path.resolve(__dirname,'../../../.env')
 dotenv.config({ path: envFile }); 
 
 const username = process.env.DEMO_KAFKA_CLUSTER_USER;
@@ -21,13 +21,12 @@ const MODE = {
 };
 
 module.exports = {
-  mode: MODE.SELECT,
-  // for Mode.All -> please fill out one topic per schema file in an ORDERED as shown in the directory
-  // topics: ['avscSample', 'passengerStatus', 'testSchema', 'tripStatus'],
-  topics: ['tripStatus', 'passengerInfo'],
-  // topicTypes: ['Status', 'Status', 'Status'],
-  // topicTypes are removed
-  targets: ['tripStatus', 'passengerInfo'],
+  mode: MODE.ALL,
+  // input topic(s) Kafka producers are writing to & topics expected from GQL query
+  // please fill one topic per a schema file in targets with matching sequence of order
+  topics: ['avscTopic', 'han', 'cece', 'testy', 'tripStatus'],
+  // for SELECT mode, please fill the file name you desire to transform into GQL schema without extension of the file
+  targets: ['avscSample.avsc', 'expAvroSample.js', 'passengerInfo.avsc', 'testSchema.avsc', 'tripStatus.avsc'],
   clientId: 'kafQL',
   brokers: [broker],
   ssl,
@@ -35,7 +34,7 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFile: path.resolve(__dirname, '../../data/testData/avscSample.avsc'),
-  schemaFolder: path.resolve(__dirname, '../../data/testData/'),
+  schemaFile: path.resolve(__dirname, '../../../data/testData/avscSample.avsc'),
+  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
   destinationFolder: path.resolve(__dirname),
 };

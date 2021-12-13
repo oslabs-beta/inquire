@@ -6,12 +6,16 @@ $color-green: #495d60ff;
 $color-text-gray: #666666;
 $color-text-white: #FFFFFF;
 
-$header-size-large: 40pt;
+$header-size-large: 7vh;
 $header-size-medium: $header-size-large * 0.55;
 
-$paragraph-size-large: 16pt;
-$paragraph-size-medium: $paragraph-size-large * 0.70;
+$paragraph-size-large: 2.5vh;
+$paragraph-size-medium: $paragraph-size-large * 0.75;
 $paragraph-size-small: $paragraph-size-large * 0.55;
+
+$paragraph-lineHeight-large: $paragraph-size-large * 1.35;
 
 $code-size-small: 12pt;
 
+$navBar-height: 8vh;
+$nonNavBar-height: 100vh - $navBar-height;
