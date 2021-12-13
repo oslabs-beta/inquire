@@ -4,9 +4,6 @@ const expressGraphQL = require('express-graphql').graphqlHTTP;
 const mongoose = require('mongoose');
 
 const graphqlSchema = require('./graphql/schema/index');
-const bcrypt = require('bcryptjs');
-const User = require('./models/user');
-const AvroSchema = require('./models/avro');
 const graphqlResolvers = require('./graphql/resolvers/index.js');
 
 const app = express();
