@@ -1,7 +1,7 @@
 const dotenv = require('dotenv'); // Allows us to safely store and reference credentials in a .env file that is not uploaded to github
 const path = require('path');
 
-const envFile = path.resolve(__dirname,'../../../.env')
+const envFile = path.resolve(__dirname,'../../../.env') // .env is for test & development; should be excluded when deployment
 dotenv.config({ path: envFile }); 
 
 const username = process.env.DEMO_KAFKA_CLUSTER_USER;
@@ -12,20 +12,17 @@ const sasl = username && password ? { username, password, mechanism: 'plain' } :
 const ssl = !!sasl
 
 const MODE = {
-  // AUTO will retrieve all schema from kafka and build gql schema -> fill topics only
-  AUTO: 0,
-  // ALL to make all the avsc files into graphql Schema, leave 'targets' empty
-  ALL: 1,
-  // SELECT to fill the 'targets' with filenames to be transform into graphql Schema
-  SELECT: 2
+  // ALL is to read all avsc files in the directory to be transformed into GQL schema
+  ALL: 0,
+  // SELECT is to read ONLY files in the 'targets' to be transformed into GQL Schema
+  SELECT: 1
 };
 
 module.exports = {
   mode: MODE.ALL,
-  // input topic(s) Kafka producers are writing to & topics expected from GQL query
-  // please fill one topic per a schema file in targets with matching sequence of order
+  // please fill one topic per a AVRO schema file in targets with corresponding orders
   topics: ['avscTopic', 'han', 'cece', 'testy', 'tripStatus'],
-  // for SELECT mode, please fill the file name you desire to transform into GQL schema without extension of the file
+  // If SELECT mode, please fill the file name you desire to transform into GQL schema with extension of file; e.g) 'tripStatus.avsc'
   targets: ['avscSample.avsc', 'expAvroSample.js', 'passengerInfo.avsc', 'testSchema.avsc', 'tripStatus.avsc'],
   clientId: 'kafQL',
   brokers: [broker],
@@ -34,6 +31,6 @@ module.exports = {
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
-  schemaFolder: '/Users/cecilyjansen/Github/Codesmith/Projects/OSP2/topiQL/data/testDataFolder',
+  schemaFolder: path.resolve(__dirname, '../../../data/testData/'),
   destinationFolder: path.resolve(__dirname),
 };
