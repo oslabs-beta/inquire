@@ -8,15 +8,10 @@
  */
 
 // import actionType constants
-import * as types from '../constants/actionTypes';
+import * as types from './actionTypes';
 
-// TODO: replace below with actual action creators
-export const doSomethingActionCreator = () => ({
-  type: types.ADD_SCHEMA,
-});
-
-export const doAnotherThingActionCreator = schemaText => ({
-  type: types.MAKE_SCHEMA,
-  payload: schemaText,
+export const changePageActionCreator = newPage => ({
+  type: types.CHANGE_PAGE,
+  payload: newPage,
 })
 

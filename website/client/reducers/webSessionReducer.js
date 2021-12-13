@@ -13,7 +13,15 @@ const initialState = {
   isLoggedIn: false,
   userName: '',
   savedAvroSchemas : [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
-  currPage: 'login' 
+  currPage: 'home',
+  allPages: [
+    'user portal',
+    'documentation',
+    'meet the team',
+    'use online',
+    'download npm',
+    'home'
+  ] 
 };
 
 const webSessionReducer = (state = initialState, action) => {
@@ -25,25 +33,13 @@ const webSessionReducer = (state = initialState, action) => {
   switch (action.type) {
     
   // TODO: Delete below. This is an example from class
-  //   case types.ADD_MARKET: {
-  //     lastMarketId = state.lastMarketId + 1;
-  //     totalMarkets = state.totalMarkets + 1;
-  //     newLocation = state.newLocation;
-  //     const newMarket = {
-  //       marketId: lastMarketId,
-  //       location: newLocation,
-  //       cards: 0
-  //     };
-  //     marketList = state.marketList.slice();
-  //     marketList.push(newMarket);
-  //     return {
-  //       ...state,
-  //       marketList,
-  //       lastMarketId,
-  //       totalMarkets,
-  //       newLocation: ''
-  //     };
-  //   }
+    case types.CHANGE_PAGE: {
+      currPage = action.payload;
+      return {
+        ...state,
+        currPage
+      };
+    }
   //   case types.ADD_LOCATION: {
   //     newLocation = action.payload;
   //     return {

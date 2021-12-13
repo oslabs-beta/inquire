@@ -1,0 +1,66 @@
+@import '_variables';
+
+// iPhone 6/7/8 Plus or smaller
+@media screen and (max-width: 414px) {
+  .descriptionImage {
+    padding: 2vw !important;
+    height: 40vh !important;
+  }
+  .descriptionBox {
+    padding: 2vw !important;
+    height: 60vh !important;
+  }
+}
+
+// iPad Pro Portrait
+@media screen and (max-width: 1024px) {
+  .homeContainer {
+    flex-direction: column !important;
+  }
+  .descriptionImage {
+    width: auto !important;
+    height: auto !important;
+  }
+  .descriptionBox {
+    width: 100vw !important;
+    height: 60vh !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: center !important;
+    padding-top: 1.5vh !important;
+    overflow-y: hidden;
+    .dataBoxScroll::-webkit-scrollbar{
+      width: 0;
+    }     
+  }
+}
+
+// Desktop Settings
+.homeContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.descriptionImage {
+  display: flex;
+  align-items: center;
+  padding: 6vh;
+  width: 63vw;
+}
+
+.descriptionBox {
+  background: $color-red;
+  width: 37vw;
+  height: $nonNavBar-height;
+  display: flex;
+  flex-direction: column;
+  padding: 11vh;
+  padding-top: 5vh;
+  text-align: left;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: hidden;
+  .dataBoxScroll::-webkit-scrollbar{
+    width: 0;
+  }     
+}
