@@ -136,9 +136,6 @@ const parseKafkaSchema = (fileData) => {
       }
     }
     backtrack(JSON.parse(fileData));
-    console.log(res)
-    console.log(res.length)
-    console.log(typeof res)
     return (res);
   } catch (err) {
     console.log(
@@ -169,15 +166,16 @@ const formatGQLSchema = (newData) => {
       for (let j = 1; j < newData[i].length; j++) {
         const currProp = newData[i][j];
         if (prefix !== 'enum') {
-          const typeDef = String(currProp.type);
-          let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}`;
 
-          if (currType[0] === 'N') {
-            //define array of custom types if Null
+          const typeDef = String(currProp.type);
+          let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}`; // capitalize first letter
+
+          // if starts with Null, its type is an array filled with instances of a custom type
+          if (currType.startsWith('Null')) {
             currType = `[${currProp.type[1].items[1].name}]`;
             toAppend += `  ${currProp.name}: ${currType} \n`;
-          } else if (currType[0] === '[') {
-            //define custom type
+            // if currType is [object, Object], the type will be a single custom type
+          } else if (currType.startsWith('[object')) {
             currType = `${currProp.type.name}`;
             toAppend += `  ${currProp.name}: ${currType} \n`;
           } else {
