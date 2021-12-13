@@ -10,23 +10,23 @@ const fs = require('fs');
 const getInnerData = (fileData) => {
   fileData = fileData.toString('utf-8');
   try {
-    //check if schema defined within AVRO's forSchema function call
+    //check if current file contains "Avro.type.forSchema("
     const expAvroRGX = /avro\.Type\.forSchema\(/g; 
     if (expAvroRGX.test(fileData)) {
       let extractedData;
-      //find schema object between parentheses
+      //find schema object or variable name between parentheses
       extractedData = fileData
         .toString()
         .match(/(?<=avro\.Type\.forSchema\()[\s\S]*?(?=\);)/)[0]
         .trim();
 
-      if (extractedData[0] !== '{') { //check if the arg is a variable name instead of explcitly defined object
+      if (extractedData[0] !== '{') {
+        //extract variable following its assignment
         const varDefRegex = new RegExp('(?<=' + extractedData + ' =' + ')[\\s\\S]*(?=};)'); // find variable definition
         extractedData = fileData.match(varDefRegex).join('') + '}';
       }
       fileData = extractedData
     }
-
     return fileData;
   } catch (err) {
     console.log(`Error: while getting inner data of kafka stream - ${err}`)
