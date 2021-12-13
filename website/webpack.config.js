@@ -10,8 +10,8 @@ module.exports = {
   },
   devServer: {
     static: {
-      publicPath: './assets', // Changed this since last commit to try and serve static assets
-      directory: path.resolve(__dirname, 'assets'), // Changed this since last commit to try and serve static assets
+      publicPath: './build', 
+      directory: path.resolve(__dirname, 'build'), 
     },
     proxy: {
       '/api': 'http://localhost:3000',

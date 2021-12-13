@@ -2,6 +2,7 @@
 @import '_text';
 @import '_navBar';
 @import '_home';
+@import '_converter';
 
 // iPad Portrait
 @media screen and (max-width: 768px) {}
@@ -28,6 +29,7 @@ body,html {
   margin: 0;
   padding: 0;
 }
+
 * {
   box-sizing: border-box;
 }

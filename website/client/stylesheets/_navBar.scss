@@ -1,13 +1,5 @@
 @import '_variables';
 
-// iPad Portrait
-@media screen and (max-width: 768px) {}
-@media screen and (max-height: 1024px) {}
-
-// iPad Landscape
-@media screen and (max-width: 1024px) {}
-@media screen and (max-height: 768px) {}
-
 // Surface Duo
 @media screen and (max-width: 540px) {
   .navButton {
@@ -34,8 +26,6 @@
     justify-content: space-around;
   }
 }
-
-@media screen and (max-height: 812px) {}
 
 // Desktop Settings
 .navBar {
