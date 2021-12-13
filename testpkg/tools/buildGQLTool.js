@@ -84,8 +84,8 @@ const zipTopicTypes = (topic, fileData) => {
  * can be varied, so depends on the scanning situation, the function will be called recursively
  * to collect data by backtracking algorithm.
  * 
- * @param {String} fileData trimmed fildata of currently scanned AVRO schema file
- * @returns {[[]]} ******************** fix here ********************
+ * @param {String} fileData trimmed file data of currently scanned AVRO schema file
+ * @returns AVRO data as a deeply nested Array to be processed in formatGQLSchema
  */
 const parseKafkaSchema = (fileData) => {
   try {
@@ -136,7 +136,9 @@ const parseKafkaSchema = (fileData) => {
       }
     }
     backtrack(JSON.parse(fileData));
-
+    console.log(res)
+    console.log(res.length)
+    console.log(typeof res)
     return (res);
   } catch (err) {
     console.log(
@@ -149,7 +151,7 @@ const parseKafkaSchema = (fileData) => {
 /**
  * formats to form of graphQL schema by iterating over parsed data from inner data of AVRO file
  * 
- * @param {[[]]} newData **fix type here** parsed data from parseKafkaSchema
+ * @param {Array[]} newData AVRO data as a deeply nested Array from parseKafkaSchema function
  * @returns formatted data in a form of graphQL schema
  */
 const formatGQLSchema = (newData) => {
