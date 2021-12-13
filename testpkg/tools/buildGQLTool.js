@@ -11,7 +11,7 @@ const getInnerData = (fileData) => {
   fileData = fileData.toString('utf-8');
   try {
     //check if current file contains "Avro.type.forSchema("
-    const expAvroRGX = /avro\.Type\.forSchema\(/g; 
+    const expAvroRGX = /avro\.Type\.forSchema\(/g;
     if (expAvroRGX.test(fileData)) {
       let extractedData;
       //find schema object or variable name between parentheses
@@ -71,12 +71,8 @@ const zipTargets = (topics, targets) => {
  */
 const zipTopicTypes = (topic, fileData) => {
   try {
-    let res = []
     const data = JSON.parse(fileData)
-    const topicType = data.name
-    res.push(topic)
-    res.push(topicType)
-    return res
+    return [topic, data.name]
   } catch (err) {
     console.log(`Err: ZipTopicTypes in buildGQLTool on ${topic} - ${err}`)
     return
@@ -88,8 +84,8 @@ const zipTopicTypes = (topic, fileData) => {
  * can be varied, so depends on the scanning situation, the function will be called recursively
  * to collect data by backtracking algorithm.
  * 
- * @param {String} fileData trimmed fildata of currently scanned AVRO schema file
- * @returns {[[]]} ******************** fix here ********************
+ * @param {String} fileData trimmed file data of currently scanned AVRO schema file
+ * @returns AVRO data as a deeply nested Array to be processed in formatGQLSchema
  */
 const parseKafkaSchema = (fileData) => {
   try {
@@ -140,7 +136,6 @@ const parseKafkaSchema = (fileData) => {
       }
     }
     backtrack(JSON.parse(fileData));
-
     return (res);
   } catch (err) {
     console.log(
@@ -153,7 +148,7 @@ const parseKafkaSchema = (fileData) => {
 /**
  * formats to form of graphQL schema by iterating over parsed data from inner data of AVRO file
  * 
- * @param {[[]]} newData **fix type here** parsed data from parseKafkaSchema
+ * @param {Array[]} newData AVRO data as a deeply nested Array from parseKafkaSchema function
  * @returns formatted data in a form of graphQL schema
  */
 const formatGQLSchema = (newData) => {
@@ -171,15 +166,16 @@ const formatGQLSchema = (newData) => {
       for (let j = 1; j < newData[i].length; j++) {
         const currProp = newData[i][j];
         if (prefix !== 'enum') {
-          const typeDef = String(currProp.type);
-          let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}`;
 
-          if (currType[0] === 'N') {
-            //define array of custom types if Null
+          const typeDef = String(currProp.type);
+          let currType = `${typeDef[0].toUpperCase().concat(typeDef.slice(1))}`; // capitalize first letter
+
+          // if starts with Null, its type is an array filled with instances of a custom type
+          if (currType.startsWith('Null')) {
             currType = `[${currProp.type[1].items[1].name}]`;
             toAppend += `  ${currProp.name}: ${currType} \n`;
-          } else if (currType[0] === '[') {
-            //define custom type
+            // if currType is [object, Object], the type will be a single custom type
+          } else if (currType.startsWith('[object')) {
             currType = `${currProp.type.name}`;
             toAppend += `  ${currProp.name}: ${currType} \n`;
           } else {

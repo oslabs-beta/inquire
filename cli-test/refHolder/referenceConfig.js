@@ -1,8 +1,8 @@
 const dotenv = require('dotenv'); // Allows us to safely store and reference credentials in a .env file that is not uploaded to github
 const path = require('path');
 
-const envFile = path.resolve(__dirname,'../../../.env') // .env is for test & development; should be excluded when deployment
-dotenv.config({ path: envFile }); 
+const envFile = path.resolve(__dirname, '../../../.env') // .env is for test & development; should be excluded when deployment
+dotenv.config({ path: envFile });
 
 const username = process.env.DEMO_KAFKA_CLUSTER_USER;
 const password = process.env.DEMO_KAFKA_CLUSTER_PW;
@@ -21,9 +21,9 @@ const MODE = {
 module.exports = {
   mode: MODE.ALL,
   // please fill one topic per a AVRO schema file in targets with corresponding orders
-  topics: ['avscTopic', 'han', 'cece', 'testy', 'tripStatus'],
+  topics: ['avscTopic', 'hidden', 'han', 'cece', 'testy', 'tripStatus'],
   // If SELECT mode, please fill the file name you desire to transform into GQL schema with extension of file; e.g) 'tripStatus.avsc'
-  targets: ['avscSample.avsc', 'expAvroSample.js', 'passengerInfo.avsc', 'testSchema.avsc', 'tripStatus.avsc'],
+  targets: ['avscSample.avsc', 'expAvVarSample.js', 'expAvroSample.js', 'passengerInfo.avsc', 'testSchema.avsc', 'tripStatus.avsc'],
   clientId: 'kafQL',
   brokers: [broker],
   ssl,
