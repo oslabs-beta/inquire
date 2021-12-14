@@ -9,19 +9,26 @@
 .teamContainer{
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  height: 60vh;
+  align-items: flex-start;
+  height: $nonNavBar-height;
 }
 
 .teammateProfile{
   width: 30vw;
-  height: 40vh;
+  height: $nonNavBar-height;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2.3vw;
   text-align: center;
+}
+
+.teammatePicture{
+  min-width: 17vw;
+  min-height: 17vw;
+  max-width: 17vw;
+  max-height: 17vw;
 }
 
 .profileCircleIcon{
@@ -32,4 +39,38 @@
 .profileText{
   height: 20vh;
   margin-top: 5vh;
+}
+
+/*
+* ************************************
+* iPad Pro Portrait
+* ************************************
+*/
+
+@media screen and (max-width: 1024px) {
+  .teamContainer{
+    flex-direction: column !important;
+    align-items: center;
+    padding-top: 3vh;
+    overflow-y: scroll;
+  }
+  .teammateProfile{
+    width: 90vw !important;
+    padding: 2vw !important;
+    text-align: center;
+  }
+  .teammatePicture{
+    min-width: 30vw;
+    min-height: 30vw;
+    max-width: 30vw;
+    max-height: 30vw;
+  }
+  .profileText{
+    margin-top: 2vh !important;
+  }
+  .profileCircleIcon{
+    width: 4vw;
+    height: 4vw;
+    margin-bottom: 4vh;
+  }
 }

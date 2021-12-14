@@ -24,11 +24,12 @@ class ButtonContainer extends Component {
       // generate GraphQL, or clear values in avroInput and graphQLOutput components, respectively
       
       <div className="buttonContainer">
-        <div className="converterButton"
+        {/* Future functionality: connecting Kafka demo online */}
+        {/* <div className="converterButton"
         onClick={() => this.props.connectKafka()}>
           <div className="p3">connect kafka</div>
           <img src={buttonYellow} alt="my-logo"></img>
-        </div>
+        </div> */}
 
         <div className="converterButton"
           onClick={() => this.props.makeGraphQL()}>
