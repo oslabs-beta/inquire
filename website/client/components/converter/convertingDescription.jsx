@@ -8,15 +8,15 @@ class ConvertingDescription extends Component {
   
   render() {
     const descriptionText1 = `
-      To demo the AVRO - GraphQL schema translator behind Topic, simplyp ic 
-      is an NPM package that allows developers to quickly serve a GraphQL endpoint
-      associated with one or more Kafka topics. The module is able to infer a complete
-      set of GraphQL schemas, resolvers, and async iterators from AVRO schemas provided by 
-      the end user. Package is currently developed around a GraphQL Apollo server.
+      To demo the AVRO - GraphQL schema translator behind Topic, simply paste 
+      a valid AVRO schema in the left hand text box. For best results, please 
+      verify the validity of your AVRO schema beforehand. Once ready, click 
+      the "generate now" button below, and the associated GraphQL types will 
+      appear in the right hand side. 
     `
     const descriptionText2 = `
-      Topic is an NPM package that allows developers to quickly serve a GraphQL endpoint
-      associated with one or more Kafka topics. 
+      For complete functionality, including generation of full GraphQL schema and resolvers tied to Kafka topics,
+      you may download the NPM package by following the link in the navigation bar.
     `
     return(
       <div className="convertingDescription">
