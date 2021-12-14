@@ -16,12 +16,16 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
+
+
 const modePrompt = () => {
   return new Promise((resolve, reject) => {
-    rl.question('what MODE do you want? => 0 for \'AUTO generation' +
-    'from Kafka Stream / 1 for \'ALL\' Mode to generate GQL schema from all avsc' +
-    ' files in the cloud / 2 for \'SELECT\' Mode to selectively create GQL schema' +
-    ' from files\n', mode => {
+    rl.question('\n' +
+    'Choose MODE:\n' +
+    '1: Use all files in data folder to create GQL schema\n' +
+    '2: Manually specify files when filling out configuration\n' +
+    'Enter 1 OR 2: ', 
+    mode => {
       pickedMode = mode
       resolve();
     });
@@ -30,7 +34,7 @@ const modePrompt = () => {
 
 const dataPrompt = () => {
   return new Promise((resolve, reject) => {
-    rl.question('Enter path to folder containing schema file(s): \n',
+    rl.question('Enter absolute path to folder containing schema file(s): \n',
       folderPath => {
       dataFolder = folderPath
       resolve();

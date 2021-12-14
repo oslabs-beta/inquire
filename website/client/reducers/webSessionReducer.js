@@ -12,16 +12,27 @@ import * as types from '../actions/actionTypes';
 const initialState = {
   isLoggedIn: false,
   userName: '',
+<<<<<<< HEAD
   savedAvroSchemas: [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
   currPage: 'home',
   allPages: [
+=======
+  currPage: 'home', // 'home' by default
+  allPages: [ // Array of strings with each of the available "page" container components in our site
+>>>>>>> dev
     'user portal',
     'documentation',
     'meet the team',
     'use online',
     'download npm',
+<<<<<<< HEAD
     'home',
   ],
+=======
+    'home'
+  ],
+  npmLink: 'https://www.npmjs.com/', // Link to NPM package.
+>>>>>>> dev
 };
 
 const webSessionReducer = (state = initialState, action) => {
@@ -33,7 +44,9 @@ const webSessionReducer = (state = initialState, action) => {
   switch (action.type) {
     // TODO: Delete below. This is an example from class
     case types.CHANGE_PAGE: {
+      // Note "download NPM" doesn't reload the React website components, rather it simply links to the external NPM page.
       currPage = action.payload;
+      if (currPage == 'download npm') return state;
       return {
         ...state,
         currPage,

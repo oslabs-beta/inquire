@@ -1,0 +1,35 @@
+@import '_variables';
+
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
+
+.teamContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  height: 60vh;
+}
+
+.teammateProfile{
+  width: 30vw;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.3vw;
+  text-align: center;
+}
+
+.profileCircleIcon{
+  width: 1.5vw;
+  height: 1.5vw;
+}
+
+.profileText{
+  height: 20vh;
+  margin-top: 5vh;
+}

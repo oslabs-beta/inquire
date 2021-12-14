@@ -3,7 +3,12 @@
 @import '_navBar';
 @import '_home';
 @import '_converter';
+<<<<<<< HEAD
 @import '_user';
+=======
+@import '_team';
+
+>>>>>>> dev
 // iPad Portrait
 @media screen and (max-width: 768px) {
 }
@@ -42,6 +47,7 @@ html {
 }
 
 img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width:100%;
+  max-height:100%;
 }
+

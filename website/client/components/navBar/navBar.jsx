@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NavButton from './navButton.jsx';
-// import { changePageActionCreator } from '../../actions/actions.js';
-
-const mapDispatchToProps = dispatch => (
-  {
-    // addCard: (id) => dispatch(addCardActionCreator(id)),
-    // deleteCard: (id) => dispatch(deleteCardActionCreator(id))
-  }
-);
 
 const mapStateToProps = state => ({
   allPages: state.webSession.allPages,
@@ -34,4 +26,4 @@ class NavBar extends Component {
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (NavBar);
+export default connect (mapStateToProps, null) (NavBar);

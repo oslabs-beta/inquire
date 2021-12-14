@@ -1,7 +1,13 @@
 const path = require('path')
 const fs = require('fs')
-// this path should be specified pre-hand by end user somehow maybe from commandline
 
+/**
+ * To help configuring initial setup for user specifically creating targets
+ * 
+ * @param {String} mode the number represent mode selected
+ * @param {*} dataFolder targetted AVRO schema folder 
+ * @returns array of strings of file names in the AVRO schema folder
+ */
 const createTargets = (mode, dataFolder) => {
     let targets = ``
     if (mode === '1') {
@@ -21,21 +27,25 @@ const createTargets = (mode, dataFolder) => {
 }
 
 
-//make a file there called config.js with boilerplate - user will just fill in the blanks.
+/**
+ * make a config.js with boilerplate to be filled by user
+ * 
+ * @param {*} targetArr array of strings of file names in the AVRO schema folder
+ * @param {*} mode number represent mode selected
+ * @param {*} dataFolder targetted AVRO schema folder
+ * @returns complete contents for configuration to generate config.js
+ */
 const createConfig = (targetArr, mode, dataFolder) => {
     let currMode;
     switch (mode) {
         case "0":
-            currMode = "AUTO";
-            break;
-        case "1":
             currMode = "ALL";
             break;
-        case "2":
+        case "1":
             currMode = "SELECT";
             break;
         default:
-            throw "Please select the mode from 0 ~ 2";
+            throw "Please select the mode from 0 ~ 1";
     }
     const result = `// User Configuration File for Kafka - GraphQL connection using topiQL library
   const path = require('path');
@@ -46,32 +56,28 @@ const createConfig = (targetArr, mode, dataFolder) => {
   const sasl = username && password ? { username, password, mechanism: 'plain' } : null
   const ssl = !!sasl
   const MODE = {
-    // AUTO will retrieve all schema from kafka and build gql schema -> fill topics only
-    AUTO: 0,
-    // ALL to make all the avsc files into graphql Schema, leave 'targets' empty
+    // ALL is to read all avsc files in the directory to be transformed into GQL schema
     ALL: 1,
-    // SELECT to fill the 'targets' with filenames to be transform into graphql Schema
+    // SELECT is to read ONLY files in the 'targets' to be transformed into GQL Schema
     SELECT: 2
   };
   
   module.exports = {
     mode: MODE.${currMode},
-    // input topic(s) Kafka producers are writing to & topics expected from GQL query
-    // please fill one topic per a schema file in targets with matching sequence of order
+    // please fill one topic per a AVRO schema file in targets with corresponding orders
     topics: [],
-    // for SELECT mode, please fill the file name you desire to transform into GQL schema without extension of the file
+    // If SELECT mode, please fill the file name you desire to transform into GQL schema with extension of file; i.e) 'tripStatus.avsc'
     targets: ${targetArr},
     //input Kafka client ID and brokers
     clientId: '',
+    // please fill out broker from your kafka stream; i.e) ['pkc-lzvrd.us-xxxxx.gcp.confluent.cloud:xxxx']
     brokers: [],
     ssl,
     sasl,
     connectionTimeout: 3000,
     authenticationTimeout: 1000,
     reauthenticationThreshold: 10000,
-    //input folder containing your Avro schema
     schemaFolder: '${dataFolder}',  
-    destinationFolder: path.resolve(__dirname)
   };`;
     return result;
 }

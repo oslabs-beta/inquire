@@ -10,6 +10,7 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps = state => ({
   currPage: state.webSession.currPage,
+  npmLink: state.webSession.npmLink,
 });
 
 class NavButton extends Component {
@@ -30,7 +31,12 @@ class NavButton extends Component {
     return(
       <div className="navButton"
       // Upon button click, trigger an action to change currPage property of state to the selected page
-      onClick={({payload = this.props.buttonText}) => this.props.changePage(payload)}>
+      onClick={({payload = this.props.buttonText}) => {
+        // If clicked link is "download npm", take user to NPM page.
+        if (payload == 'download npm') window.open(this.props.npmLink, "_blank");
+        // Otherwise, load appropriate component from the product site.
+        else this.props.changePage(payload)}
+      }>
         { navButtonElement }
       </div>
     );
