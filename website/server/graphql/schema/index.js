@@ -35,8 +35,7 @@ const graphqlSchema = buildSchema(`
     type RootQuery {
       avroSchemas: [AvroSchema]
       avroSchema(_id: ID!): AvroSchema!
-      login(email: String!, password: String!): AuthData!
-      
+      login(email: String!, password: String!): User      
     }
 
     type RootMutation {
@@ -53,5 +52,5 @@ const graphqlSchema = buildSchema(`
 
 module.exports = graphqlSchema;
 
-// login(email: String!, password: String!): User
+// login(email: String!, password: String!): AuthData!
 // modifySchema(schemaInput: SchemaInput): AvroSchema

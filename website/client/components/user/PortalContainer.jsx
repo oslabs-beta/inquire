@@ -5,66 +5,60 @@ import Context from '../../context/context';
 // import Logout from './Logout.jsx';
 
 class PortalContainer extends Component {
-  // state = {
-  //   isLogin: true,
-  // };
-
   static contextType = Context;
 
   constructor(props) {
     super(props);
-    // this.username = React.createRef();
-    // this.password = React.createRef();
     this.state = {
       email: '',
       password: '',
-      isLogin: true,
+      needsAccount: false,
+      userId: '',
+      isLoggedIn: false,
     };
     this.switchModeHandler = this.switchModeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  switchModeHandler = (e) => {
+  switchModeHandler(e) {
     e.preventDefault();
-    console.log('in switch mode block');
-    console.log(!this.state.isLogin);
     return this.setState({
       ...this.state,
-      isLogin: !this.state.isLogin,
+      needsAccount: !this.state.needsAccount,
     });
-  };
+  }
 
-  handleChange = (e) => {
+  handleChange(e) {
     const { name, value } = e.target;
     return this.setState({
       ...this.state,
       [name]: value,
     });
-  };
+  }
 
-  submitHandler = (e) => {
-    // console.log('clicked!');
-    // console.log(this.state.email);
+  submitHandler(e) {
     e.preventDefault();
 
     let requestBody = {
       query: `
         query {
           login(email: "${this.state.email}", password: "${this.state.password}") {
-            userId
-            token
-            tokenExpiration
+            _id
+            createdSchemas {
+              _id
+            }
           }
         }
       `,
     };
 
-    if (!this.state.isLogin) {
+    if (this.state.needsAccount) {
+      console.log(this.state.email);
       requestBody = {
         query: `
           mutation {
-            createUser(userInput: {email: "${this.state.username}", password: "${this.state.password}"}) {
+            createUser(userInput: {email: "${this.state.email}", password: "${this.state.password}"}) {
               _id
               email
             }
@@ -83,29 +77,40 @@ class PortalContainer extends Component {
       },
     })
       .then((res) => {
-        // if (res.status !== 200 && res.status !== 201) {
-        //   throw new Error('Failed!');
-        // }
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
-        if (resData.data.login.token) {
-          this.context.login(
-            resData.data.login.token,
-            resData.data.login.userId,
-            resData.data.login.tokenExpiration
-          );
+        if (resData.data.login) {
+          console.log('resData login--->', resData.data.login._id);
+          this.setState({
+            ...this.state,
+            userId: resData.data.login._id,
+            isLoggedIn: true,
+          });
+        } else if (resData.data.createUser) {
+          console.log('resData createUser--->', resData.data.createUser._id);
+          this.setState({
+            ...this.state,
+            userId: resData.data.createUser._id,
+            isLoggedIn: true,
+          });
         }
+        console.log('new state id--->', this.state.userId);
       })
       .catch((err) => {
         console.error('catch err--->', err);
       });
-  };
+  }
 
   render() {
     return (
       <div className="portalContainer">
+        <button type="button" onClick={this.switchModeHandler}>
+          {this.state.needsAccount ? 'Sign in' : 'Create an Account'}
+        </button>
         <div className="authInputs">
           <input
             type="email"
@@ -122,14 +127,10 @@ class PortalContainer extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div className="authBtns">
-          <button type="submit" onClick={this.submitHandler}>
-            Submit
-          </button>
-          <button type="button" onClick={this.switchModeHandler}>
-            {this.state.isLogin ? 'Sign up' : 'Log in'}
-          </button>
-        </div>
+
+        <button type="button" onClick={this.submitHandler}>
+          {this.state.needsAccount ? 'Create' : 'Log in'}
+        </button>
       </div>
     );
   }
