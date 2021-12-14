@@ -1,4 +1,4 @@
-/**
+/*
  * ************************************
  *
  * @module  schemaReducer
@@ -8,9 +8,13 @@
  */
 
 import * as types from '../actions/actionTypes';
+// TODO: Update so this is independent from backend.
+import { parseKafkaSchema, formatGQLSchema } from './conversionFuncs.js'
 
 const initialState = {
   totalSchemas: 0,
+  avroText: 'Paste AVRO schema here',
+  graphQLText: 'GraphQL types generate here',
 };
 
 const schemaReducer = (state = initialState, action) => {
@@ -18,64 +22,61 @@ const schemaReducer = (state = initialState, action) => {
 
   switch (action.type) {
 
-  // TODO: Delete below. This is an example from class
-  //   case types.ADD_MARKET: {
-  //     lastMarketId = state.lastMarketId + 1;
-  //     totalMarkets = state.totalMarkets + 1;
-  //     newLocation = state.newLocation;
-  //     const newMarket = {
-  //       marketId: lastMarketId,
-  //       location: newLocation,
-  //       cards: 0
-  //     };
-  //     marketList = state.marketList.slice();
-  //     marketList.push(newMarket);
-  //     return {
-  //       ...state,
-  //       marketList,
-  //       lastMarketId,
-  //       totalMarkets,
-  //       newLocation: ''
-  //     };
-  //   }
-  //   case types.ADD_LOCATION: {
-  //     newLocation = action.payload;
-  //     return {
-  //       ...state,
-  //       newLocation
-  //     };
-  //   }
+    case types.CONNECT_KAFKA: {
+      // lastMarketId = state.lastMarketId + 1;
+      // totalMarkets = state.totalMarkets + 1;
+      // newLocation = state.newLocation;
+      // const newMarket = {
+      //   marketId: lastMarketId,
+      //   location: newLocation,
+      //   cards: 0
+      // };
+      // marketList = state.marketList.slice();
+      // marketList.push(newMarket);
+      // return {
+      //   ...state,
+      //   marketList,
+      //   lastMarketId,
+      //   totalMarkets,
+      //   newLocation: ''
+      // };
+    }
+
+    case types.MAKE_GRAPHQL: {
+      const graphQLTextParse = parseKafkaSchema(state.avroText);
+      let graphQLText = formatGQLSchema(graphQLTextParse);
+      if (!graphQLText) graphQLText = 'Unable to generate, please verify AVRO'
+      return {
+        ...state,
+        graphQLText
+      };
+    }
     
-    // TODO: Delete below. This is an example from class
-    // case types.ADD_CARD: {
-    //   marketList = [...state.marketList];
-    //   const currIndex = action.payload - 10001;
-    //   marketList[currIndex].cards = marketList[currIndex].cards + 1;
+    case types.CLEAR_AVRO: {
+      const avroText = 'Paste AVRO schema here';
+      const graphQLText = 'GraphQL types generate here';
+      return {
+        ...state, 
+        avroText,
+        graphQLText,
+      };
+    }
 
-    //   newTotalCards = state.totalCards + 1;
-      
-    //   return {
-    //     ...state, 
-    //     totalCards: newTotalCards,
-    //     marketList
-    //   };
-    // }
+    case types.ADD_AVRO: {
+      const avroText = action.payload;
+      return {
+        ...state, 
+        avroText,
+      };
+    }
 
-    // TODO: Delete below. This is an example from class
-    // case types.DELETE_CARD: {
-    //   marketList = JSON.parse(JSON.stringify(state.marketList));
-    //   const currIndex = action.payload - 10001;
-    //   if (marketList[currIndex].cards > 0) {
-    //     marketList[currIndex].cards = marketList[currIndex].cards - 1;
-    //     newTotalCards = state.totalCards - 1;
-    //     return {
-    //       ...state, 
-    //       totalCards: newTotalCards,
-    //       marketList
-    //     };
-    //   }
-    //   return state;
-    // }
+    case types.UPDATE_GRAPHQL: {
+      const graphQLText = action.payload;
+      return {
+        ...state, 
+        graphQLText,
+      };
+    }
 
     default: {
       return state;

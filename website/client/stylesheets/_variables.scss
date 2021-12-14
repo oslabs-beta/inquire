@@ -7,15 +7,17 @@ $color-text-gray: #666666;
 $color-text-white: #FFFFFF;
 
 $header-size-large: 7vh;
-$header-size-medium: $header-size-large * 0.55;
+$header-size-medium: $header-size-large * 0.50;
 
 $paragraph-size-large: 2.5vh;
-$paragraph-size-medium: $paragraph-size-large * 0.75;
-$paragraph-size-small: $paragraph-size-large * 0.55;
+$paragraph-size-medium: $paragraph-size-large * 0.78;
+$paragraph-size-small: $paragraph-size-large * 0.7;
 
-$paragraph-lineHeight-large: $paragraph-size-large * 1.35;
+$paragraph-lineHeight-large: $paragraph-size-large * 1.45;
+$paragraph-lineHeight-medium: $paragraph-size-medium * 1.45;
+$paragraph-lineHeight-small: $paragraph-size-small * 1.75;
 
-$code-size-small: 12pt;
+$code-size-small: $paragraph-size-large * 0.65;
 
 $navBar-height: 8vh;
 $nonNavBar-height: 100vh - $navBar-height;

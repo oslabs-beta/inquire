@@ -13,6 +13,8 @@ import styles from './stylesheets/styles.scss';
 import NavBar from './components/navBar/navBar.jsx';
 import HomeContainer from './components/home/homeContainer.jsx';
 import ConverterContainer from './components/converter/converterContainer.jsx';
+import TeamContainer from './components/team/teamContainer.jsx';
+
 // import { addCardActionCreator } from '../actions/actions';
 // import { deleteCardActionCreator } from '../actions/actions';
 
@@ -36,13 +38,15 @@ class App extends Component {
   render() {
     const displayComponents = [];
     displayComponents.push(<NavBar key="navBar"/>)
-    console.log(this.props.currPage)
     switch (this.props.currPage) {
       case 'home' :
         displayComponents.push(<HomeContainer key="homeContainer"/>)
         break;
       case 'use online' :
         displayComponents.push(<ConverterContainer key="converterContainer"/>)
+        break;
+      case 'meet the team' :
+        displayComponents.push(<TeamContainer key="teamContainer"/>)
         break;
     }
     return (

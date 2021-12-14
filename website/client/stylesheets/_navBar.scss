@@ -1,33 +1,11 @@
 @import '_variables';
 
-// Surface Duo
-@media screen and (max-width: 540px) {
-  .navButton {
-    font-size: 2vh;
-    min-height: 5vh;
-  }
-}
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
 
-// iPhone 6/7/8 Plus or smaller
-@media screen and (max-width: 414px) {
-  .navButton {
-    font-size: 3vh;
-    min-width: 40vw;
-    min-height: 5vh;
-  }
-  .navBar {
-    overflow-x: scroll;
-  }
-}
-
-// Larger than iPhone 6/7/8 Plus
-@media screen and (min-width: 414px) {
-  .navBar {
-    justify-content: space-around;
-  }
-}
-
-// Desktop Settings
 .navBar {
   background-color: $color-yellow;
   width: 100vw;
@@ -50,3 +28,46 @@
     top: -2px;
   }
 }
+
+/*
+* ************************************
+* Larger than iPhone 6/7/8 Plus
+* ************************************
+*/
+
+@media screen and (min-width: 415px) {
+  .navBar {
+    justify-content: space-around;
+  }
+}
+
+/*
+* ************************************
+* Surface Duo
+* ************************************
+*/
+
+@media screen and (max-width: 540px) {
+  .navButton {
+    font-size: 2vh;
+    min-height: 5vh;
+  }
+}
+
+/*
+* ************************************
+* iPhone 6/7/8 Plus or smaller
+* ************************************
+*/
+
+@media screen and (max-width: 414px) {
+  .navButton {
+    font-size: 3vh;
+    min-width: 40vw;
+    min-height: 5vh;
+  }
+  .navBar {
+    overflow-x: scroll;
+  }
+}
+
