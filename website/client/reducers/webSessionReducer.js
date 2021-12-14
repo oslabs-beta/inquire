@@ -12,7 +12,7 @@ import * as types from '../actions/actionTypes';
 const initialState = {
   isLoggedIn: false,
   userName: '',
-  savedAvroSchemas : [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
+  savedAvroSchemas: [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
   currPage: 'home',
   allPages: [
     'user portal',
@@ -20,8 +20,8 @@ const initialState = {
     'meet the team',
     'use online',
     'download npm',
-    'home'
-  ] 
+    'home',
+  ],
 };
 
 const webSessionReducer = (state = initialState, action) => {
@@ -31,23 +31,22 @@ const webSessionReducer = (state = initialState, action) => {
   let currPage;
 
   switch (action.type) {
-    
-  // TODO: Delete below. This is an example from class
+    // TODO: Delete below. This is an example from class
     case types.CHANGE_PAGE: {
       currPage = action.payload;
       return {
         ...state,
-        currPage
+        currPage,
       };
     }
-  //   case types.ADD_LOCATION: {
-  //     newLocation = action.payload;
-  //     return {
-  //       ...state,
-  //       newLocation
-  //     };
-  //   }
-    
+    //   case types.ADD_LOCATION: {
+    //     newLocation = action.payload;
+    //     return {
+    //       ...state,
+    //       newLocation
+    //     };
+    //   }
+
     // TODO: Delete below. This is an example from class
     // case types.ADD_CARD: {
     //   marketList = [...state.marketList];
@@ -55,9 +54,9 @@ const webSessionReducer = (state = initialState, action) => {
     //   marketList[currIndex].cards = marketList[currIndex].cards + 1;
 
     //   newTotalCards = state.totalCards + 1;
-      
+
     //   return {
-    //     ...state, 
+    //     ...state,
     //     totalCards: newTotalCards,
     //     marketList
     //   };
@@ -71,7 +70,7 @@ const webSessionReducer = (state = initialState, action) => {
     //     marketList[currIndex].cards = marketList[currIndex].cards - 1;
     //     newTotalCards = state.totalCards - 1;
     //     return {
-    //       ...state, 
+    //       ...state,
     //       totalCards: newTotalCards,
     //       marketList
     //     };

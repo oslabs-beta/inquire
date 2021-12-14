@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 const AvroSchema = require('../../models/avro');
 const {
@@ -20,17 +21,17 @@ const avros = async (schemaIds) => {
   }
 };
 
-const avro = async (schemaId) => {
-  try {
-    const avro = await AvroSchema.findById(schemaId);
-    return {
-      ...avro._doc,
-      creator: user.bind(this, avro.creator),
-    };
-  } catch (err) {
-    throw err;
-  }
-};
+// const avro = async (schemaId) => {
+//   try {
+//     const avro = await AvroSchema.findById(schemaId);
+//     return {
+//       ...avro._doc,
+//       creator: user.bind(this, avro.creator),
+//     };
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 const user = async (userId) => {
   try {
@@ -138,7 +139,7 @@ const graphqlResolvers = {
   },
 
   createUser: async (args) => {
-    return User.findOne({ username: args.userInput.username })
+    return User.findOne({ email: args.userInput.email })
       .then((user) => {
         if (user) {
           throw new Error('User exists already.');
@@ -147,7 +148,6 @@ const graphqlResolvers = {
       })
       .then((hashedPassword) => {
         const user = new User({
-          username: args.userInput.username,
           email: args.userInput.email,
           password: hashedPassword,
         });
@@ -161,6 +161,28 @@ const graphqlResolvers = {
         console.error(err.message);
         throw err;
       });
+  },
+
+  login: async ({ email, password }) => {
+    console.log('login triggered in backend');
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new Error('User does not exist!');
+    }
+    const isEqual = await bcrypt.compare(password, user.password);
+    console.log('isEqual--->', isEqual);
+    if (!isEqual) {
+      throw new Error('Password is incorrect!');
+    }
+    // return user;
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      'somesupersecretkey',
+      {
+        expiresIn: '1h',
+      }
+    );
+    return { userId: user.id, token: token, tokenExpiration: 1 };
   },
 };
 

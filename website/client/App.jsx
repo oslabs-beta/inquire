@@ -13,17 +13,16 @@ import styles from './stylesheets/styles.scss';
 import NavBar from './components/navBar/navBar.jsx';
 import HomeContainer from './components/home/homeContainer.jsx';
 import ConverterContainer from './components/converter/converterContainer.jsx';
+import PortalContainer from './components/user/PortalContainer.jsx';
 // import { addCardActionCreator } from '../actions/actions';
 // import { deleteCardActionCreator } from '../actions/actions';
 
-const mapDispatchToProps = dispatch => (
-  {
-    // addCard: (id) => dispatch(addCardActionCreator(id)),
-    // deleteCard: (id) => dispatch(deleteCardActionCreator(id))
-  }
-);
+const mapDispatchToProps = (dispatch) => ({
+  // addCard: (id) => dispatch(addCardActionCreator(id)),
+  // deleteCard: (id) => dispatch(deleteCardActionCreator(id))
+});
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // add pertinent state here
   currPage: state.webSession.currPage,
 });
@@ -35,22 +34,20 @@ class App extends Component {
 
   render() {
     const displayComponents = [];
-    displayComponents.push(<NavBar key="navBar"/>)
-    console.log(this.props.currPage)
+    displayComponents.push(<NavBar key="navBar" />);
+    console.log(this.props.currPage);
     switch (this.props.currPage) {
-      case 'home' :
-        displayComponents.push(<HomeContainer key="homeContainer"/>)
+      case 'home':
+        displayComponents.push(<HomeContainer key="homeContainer" />);
         break;
-      case 'use online' :
-        displayComponents.push(<ConverterContainer key="converterContainer"/>)
+      case 'use online':
+        displayComponents.push(<ConverterContainer key="converterContainer" />);
         break;
+      case 'user portal':
+        displayComponents.push(<PortalContainer key="portalContainer" />);
     }
-    return (
-      <div className="app">
-        {displayComponents}
-      </div>
-    );
+    return <div className="app">{displayComponents}</div>;
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
