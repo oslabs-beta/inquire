@@ -12,27 +12,17 @@ import * as types from '../actions/actionTypes';
 const initialState = {
   isLoggedIn: false,
   userName: '',
-<<<<<<< HEAD
-  savedAvroSchemas: [], // Array of objects, each with three keys: 'name', 'avro', 'graphQL'
-  currPage: 'home',
-  allPages: [
-=======
   currPage: 'home', // 'home' by default
-  allPages: [ // Array of strings with each of the available "page" container components in our site
->>>>>>> dev
+  allPages: [
+    // Array of strings with each of the available "page" container components in our site
     'user portal',
     'documentation',
     'meet the team',
     'use online',
     'download npm',
-<<<<<<< HEAD
     'home',
   ],
-=======
-    'home'
-  ],
   npmLink: 'https://www.npmjs.com/', // Link to NPM package.
->>>>>>> dev
 };
 
 const webSessionReducer = (state = initialState, action) => {
