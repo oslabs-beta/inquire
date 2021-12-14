@@ -1,4 +1,4 @@
-/**
+/*
  * ************************************
  *
  * @module  schemaReducer
@@ -13,8 +13,8 @@ import { parseKafkaSchema, formatGQLSchema } from './conversionFuncs.js'
 
 const initialState = {
   totalSchemas: 0,
-  avroText: '',
-  graphQLText: '',
+  avroText: 'Paste AVRO schema here',
+  graphQLText: 'GraphQL types generate here',
 };
 
 const schemaReducer = (state = initialState, action) => {
@@ -44,15 +44,25 @@ const schemaReducer = (state = initialState, action) => {
 
     case types.MAKE_GRAPHQL: {
       const graphQLTextParse = parseKafkaSchema(state.avroText);
-      const graphQLText = formatGQLSchema(graphQLTextParse);
+      let graphQLText = formatGQLSchema(graphQLTextParse);
+      if (!graphQLText) graphQLText = 'Unable to generate, please verify AVRO'
       return {
         ...state,
         graphQLText
       };
     }
     
-    // TODO: Delete below. This is an example from class
     case types.CLEAR_AVRO: {
+      const avroText = 'Paste AVRO schema here';
+      const graphQLText = 'GraphQL types generate here';
+      return {
+        ...state, 
+        avroText,
+        graphQLText,
+      };
+    }
+
+    case types.ADD_AVRO: {
       const avroText = action.payload;
       return {
         ...state, 
@@ -60,12 +70,11 @@ const schemaReducer = (state = initialState, action) => {
       };
     }
 
-    // TODO: Delete below. This is an example from class
-    case types.ADD_AVRO: {
-      const avroText = action.payload;
+    case types.UPDATE_GRAPHQL: {
+      const graphQLText = action.payload;
       return {
         ...state, 
-        avroText,
+        graphQLText,
       };
     }
 

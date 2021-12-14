@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import buttonYellow from '../../assets/buttonYellowCircleOnGreen.png'
-// import { changePageActionCreator } from '../../actions/actions.js';
+import buttonYellow from '../../assets/buttonYellowCircle.png'
+import { connectKafkaActionCreator } from '../../actions/actions.js';
+import { makeGraphQLActionCreator } from '../../actions/actions.js';
+import { clearAvroActionCreator } from '../../actions/actions.js';
 
 const mapDispatchToProps = dispatch => (
   {
@@ -11,22 +13,16 @@ const mapDispatchToProps = dispatch => (
   }
 );
 
-const mapStateToProps = state => ({
-  // add pertinent state here
-  // totalCards: state.markets.totalCards,
-  // totalMarkets: state.markets.totalMarkets,
-});
-
 class ButtonContainer extends Component {
   constructor(props) {
     super(props);
   }
   
   render() {
-    const descriptionText = `
-      Topic
-    `
     return(
+      // Three buttons, each triggering action creator to either start Kafka,
+      // generate GraphQL, or clear values in avroInput and graphQLOutput components, respectively
+      
       <div className="buttonContainer">
         <div className="converterButton"
         onClick={() => this.props.connectKafka()}>
@@ -42,7 +38,7 @@ class ButtonContainer extends Component {
 
         <div className="converterButton"
         onClick={() => this.props.clearAvro()}>
-          <div className="p3">try another one</div>
+          <div className="p3">clear all values</div>
           <img src={buttonYellow} alt="my-logo"></img>
         </div>
       </div>
@@ -50,4 +46,4 @@ class ButtonContainer extends Component {
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (ButtonContainer);
+export default connect (null, mapDispatchToProps) (ButtonContainer);

@@ -30,6 +30,11 @@ export const addAvroActionCreator = avroText => ({
   payload: avroText,
 })
 
+export const updateGraphQLActionCreator = graphQLText => ({
+  type: types.UPDATE_GRAPHQL,
+  payload: graphQLText,
+})
+
 // Web session action generators
 export const changePageActionCreator = newPage => ({
   type: types.CHANGE_PAGE,

@@ -17,6 +17,7 @@ export const CONNECT_KAFKA = 'CONNECT_KAFKA';
 export const MAKE_GRAPHQL = 'MAKE_GRAPHQL';
 export const CLEAR_AVRO = 'CLEAR_AVRO';
 export const ADD_AVRO = 'ADD_AVRO';
+export const UPDATE_GRAPHQL = 'UPDATE_GRAPHQL';
 
 
 // Web session actions

@@ -21,7 +21,7 @@ h3 {
 
 .p1 {
   font-family: 'Raleway';
-  font-size: $paragraph-size-large;
+  font-size: $paragraph-size-large * 1.1;
   color: $color-text-white;
   font-weight: 370;
   line-height: $paragraph-lineHeight-large;
@@ -40,6 +40,7 @@ h3 {
   font-size: $paragraph-size-medium;
   color: $color-text-white;
   font-weight: 370;
+  line-height: $paragraph-lineHeight-medium;
 }
 
 .p4 {
@@ -47,6 +48,7 @@ h3 {
   font-size: $paragraph-size-medium;
   color: $color-text-gray;
   font-weight: 370;
+  line-height: $paragraph-lineHeight-medium;
 }
 
 .p4b {

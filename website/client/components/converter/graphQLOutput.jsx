@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { changePageActionCreator } from '../../actions/actions.js';
+import buttonCopyText from '../../assets/buttonCopyText.png'
+import { updateGraphQLActionCreator } from '../../actions/actions.js';
 
 const mapDispatchToProps = dispatch => (
   {
-    // addCard: (id) => dispatch(addCardActionCreator(id)),
-    // deleteCard: (id) => dispatch(deleteCardActionCreator(id))
+    updateGraphQL: (text) => dispatch(updateGraphQLActionCreator(text)),
   }
 );
 
 const mapStateToProps = state => ({
-  // add pertinent state here
-  // totalCards: state.markets.totalCards,
-  // totalMarkets: state.markets.totalMarkets,
+  graphQLText: state.schemas.graphQLText,
 });
 
 class GraphQLOutput extends Component {
@@ -22,8 +20,21 @@ class GraphQLOutput extends Component {
   
   render() {
     return(
-      <div className="inputOutputBox">
-      </div>
+      <div className="p7">
+        {/* Clickable image copies contents of textarea into clipboard */}
+        <img
+            className="copyTextButton" 
+            src={buttonCopyText} 
+            alt="my-logo"
+            onClick={() => {navigator.clipboard.writeText(this.props.graphQLText)}}
+          />
+        {/* Text areas where AVRO schema is pasted and/or GraphQL schema is generated */}
+        <textarea
+        className="inputOutputBox"
+        onChange={(e) => { this.props.updateGraphQL(e.target.value) }}
+        value={this.props.graphQLText}
+        />
+        </div>
     );
   }
 }
