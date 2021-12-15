@@ -23,6 +23,13 @@
   a {
     text-decoration: none;
   }
+
+  li {
+    font-family: 'Raleway';
+    font-size: $paragraph-size-smallest;
+    color: $color-text-white;
+    font-weight: 300;
+  }
 }
 
 .docContent {
@@ -42,6 +49,29 @@
   text-align: left;
   padding: 8vh;
   padding-top: 4vh;
+
+  h2 {
+    color: $color-red;
+  }
+
+  h4 {
+    font-family: 'Raleway';
+    font-size: $paragraph-size-medium * 0.9;
+    color: $color-text-dark;
+    font-weight: 450;
+    line-height: $paragraph-lineHeight-medium;
+    padding-top: 12px;
+  }
+
+  ul {
+    li {
+      font-family: 'Raleway';
+      font-size: $paragraph-size-small;
+      color: $color-text-gray;
+      font-weight: 900;
+      padding: 6px 8px 6px 0px;
+    }
+  }
 }
 
 //add doc banner with logo above Overview

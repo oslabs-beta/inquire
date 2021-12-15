@@ -38,15 +38,20 @@ class InitDocs extends Component {
             you'd like them all to be considered.`}
           </div>
 
-        <h5>Mode 1:</h5>
+          <ul>
+            <li>Mode 1:</li>
+          </ul>
           <div className="p4">
             {`Choose mode 1 if you would like all files in your schema folder to be processed.`}
           </div>
 
-        <h5>Mode 2:</h5>
+          <ul>
+            <li>Mode 2:</li>
+          </ul>
           <div className="p4">
             {`Choose mode 2 if you'd like to manually select files to be considered.`}
           </div>
+          
 
         <h4>Schema Folder</h4>
           <div className="p4">

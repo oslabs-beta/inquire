@@ -15,7 +15,7 @@ class PreReqDocs extends Component {
           <li>Cloud Kafka Instance</li>
         </ul>
         <div className="p4">
-          {`Have a cloud instance. this can be on Confluent cloud .... etc`}
+          {`Have a cloud instance. This can be on Confluent cloud .... etc`}
         </div>
 
         <ul>
@@ -24,7 +24,7 @@ class PreReqDocs extends Component {
         <div className="p4">
           {`Inquire needs your Avro schema. ...schema registry... to know how to ..`}
         </div>
-        
+
       </div>
     );
   }
