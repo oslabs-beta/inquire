@@ -8,22 +8,28 @@ class GenGQLDocs extends Component {
   render() {
     return(
       <div className="docContentSection" id="GENGQL">
+
         <h2>Generating GraphQL</h2>
         <div className="p4">
-          {`Preview of the current section`}
+          {`By this time, you should have entered all the necessary information for Inquire to generate 
+          a complete set of GraphQL files. After one last CLI command, you can start writing some queries.`}
         </div>
+
         <h4>Build Command</h4>
         <div className="p4">
           {`Description of what's going on`}
         </div>
+
         <h4>How it Works</h4>
         <div className="p4">
           {`Description of what's going on`}
         </div>
+
         <h4>What Files are Generated?</h4>
         <div className="p4">
           {`Description of what's going on`}
         </div>
+
         <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>Here's an example</div>
       </div>
     );

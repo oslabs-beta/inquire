@@ -12,16 +12,18 @@ class DocSidebar extends Component {
         
         <a href="#OVERVIEW"><div className="p3">Overview</div></a>
 
+        <a href="#PREREQS"><div className="p3">Prerequisites</div></a>
+
         <a href="#SETUP"><div className="p3">Setup</div></a>
         <div>
           <ul>
-            <li>Installing Topic</li>
+            <li>Installing Inquire</li>
             <li>Adding the Script</li>
           </ul>
         </div>
           
 
-        <a href="#INIT"><div className="p3">Initializing Topic</div></a>
+        <a href="#INIT"><div className="p3">Initializing Inquire</div></a>
         <div>
           <ul>
             <li>Choosing a Destination</li>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ConfigDocs from './sections/ConfigDocs.jsx';
 import GenGQLDocs from './sections/GenGQLDocs.jsx';
 import InitDocs from './sections/InitDocs.jsx';
+import PreReqDocs from './sections/PreReqDocs.jsx';
 import QueryDocs from './sections/QueryDocs.jsx';
 import SetupDocs from './sections/SetupDocs.jsx';
 
@@ -15,14 +16,14 @@ class DocContent extends Component {
       <div>
         <div className="docContentSection" id="OVERVIEW">
           <h2>Overview</h2>
-          <div className="p4">Welcome to the Topic docs!</div>
+          <div className="p4">Welcome to the Inquire docs!</div>
           <div className="p4">
             {`If you're intending to incorporate GraphQL 
             to query your Kafka topics, you've come to the right place.`}
             </div>
             <br/>
             <div className="p4">
-            {`With Topic, it's easier than ever to start retrieving only the most 
+            {`With Inquire, it's easier than ever to start retrieving only the most 
             relevant data from your message streams - and it only takes a few steps.`}
             </div>
           <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>
@@ -30,7 +31,7 @@ class DocContent extends Component {
             specific information, click any sidebar section to jump.
           </div>
         </div>
-
+        <PreReqDocs/>
         <SetupDocs/>
         <InitDocs/>
         <ConfigDocs/>

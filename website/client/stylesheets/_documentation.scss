@@ -33,13 +33,15 @@
 }
 
 .docContentSection {
-  width: 40vw;
-  height: $nonNavBar-height;
+  width: 68vw;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   text-align: left;
   padding: 8vh;
-  padding-top: 5vh;
+  padding-top: 4vh;
 }
+
+//add doc banner with logo above Overview
