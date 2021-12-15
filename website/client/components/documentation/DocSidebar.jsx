@@ -10,9 +10,12 @@ class DocSidebar extends Component {
       <div className="docSidebar">
         <h3>Contents</h3>
         
+
         <a href="#OVERVIEW"><div className="p3">Overview</div></a>
 
+
         <a href="#PREREQS"><div className="p3">Prerequisites</div></a>
+
 
         <a href="#SETUP"><div className="p3">Setup</div></a>
         <div>
@@ -58,6 +61,9 @@ class DocSidebar extends Component {
             <li>Writing Queries</li>
           </ul>
         </div>
+
+
+        <a href="#CONCLUSION"><div className="p3">Conclusion</div></a>
 
 
       </div>

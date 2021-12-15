@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ConfigDocs from './sections/ConfigDocs.jsx';
+import DocsConclusion from './sections/DocsConclusion.jsx';
 import GenGQLDocs from './sections/GenGQLDocs.jsx';
 import InitDocs from './sections/InitDocs.jsx';
 import PreReqDocs from './sections/PreReqDocs.jsx';
@@ -37,6 +38,7 @@ class DocContent extends Component {
         <ConfigDocs/>
         <GenGQLDocs/>
         <QueryDocs/>
+        <DocsConclusion/>
       </div>
     );
   }
