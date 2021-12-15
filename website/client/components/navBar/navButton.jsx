@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changePageActionCreator } from '../../actions/actions.js';
 
-const mapDispatchToProps = dispatch => (
-  {
-    changePage: (currPage) => dispatch(changePageActionCreator(currPage)),
-  }
-);
+const mapDispatchToProps = (dispatch) => ({
+  changePage: (currPage) => dispatch(changePageActionCreator(currPage)),
+});
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currPage: state.webSession.currPage,
   npmLink: state.webSession.npmLink,
   githubLink: state.webSession.githubLink,
@@ -24,26 +22,45 @@ class NavButton extends Component {
     // Set className to "paragraph 4 bold" if this button corresponds to currently active page
     const navButtonElement = [];
     let isCurrPage;
-    this.props.buttonText == this.props.currPage ? isCurrPage = true : isCurrPage = false;
-    isCurrPage ? 
-      navButtonElement.push(<div className="p4b" key={this.props.buttonText}> { this.props.buttonText } </div>) :
-      navButtonElement.push(<div className="p4" key={this.props.buttonText}> { this.props.buttonText } </div>)
+    this.props.buttonText == this.props.currPage
+      ? (isCurrPage = true)
+      : (isCurrPage = false);
+    isCurrPage
+      ? navButtonElement.push(
+          <div className="p4b" key={this.props.buttonText}>
+            {' '}
+            {this.props.buttonText}{' '}
+          </div>
+        )
+      : navButtonElement.push(
+          <div
+            className="p4"
+            id={this.props.buttonText.replaceAll(' ', '')}
+            key={this.props.buttonText}
+          >
+            {' '}
+            {this.props.buttonText}{' '}
+          </div>
+        );
 
-    return(
-      <div className="navButton"
-      // Upon button click, trigger an action to change currPage property of state to the selected page
-      onClick={({payload = this.props.buttonText}) => {
-        // If clicked link is "download npm", take user to NPM page.
-        if (payload == 'download npm') window.open(this.props.npmLink, "_blank");
-        // If clicked link is "github", take user to Github page.
-        if (payload == 'github') window.open(this.props.githubLink, "_blank");
-        // Otherwise, load appropriate component from the product site.
-        else this.props.changePage(payload)}
-      }>
-        { navButtonElement }
+    return (
+      <div
+        className="navButton"
+        // Upon button click, trigger an action to change currPage property of state to the selected page
+        onClick={({ payload = this.props.buttonText }) => {
+          // If clicked link is "download npm", take user to NPM page.
+          if (payload == 'download npm')
+            window.open(this.props.npmLink, '_blank');
+          // If clicked link is "github", take user to Github page.
+          if (payload == 'github') window.open(this.props.githubLink, '_blank');
+          // Otherwise, load appropriate component from the product site.
+          else this.props.changePage(payload);
+        }}
+      >
+        {navButtonElement}
       </div>
     );
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (NavButton);
+export default connect(mapStateToProps, mapDispatchToProps)(NavButton);
