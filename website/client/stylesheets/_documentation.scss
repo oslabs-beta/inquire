@@ -1,0 +1,38 @@
+@import '_variables';
+
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
+
+.docContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.docSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 20%;
+  background-color: #f05800; 
+  position: fixed;
+  margin-top: 8vh;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.docContent {
+  display: flex; 
+  flex-direction: column; 
+  width: 80%;
+  margin-top: 8vh; 
+  margin-left: 20%;
+}
+
+// .docContentSection {
+//in here, have rules for each heading size, images, etc
+// }
