@@ -16,7 +16,7 @@ class DocSidebar extends Component {
         <div>
           <ul>
             <li>Installing Topic</li>
-            <li>Choosing a Location</li>
+            <li>Adding the Script</li>
           </ul>
         </div>
           
@@ -24,8 +24,8 @@ class DocSidebar extends Component {
         <a href="#INIT"><div className="p3">Initializing Topic</div></a>
         <div>
           <ul>
+            <li>Choosing a Destination</li>
             <li>Init Command</li>
-            <li>Choosing a Mode</li>
           </ul>
         </div>
 
