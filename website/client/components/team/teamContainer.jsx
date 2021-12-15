@@ -30,7 +30,7 @@ class TeamContainer extends Component {
     `
     const annaText = `
       Anna is a software engineer with a background in architecture and civil engineering. Most recently her work has 
-      revolved around frontend development and design, as well as streaming platforms including as Kafka.
+      revolved around frontend development and design, as well as streaming platforms like Kafka.
     `
 
     const imageLinks = [profileHan, profileYing, profileCece, profileAnna];

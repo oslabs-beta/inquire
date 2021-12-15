@@ -10,71 +10,31 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-  username: '',
-  password: '',
-  userId: '',
-  schemaIds: [],
-  isLoggedIn: false,
   currPage: 'home', // 'home' by default
-  allPages: [
-    // Array of strings with each of the available "page" container components in our site
-    'user portal',
-    'documentation',
-    'meet the team',
-    'use online',
-    'download npm',
+  allPages: [ // Array of strings with each of the available "page" container components in our site
     'home',
+    'download npm',
+    'github',
+    'documentation',
+    'use online',
+    'meet the team',
   ],
   npmLink: 'https://www.npmjs.com/', // Link to NPM package.
+  githubLink: "https://github.com/oslabs-beta/topiQL", // Link to Github
 };
 
 const webSessionReducer = (state = initialState, action) => {
-  let username;
-  let password;
-  let userId;
-  let schemaIds;
-  let isLoggedIn;
   let currPage;
-  let allPages;
-  let npmLink;
 
   switch (action.type) {
     case types.CHANGE_PAGE: {
-      // Note "download NPM" doesn't reload the React website components, rather it simply links to the external NPM page.
+      // Note "download npm" and "github" doesn't reload the React website components, rather it simply links to the external NPM page.
       currPage = action.payload;
-      if (currPage === 'download npm') return state;
+      if (currPage == 'download npm') return state;
+      if (currPage == 'github') return state;
       return {
         ...state,
         currPage,
-      };
-    }
-    case types.ADD_EMAIL: {
-      username = action.payload;
-      return {
-        ...state,
-        username,
-      };
-    }
-    case types.ADD_PASSWORD: {
-      password = action.payload;
-      return {
-        ...state,
-        password,
-      };
-    }
-    case types.LOGIN_SIGNUP: {
-      userId = action.payload.userMongoID;
-      // username = action.payload.username;
-      isLoggedIn = action.payload.isLoggedIn;
-      schemaIds = action.payload.schemaIds;
-      // password = '';
-      return {
-        ...state,
-        userId,
-        // username,
-        isLoggedIn,
-        schemaIds,
-        // password,
       };
     }
 

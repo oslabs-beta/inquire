@@ -8,8 +8,10 @@ class TeammateProfile extends Component {
   render() {
     return(
       <div className="teammateProfile">
-        {/* Profile picture */}
-        <img src={this.props.imageLink} alt="logo"/>
+        <div className="teammatePicture">
+          {/* Profile picture */}
+          <img src={this.props.imageLink} alt="logo"/>
+        </div>
         {/* Small colored circle */}
         <div className="profileCircleIcon">
           <img src={this.props.circleIcon} alt="logo" style={{marginTop : '5vh'}}/>
