@@ -15,9 +15,10 @@ class TeamContainer extends Component {
     super(props);
   }
 
+
   render() {
     const hanText = `
-      Coming from a background in automation and manufacturing, Han brings to Topic a strong foundation in 
+      Coming from a background in automation and manufacturing, Han brings to Inquire a strong foundation in 
       backend engineering as well as knowledge in algorithms and performance optimization.
     `
     const yingText =  `

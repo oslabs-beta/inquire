@@ -34,6 +34,15 @@
   }     
 }
 
+.titleAndLogoBox{
+  height: 7vh;
+  width: 23vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3vh;
+}
+
 /*
 * ************************************
 * iPhone 6/7/8 Plus or smaller
