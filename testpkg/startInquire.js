@@ -4,7 +4,7 @@ const path = require('path');
 const { rawListeners } = require('process');
 const initTool = require('./tools/initTool');
 
-//make a directory in destination folder (server) called topiQL
+//make a directory in destination folder (server) called inquire
 
 let pickedMode;
 let dataFolder;
@@ -44,22 +44,22 @@ const dataPrompt = () => {
   });
 };
 
-const initTopiQL = async (absPath) => {
+const initInquire = async (absPath) => {
   await modePrompt();
   await dataPrompt();
   rl.on('close', async () => {
     const targets = await initTool.createTargets(pickedMode, dataFolder);
     const config = await initTool.createConfig(targets, pickedMode, dataFolder);
-    if (!fs.existsSync(`${absPath}/topiQL`)) {
-      fs.mkdirSync(`${absPath}/topiQL`);
+    if (!fs.existsSync(`${absPath}/inquire`)) {
+      fs.mkdirSync(`${absPath}/inquire`);
     }
-    fs.writeFileSync(`${absPath}/topiQL/config.js`, config);
+    fs.writeFileSync(`${absPath}/inquire/config.js`, config);
   });
   rl.close();
 };
 
 //after this file is run, user will run their configuration file? which will run index.js in testpkg.
-//index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
-// initTopiQL();
+//index.js in testpkg will read the user-given file and output it to the inquire folder created from this file.
+// initInquire();
 
-module.exports = { initTopiQL};
+module.exports = { initInquire };
