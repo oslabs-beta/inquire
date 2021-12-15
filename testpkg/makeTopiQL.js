@@ -3,7 +3,9 @@ const path = require('path');
 const buildGQLTool = require('./tools/buildGQLTool.js');
 
 // pathStore.json is generated when user initializes destination folder for graphQL Schemas
-const storedPath = JSON.parse(fs.readFileSync(path.resolve(__dirname, './pathStore.json')));
+const storedPath = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, './pathStore.json'))
+);
 const configPath = `${storedPath}/topiQL/config.js`;
 const config = require(configPath);
 
@@ -20,35 +22,35 @@ const serverPath = `${storedPath}/server.js`;
 /**
  * Returns completed graphql schema from targeted Avro schema files
  * Using various functions from buildGQLTool.js depends on which mode user selected.
- * 
+ *
  * @returns {String} completed graphql schema to be written as typeDef.js
  */
 const toGraphQL = () => {
   let formattedData = ``;
   const filenames = fs.readdirSync(schemaFolder);
-  const topicsTypesZip = []
+  const topicsTypesZip = [];
   let targetZip;
   let currTopic;
 
   // when SELECTED mode, targetZip is used to avoid potential inconsistency of order of files
   if (mode === 2) {
-    targetZip = buildGQLTool.zipTargets(topics, targets)
+    targetZip = buildGQLTool.zipTargets(topics, targets);
   }
 
   filenames.forEach((filename, topicsIdx) => {
     try {
       if (mode === 2 && targetZip.has(filename)) {
-        currTopic = targetZip.get(filename)
+        currTopic = targetZip.get(filename);
       } else if (mode === 2) {
         // skips if current checking file isn't selected schema from user when SELECTED mode
-        return
+        return;
       } else {
-        currTopic = topics[topicsIdx]
+        currTopic = topics[topicsIdx];
       }
       const tmpRead = fs.readFileSync(schemaFolder + '/' + filename);
       const innerData = buildGQLTool.getInnerData(tmpRead);
-      const topicType = buildGQLTool.zipTopicTypes(currTopic, innerData)
-      topicsTypesZip.push(topicType)
+      const topicType = buildGQLTool.zipTopicTypes(currTopic, innerData);
+      topicsTypesZip.push(topicType);
       const parsedData = buildGQLTool.parseKafkaSchema(innerData);
       formattedData += buildGQLTool.formatGQLSchema(parsedData);
     } catch (err) {
@@ -66,7 +68,7 @@ const toGraphQL = () => {
 
 /**
  * Build resolver file to iterate over all the topics that user specificed
- * 
+ *
  * @returns {String} completed contents for resolver file to be written as resolvers.js
  */
 const makeResolver = () => {
@@ -146,7 +148,7 @@ const kafkaEventToAsyncIterator = async (topicName) => {
 };
 
 module.exports = kafkaEventToAsyncIterator;
-`
+`;
 };
 
 /**

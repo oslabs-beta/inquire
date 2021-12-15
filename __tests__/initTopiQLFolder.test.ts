@@ -11,10 +11,17 @@ const readline = require('readline');
 jest.mock('fs');
 jest.mock('readline');
 
-// beforeEach(() => {
-//   jest.resetAllMocks();
-//   return initTopiQL();
-// });
+beforeEach(() => {
+  return jest.resetAllMocks();
+});
+describe('initTopiQL process', () => {
+  test('modePrompt and dataPrompt are called', () => {
+    initTopiQL().then(() => {
+      expect(modePrompt).toHaveBeenCalledTimes(1);
+      expect(dataPrompt).toHaveBeenCalledTimes(1);
+    });
+  });
+});
 
 // xdescribe('initTopiQL process', () => {
 //   const topiQLFolderDir = (__dirname + 'server/topiQL').replace(
@@ -50,11 +57,3 @@ jest.mock('readline');
 //     });
 //   });
 // });
-
-test('modePrompt and dataPrompt are called', () => {
-  initTopiQL().then(() => {
-    expect(modePrompt).toHaveBeenCalledTimes(1);
-    expect(dataPrompt).toHaveBeenCalledTimes(1);
-    expect(readline).toHaveBeenCalled();
-  });
-});
