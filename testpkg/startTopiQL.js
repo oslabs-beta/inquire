@@ -1,34 +1,65 @@
+const { defaultInputTarget } = require('concurrently/src/defaults');
 const fs = require('fs');
 const path = require('path');
+const { rawListeners } = require('process');
+const initTool = require('./tools/initTool');
 
-console.log("I am testpkg/initGQL")
 //make a directory in destination folder (server) called topiQL
-fs.mkdirSync(path.resolve(__dirname, '../server/topiQL'));
-//make a file there called config.js with boilerplate - user will just fill in the blanks.
 
-let result =
-`// User Configuration File for Kafka - GraphQL connection using topiQL library
-const path = require('path');
-const username = ''
-const password = ''
+let pickedMode;
+let dataFolder;
 
-const sasl = username && password ? { username, password, mechanism: 'plain' } : null
-const ssl = !!sasl
+const readline = require('readline');
 
-module.exports = {
-  topics: [],
-  clientId: '',
-  brokers: [],
-  ssl,
-  sasl,
-  connectionTimeout: 3000,
-  authenticationTimeout: 1000,
-  reauthenticationThreshold: 10000,
-  schemaFile: '',  
-  destinationFolder: ''
-};`;
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-fs.writeFileSync(path.resolve(__dirname, '../server/topiQL/config.js'), result);
+const modePrompt = () => {
+  return new Promise((resolve, reject) => {
+    rl.question(
+      '\n' +
+        'Choose MODE:\n' +
+        '1: Use all files in data folder to create GQL schema\n' +
+        '2: Manually specify files when filling out configuration\n' +
+        'Enter 1 OR 2: ',
+      (mode) => {
+        pickedMode = mode;
+        resolve();
+      }
+    );
+  });
+};
 
-//after this file is run, user will run their configuration file? which will run index.js in testpkg. 
-//index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file. 
+const dataPrompt = () => {
+  return new Promise((resolve, reject) => {
+    rl.question(
+      'Enter absolute path to folder containing schema file(s): \n',
+      (folderPath) => {
+        dataFolder = folderPath;
+        resolve();
+      }
+    );
+  });
+};
+
+const initTopiQL = async (absPath) => {
+  await modePrompt();
+  await dataPrompt();
+  rl.on('close', async () => {
+    const targets = await initTool.createTargets(pickedMode, dataFolder);
+    const config = await initTool.createConfig(targets, pickedMode, dataFolder);
+    if (!fs.existsSync(`${absPath}/topiQL`)) {
+      fs.mkdirSync(`${absPath}/topiQL`);
+    }
+    fs.writeFileSync(`${absPath}/topiQL/config.js`, config);
+  });
+  rl.close();
+};
+
+//after this file is run, user will run their configuration file? which will run index.js in testpkg.
+//index.js in testpkg will read the user-given file and output it to the topiQL folder created from this file.
+// initTopiQL();
+
+module.exports = { initTopiQL};

@@ -1,12 +1,27 @@
 {
-  "name": "testpkg",
-  "version": "1.0.0",
-  "description": "test console.log pkg",
-  "main": "index.js",
+  "name": "topiql",
+  "version": "1.0.1",
+  "description": "Generates fully-typed GraphQL subscription schema for Apache Kafka based on Avro data.",
+  "main": "startTopiQL.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "cece": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "c&h",
-  "license": "ISC"
+  "keywords": [
+    "kafka",
+    "apachekafka",
+    "graphql",
+    "schema",
+    "avro",
+    "apollo"
+  ],
+  "bin": "cli.js",
+  "author": "Anna Falvello, Cecily Jansen, Han Bin Jo, Ying Liu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oslabs-beta/topiQL.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/topiQL/issues"
+  }
 }

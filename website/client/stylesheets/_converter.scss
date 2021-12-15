@@ -1,0 +1,184 @@
+@import '_variables';
+
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
+.converterContainer {
+  width: 100vw;
+  height: $nonNavBar-height;
+  display: flex;
+}
+
+.convertingDescription {
+  width: 30vw;
+  height: $nonNavBar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 8vh;
+  padding-top: 5vh;  
+  overflow-y: scroll;
+}
+.convertingDescription::-webkit-scrollbar{
+  width: 0;
+}
+
+.convertingBox {
+  width: 70vw;
+  height: $nonNavBar-height;
+  background: $color-green;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5vh
+}
+
+.inputOutputBox {
+  width: 25vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  // Adjust for "copy button" area
+  position: relative;
+  top: -3vh;
+  background-color: transparent;
+  padding: 3.5vh;
+  border-style: dashed;
+  border-color: $color-offwhite;
+  border-width: 1.5px;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  overflow-y: scroll;
+}
+
+.inputOutputBox::-webkit-scrollbar{
+  width: 0;
+}    
+
+.buttonContainer {
+ display: flex;
+ flex-direction: column;
+}
+
+.converterButton {
+  width: 13vw;
+  min-width: 130px;
+  height: 4vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: $color-green;
+  margin-top: 1.5vh;
+  padding: 1vh;
+  &:hover {
+    position: relative;
+    background: $color-red;
+    top: -2px;
+  }
+  &:active {
+    background: $color-red;
+  }
+}
+
+.copyTextButton {
+  width: 25px;
+  height: 25px;
+  z-index: 1;
+  align-self: flex-end;
+  position: relative;
+  top: 22px;
+  right: -22vw;
+  &:hover {
+    position: relative;
+    border:solid;
+    border-width: 1px;
+  }
+}
+
+/*
+* ************************************
+* iPad Pro Portrait
+* ************************************
+*/
+
+@media screen and (max-width: 1024px) {
+  .converterContainer{
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    width: 100vw !important;
+    overflow-y: scroll !important;
+  }
+  .converterContainer::-webkit-scrollbar{
+    width: 0;    
+  }
+
+  .convertingDescription {
+    width: 100vw !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    height: $nonNavBar-height !important;
+    text-align: center !important;
+  }
+
+  .convertingBox {
+    width: 100vw !important;
+    flex-direction: column !important;
+  }
+
+  .inputOutputBox {
+    width: 80vw !important;
+    height: 20vh !important;
+  }
+
+  .buttonContainer {
+    flex-direction: row !important;
+    width: 85vw !important;
+    justify-content: space-around !important;
+   }
+
+  .converterButton {
+    width: 25vw !important;
+    justify-content: space-around;
+  }
+
+  .copyTextButton {
+    top: 13px !important;
+    right: -74.75vw !important;
+  }
+}
+
+/*
+* ************************************
+* iPhone 6/7/8 Plus or smaller
+* ************************************
+*/
+
+@media screen and (max-width: 415px) {
+  .buttonContainer {
+    flex-direction: column !important;
+    align-items: center;
+    width: 85vw !important;
+    justify-content: space-between !important;
+  }
+   
+  .copyTextButton {
+    top: 15px !important;
+    right: -72vw !important;
+  }
+
+  .converterButton {
+    width: 40vw !important;
+  }
+}
+

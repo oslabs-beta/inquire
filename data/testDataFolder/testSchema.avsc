@@ -1,0 +1,61 @@
+{
+  "fields": [
+    {
+      "name": "statusId",
+      "type": "string"
+    },
+    {
+      "name": "tripId",
+      "type": {
+        "name": "tripIdType",
+        "symbols": [
+          "trip1",
+          "trip2"
+        ],
+        "type": "enum"
+      }
+    },
+    {
+      "name": "vehicleId",
+      "type": {
+        "name": "vehicleIdType",
+        "symbols": [
+          "car1",
+          "car2"
+        ],
+        "type": "enum"
+      }
+    },
+    {
+      "name": "position",
+      "type": {
+        "fields": [
+          {
+            "name": "lat",
+            "type": "float"
+          },
+          {
+            "name": "lon",
+            "type": "float"
+          }
+        ],
+        "name": "Position",
+        "type": "record"
+      }
+    },
+    {
+      "name": "batteryLevel",
+      "type": "int"
+    },
+    {
+      "name": "distance",
+      "type": "int"
+    },
+    {
+      "name": "timestamp",
+      "type": "string"
+    }
+  ],
+  "name": "status",
+  "type": "record"
+}
