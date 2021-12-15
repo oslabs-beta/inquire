@@ -108,3 +108,7 @@ dist
 
 # Environment variables and passcodes
 .env
+
+
+#.DS_Store
+.DS_Store
