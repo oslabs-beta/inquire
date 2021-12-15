@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const APP = `http://localhost:${process.env.PORT || 8080}/`;
 jest.setTimeout(100000);
 
-describe('Nav bar clicks', () => {
+describe('Nav bar and convertor functionality', () => {
   let browser;
   let page;
 
@@ -43,7 +43,7 @@ describe('Nav bar clicks', () => {
 
   test('click on nav bar', async () => {
     try {
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(2000);
       await page.waitForSelector('#documentation');
       await page.focus('#documentation');
       await page.click('#documentation');
