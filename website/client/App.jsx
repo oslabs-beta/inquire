@@ -14,6 +14,7 @@ import NavBar from './components/navBar/navBar.jsx';
 import HomeContainer from './components/home/homeContainer.jsx';
 import ConverterContainer from './components/converter/converterContainer.jsx';
 import TeamContainer from './components/team/teamContainer.jsx';
+import DocContainer from './components/documentation/DocContainer.jsx';
 
 // import { addCardActionCreator } from '../actions/actions';
 // import { deleteCardActionCreator } from '../actions/actions';
@@ -48,6 +49,8 @@ class App extends Component {
       case 'meet the team' :
         displayComponents.push(<TeamContainer key="teamContainer"/>)
         break;
+      case 'documentation' :
+        displayComponents.push(<DocContainer key="docContainer"/>)
     }
     return (
       <div className="app">
