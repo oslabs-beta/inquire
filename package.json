@@ -1,5 +1,5 @@
 {
-  "name": "topiql",
+  "name": "inquire",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start:apollo": "node server/server.js",
     "test": "export NODE_ENV=test; jest"
   },
-  "author": "topiQL",
+  "author": "inquire",
   "license": "ISC",
   "dependencies": {
     "@graphql-tools/schema": "^8.3.1",

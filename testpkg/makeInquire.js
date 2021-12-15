@@ -6,7 +6,7 @@ const buildGQLTool = require('./tools/buildGQLTool.js');
 const storedPath = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, './pathStore.json'))
 );
-const configPath = `${storedPath}/topiQL/config.js`;
+const configPath = `${storedPath}/inquire/config.js`;
 const config = require(configPath);
 
 const topics = config.topics;
@@ -14,9 +14,9 @@ const targets = config.targets;
 const mode = config.mode;
 const schemaFolder = config.schemaFolder;
 
-const typeDefsPath = `${storedPath}/topiQL/typeDefs.js`;
-const resolversPath = `${storedPath}/topiQL/resolvers.js`;
-const asyncIteratorPath = `${storedPath}/topiQL/asyncIterator.js`;
+const typeDefsPath = `${storedPath}/inquire/typeDefs.js`;
+const resolversPath = `${storedPath}/inquire/resolvers.js`;
+const asyncIteratorPath = `${storedPath}/inquire/asyncIterator.js`;
 const serverPath = `${storedPath}/server.js`;
 
 /**
@@ -169,8 +169,8 @@ const { SubscriptionServer } = require('subscriptions-transport-ws');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 // Import schema and resolvers from files.
-const typeDefs = require('./topiQL/typeDefs.js');
-const resolvers = require('./topiQL/resolvers.js');
+const typeDefs = require('./inquire/typeDefs.js');
+const resolvers = require('./inquire/resolvers.js');
 
 // Server start must be wrapped in async function
 (async function () {
