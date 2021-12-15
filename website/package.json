@@ -1,7 +1,7 @@
 {
   "name": "topic",
   "version": "1.0.0",
-  "description": "topiQL",
+  "description": "inquire",
   "main": "index.js",
   "author": "Anna Falvello, Cecily Jansen, Han B Jo, Ying Liu",
   "license": "MIT",
