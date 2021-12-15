@@ -33,7 +33,7 @@
     font-family: 'Raleway';
     font-size: $paragraph-size-smallest;
     color: $color-text-white;
-    font-weight: 300;
+    font-weight: 350;
   }
 }
 
@@ -75,6 +75,39 @@
       color: $color-text-gray;
       font-weight: 900;
       padding: 6px 8px 6px 0px;
+    }
+  }
+
+  .docSnip {
+    width: 56vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    top: -3vh;
+    background-color: $color-green;
+    padding: 3vh;
+    border-color: $color-offwhite;
+    border-width: 1.5px;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    font-weight: inherit;
+    overflow-y: scroll;
+    resize: none;
+
+    textarea {
+      background: transparent;
+    }
+
+  }
+
+  .p7 {
+    margin-top: 18px;
+
+    .copyTextButton {
+      right: -53vw;
     }
   }
 }

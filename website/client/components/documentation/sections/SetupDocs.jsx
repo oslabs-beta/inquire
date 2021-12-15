@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocSnip from '../DocSnip.jsx';
 
 class SetupDocs extends Component {
 
@@ -8,7 +9,7 @@ class SetupDocs extends Component {
 
         <h2>Setup</h2>
           <div className="p4">
-            {`In this section, we'll go over the basics of integrating Inquire into your workspace.`}
+            {`How to integrate Inquire into your workspace.`}
           </div>
 
         <h4>Installing Inquire</h4>
@@ -17,7 +18,12 @@ class SetupDocs extends Component {
             To do this, execute this command in your terminal:`}
           </div>
 
-        {/* insert photo of command here */}
+        <DocSnip code="npm install --save inquire"/>
+        {/* insert codesnip here
+          have div className thisthat - converter style
+          have div className copyTextButton
+        */}
+        
 
         <div className="p4">
           {`After installing the package, you should be able to see "inquire" as a dependency 
