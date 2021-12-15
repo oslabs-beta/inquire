@@ -17,9 +17,8 @@ import webSessionReducer from './webSessionReducer';
 const reducers = combineReducers({
   // if we had other reducers, they would go here
   schemas: schemaReducer,
-  webSession: webSessionReducer
+  webSession: webSessionReducer,
 });
 
 // make the combined reducers available for import
 export default reducers;
-

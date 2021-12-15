@@ -84,7 +84,7 @@ class PortalContainer extends Component {
       })
       .then((resData) => {
         if (resData.data.login) {
-          console.log('resData login--->', resData.data.login._id);
+          console.log('resData login--->', resData.data.login.createdSche);
           this.setState({
             ...this.state,
             userId: resData.data.login._id,
