@@ -24,13 +24,12 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example user and pass */}
-        {/* <DocSnip code={`
-  //input username and password for Confluent Cloud
-  const username = '<yourUsername>'
+        <DocSnip code={`
+  const username = '<yourUsername>'\n
   const password = '<yourPassword>'
           `}
-          height={{height: '19.3vh'}}
-          /> */}
+          height={{height: '16vh'}}
+          />
 
         <h4>Targets & Topics</h4>
         <div className="p4">
@@ -50,12 +49,12 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example topics & targets filled */}
-        {/* <DocSnip code={`
+        <DocSnip code={`
 topics: ['topic1', 'topic2'],\n
-targets: ['schemaFile1.avsc', 'schemaFile2.js']
+targets: ['schemaFile1.avsc', 'schemaFile2.js'],
           `}
-          height={{height: '19.3vh'}}
-          /> */}
+          height={{height: '16vh'}}
+          />
 
 
         <h4>Client ID & Brokers</h4>
@@ -64,13 +63,12 @@ targets: ['schemaFile1.avsc', 'schemaFile2.js']
         </div>
 
         {/* code snip with example client ID and Brokers filled in */}
-        {/* <DocSnip code={`
-// CLI: \n
-Enter absolute path to folder containing schema file(s):\n
-<insert path here>
+        <DocSnip code={`
+clientId: '<yourClientID>',\n
+brokers: [<yourBrokers>],
           `}
-          height={{height: '19.3vh'}}
-          /> */}
+          height={{height: '16vh'}}
+          />
 
 
         <h4>Default Settings</h4>
@@ -80,11 +78,30 @@ Enter absolute path to folder containing schema file(s):\n
           the configuration file. `}
         </div>
 
+        {/* code snip with example defaults */}
+        <DocSnip code={`
+ssl,\n
+sasl,\n
+connectionTimeout: 3000,\n
+authenticationTimeout: 1000,\n
+reauthenticationThreshold: 10000,\n
+schemaFolder: '<schemaFolderPath>'
+        `}
+        height={{height: '32vh'}}
+        />
+
         <ul>
           <li>ssl & sasl</li>
         </ul>
         <div className="p4">
           {`These sections _____`}
+        </div>
+
+        <ul>
+          <li>Timeouts & Thresholds</li>
+        </ul>
+        <div className="p4">
+          {`These are by default set to ___`}
         </div>
 
         <ul>
@@ -96,15 +113,6 @@ Enter absolute path to folder containing schema file(s):\n
           at any given time, to reconstruct your GraphQL functionality, you can change this field and run Inquire 
           again to overwrite the outdated functionality. If you're a first-time user, you can ignore this field.`}
         </div>
-
-        {/* code snip with example defaults */}
-        {/* <DocSnip code={`
-// CLI: \n
-Enter absolute path to folder containing schema file(s):\n
-<insert path here>
-          `}
-          height={{height: '19.3vh'}}
-          /> */}
 
       </div>
     );

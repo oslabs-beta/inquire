@@ -34,20 +34,24 @@ npm run inquire build
         </div>
 
         {/* replace with filesystem illustration, destination folder as root */}
-        <ul>
-          <li>typeDefs.js</li>
-          <li>resolvers.js</li>
-          <li>asyncIterator.js</li>
-          <li>server.js</li>
-        </ul>
+        <DocSnip code={`
+projectRoot/\n
+├── destinationFolder/\n
+    ├── Inquire/\n
+        ├── config.js\n
+        ├── +typeDefs.js\n
+        ├── +resolvers.js\n
+        ├── +asyncIterator.js\n
+    ├── +server.js
+          `}
+          height={{height: '38vh'}}
+          />
 
         <div className="p4">
           {`Your Apollo test server will generate as a direct child of the destination folder you specified in the 
           initialization, and the 3 files containing the custom GraphQL type definitions, resolvers, and async iterator
            will appear inside the Inquire folder created.`}
         </div>
-
-        <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>Here's an example</div>
       </div>
     );
   }

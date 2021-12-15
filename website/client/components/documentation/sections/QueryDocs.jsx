@@ -37,8 +37,6 @@ node server.js
           you need!`}
         </div>
 
-        <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>Here's an example</div>
-
       </div>
     );
   }

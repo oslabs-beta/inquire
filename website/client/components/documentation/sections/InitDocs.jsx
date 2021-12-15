@@ -74,6 +74,14 @@ Enter absolute path to folder containing schema file(s):\n
           </div>
 
           {/* filetree illustration here */}
+          <DocSnip code={`
+projectRoot/\n
+├── destinationFolder/\n
+    ├── +Inquire/\n
+        ├── +config.js
+          `}
+          height={{height: '22.5vh'}}
+          />
 
       </div>
     );
