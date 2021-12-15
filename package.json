@@ -19,6 +19,7 @@
     "http": "^0.0.1-security",
     "iterall": "^1.3.0",
     "kafkajs": "^1.15.0",
+    "puppeteer": "^13.0.0",
     "subscriptions-transport-ws": "^0.11.0"
   },
   "devDependencies": {
