@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocSnip from '../DocSnip.jsx';
 
 class GenGQLDocs extends Component {
   constructor(props) {
@@ -21,11 +22,17 @@ class GenGQLDocs extends Component {
         </div>
 
         {/* code snip of npm run inquire build command */}
+        <DocSnip code={`
+npm run inquire build
+          `}
+          height={{height: '12vh'}}
+          />
 
         <div className="p4">
           {`Running "build" triggers the main functionality. Based on the information you entered, Inquire will
           scan, process, and interpret your Avro schema to generate 4 JavaScript files.`}
         </div>
+
         {/* replace with filesystem illustration, destination folder as root */}
         <ul>
           <li>typeDefs.js</li>

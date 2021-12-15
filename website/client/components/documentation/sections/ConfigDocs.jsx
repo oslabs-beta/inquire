@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocSnip from '../DocSnip.jsx';
 
 class ConfigDocs extends Component {
   
@@ -23,7 +24,13 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example user and pass */}
-
+        {/* <DocSnip code={`
+  //input username and password for Confluent Cloud
+  const username = '<yourUsername>'
+  const password = '<yourPassword>'
+          `}
+          height={{height: '19.3vh'}}
+          /> */}
 
         <h4>Targets & Topics</h4>
         <div className="p4">
@@ -31,6 +38,7 @@ class ConfigDocs extends Component {
           or empty (Mode 2). If you've chosen Mode 2, you'll be able to specify here which schema files you'd like Inquire 
           to process. Add their relative paths as separate values in the given array.`}
         </div>
+
         <div className="p4">
           {`If you've chosen Mode 1 or otherwise you're finished specifying your schema files, you can now enter your desired topics.
           For each schema file you specify, you'll enter one topic name. NOTE: It's important that you specify these topic
@@ -42,6 +50,12 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example topics & targets filled */}
+        {/* <DocSnip code={`
+topics: ['topic1', 'topic2'],\n
+targets: ['schemaFile1.avsc', 'schemaFile2.js']
+          `}
+          height={{height: '19.3vh'}}
+          /> */}
 
 
         <h4>Client ID & Brokers</h4>
@@ -50,6 +64,13 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example client ID and Brokers filled in */}
+        {/* <DocSnip code={`
+// CLI: \n
+Enter absolute path to folder containing schema file(s):\n
+<insert path here>
+          `}
+          height={{height: '19.3vh'}}
+          /> */}
 
 
         <h4>Default Settings</h4>
@@ -77,6 +98,13 @@ class ConfigDocs extends Component {
         </div>
 
         {/* code snip with example defaults */}
+        {/* <DocSnip code={`
+// CLI: \n
+Enter absolute path to folder containing schema file(s):\n
+<insert path here>
+          `}
+          height={{height: '19.3vh'}}
+          /> */}
 
       </div>
     );

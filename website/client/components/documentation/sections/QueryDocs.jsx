@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocSnip from '../DocSnip.jsx';
 
 class QueryDocs extends Component {
   constructor(props) {
@@ -22,6 +23,11 @@ class QueryDocs extends Component {
         </div>
 
         {/* code snip of the command */}
+        <DocSnip code={`
+node server.js
+          `}
+          height={{height: '12vh'}}
+          />
 
         <h4>Writing Queries</h4>
         <div className="p4">
