@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import homepageLogo from '../../assets/homepageLogo.png'
+import homepageLogoGIF from '../../assets/homepageGIF.gif'
 
 class DescriptionImage extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class DescriptionImage extends Component {
     return(
       <div className="descriptionImage" >
         <div className="homePageImageContianer">
-          <img style={{leftMargin: "2px"}} src={homepageLogo} alt="my-logo"></img>
+          <img style={{leftMargin: "2px"}} src={homepageLogoGIF} alt="my-logo"></img>
         </div>
       </div>
     );

@@ -144,11 +144,12 @@
   .buttonContainer {
     flex-direction: row !important;
     width: 85vw !important;
-    justify-content: space-between !important;
+    justify-content: space-around !important;
    }
 
   .converterButton {
     width: 25vw !important;
+    justify-content: space-around;
   }
 
   .copyTextButton {

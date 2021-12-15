@@ -10,7 +10,7 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-  currPage: 'meet the team', // 'home' by default
+  currPage: 'home', // 'home' by default
   allPages: [ // Array of strings with each of the available "page" container components in our site
     'home',
     'download npm',
