@@ -34,7 +34,7 @@ const webSessionReducer = (state = initialState, action) => {
       if (currPage == 'github') return state;
       return {
         ...state,
-        currPage
+        currPage,
       };
     }
 

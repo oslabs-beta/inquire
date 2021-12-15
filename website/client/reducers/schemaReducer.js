@@ -23,23 +23,7 @@ const schemaReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case types.CONNECT_KAFKA: {
-      // lastMarketId = state.lastMarketId + 1;
-      // totalMarkets = state.totalMarkets + 1;
-      // newLocation = state.newLocation;
-      // const newMarket = {
-      //   marketId: lastMarketId,
-      //   location: newLocation,
-      //   cards: 0
-      // };
-      // marketList = state.marketList.slice();
-      // marketList.push(newMarket);
-      // return {
-      //   ...state,
-      //   marketList,
-      //   lastMarketId,
-      //   totalMarkets,
-      //   newLocation: ''
-      // };
+      //
     }
 
     case types.MAKE_GRAPHQL: {
