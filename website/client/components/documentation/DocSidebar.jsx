@@ -47,8 +47,6 @@ class DocSidebar extends Component {
         <div>
           <ul>
             <li>Build Command</li>
-            <li>How it Works</li>
-            <li>What Files are Generated?</li>
           </ul>
         </div>
 

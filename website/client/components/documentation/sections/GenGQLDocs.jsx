@@ -12,22 +12,32 @@ class GenGQLDocs extends Component {
         <h2>Generating GraphQL</h2>
         <div className="p4">
           {`By this time, you should have entered all the necessary information for Inquire to generate 
-          a complete set of GraphQL files. After one last CLI command, you can start writing some queries.`}
+          a complete set of GraphQL files. After one last CLI command, you can start writing and testing topic queries.`}
         </div>
 
         <h4>Build Command</h4>
         <div className="p4">
-          {`Description of what's going on`}
+          {`To generate the files, run this command in your terminal:`}
         </div>
 
-        <h4>How it Works</h4>
-        <div className="p4">
-          {`Description of what's going on`}
-        </div>
+        {/* code snip of npm run inquire build command */}
 
-        <h4>What Files are Generated?</h4>
         <div className="p4">
-          {`Description of what's going on`}
+          {`Running "build" triggers the main functionality. Based on the information you entered, Inquire will
+          scan, process, and interpret your Avro schema to generate 4 JavaScript files.`}
+        </div>
+        {/* replace with filesystem illustration, destination folder as root */}
+        <ul>
+          <li>typeDefs.js</li>
+          <li>resolvers.js</li>
+          <li>asyncIterator.js</li>
+          <li>server.js</li>
+        </ul>
+
+        <div className="p4">
+          {`Your Apollo test server will generate as a direct child of the destination folder you specified in the 
+          initialization, and the 3 files containing the custom GraphQL type definitions, resolvers, and async iterator
+           will appear inside the Inquire folder created.`}
         </div>
 
         <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>Here's an example</div>
