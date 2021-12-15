@@ -18,7 +18,7 @@ describe('converting to graphql schema', () => {
     test('datatype as array', () => {
       expect(typeof gqlSchema1).toBe('string');
     });
-    test('schema begins with word type', () => {
+    test('schema begins with keyword type', () => {
       expect(gqlSchema1.slice(0, 4)).toStrictEqual('type');
     });
   });
