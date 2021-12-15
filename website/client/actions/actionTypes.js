@@ -7,10 +7,8 @@
  * ************************************
  */
 
-
 // add action type constants i.e.:
 // export const ACTION_DESCRIPTION = "ACTION_DESCRIPTION";
-
 
 // Schema generation actions
 export const CONNECT_KAFKA = 'CONNECT_KAFKA';
@@ -19,6 +17,8 @@ export const CLEAR_AVRO = 'CLEAR_AVRO';
 export const ADD_AVRO = 'ADD_AVRO';
 export const UPDATE_GRAPHQL = 'UPDATE_GRAPHQL';
 
-
 // Web session actions
 export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const LOGIN_SIGNUP = 'LOGIN_SIGNUP';
+export const ADD_EMAIL = 'ADD_EMAIL';
+export const ADD_PASSWORD = 'ADD_PASSWORD';

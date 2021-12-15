@@ -3,7 +3,7 @@ const { buildSchema } = require('graphql');
 const graphqlSchema = buildSchema(`
     type User {
       _id: ID!
-      username: String!
+      email: String!
       password: String
       createdSchemas: [AvroSchema!]
     }
@@ -16,13 +16,18 @@ const graphqlSchema = buildSchema(`
       creator: User!
     }
 
+    type AuthData {
+      userId: ID!
+      token: String!
+      tokenExpiration: Int!
+    }
+
     input SchemaInput {
       topic: String!
       avro: String!
     }
 
     input UserInput {
-      username: String!
       email: String!
       password: String!
     }
@@ -30,12 +35,12 @@ const graphqlSchema = buildSchema(`
     type RootQuery {
       avroSchemas: [AvroSchema]
       avroSchema(_id: ID!): AvroSchema!
+      login(email: String!, password: String!): User      
     }
 
     type RootMutation {
       createSchema(schemaInput: SchemaInput): AvroSchema
-      createUser(userInput: UserInput): User
-      modifySchema(schemaInput: SchemaInput): AvroSchema
+      createUser(userInput: UserInput): User 
       deleteSchema(schemaId: ID!): AvroSchema
     }
 
@@ -46,3 +51,6 @@ const graphqlSchema = buildSchema(`
 `);
 
 module.exports = graphqlSchema;
+
+// login(email: String!, password: String!): AuthData!
+// modifySchema(schemaInput: SchemaInput): AvroSchema
