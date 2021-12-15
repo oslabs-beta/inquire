@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import ConfigDocs from './sections/ConfigDocs.jsx';
+import GenGQLDocs from './sections/GenGQLDocs.jsx';
+import InitDocs from './sections/InitDocs.jsx';
+import QueryDocs from './sections/QueryDocs.jsx';
+import SetupDocs from './sections/SetupDocs.jsx';
 
 class DocContent extends Component {
   constructor(props) {
@@ -6,21 +11,31 @@ class DocContent extends Component {
   }
   
   render() {
-    const header = `
-      Overview
-    `
-    const descriptionText1 = `
-      This will be where the sections go
-    `
-    const descriptionText2 = `
-      Here's 
-    `
     return(
-      <div className="convertingDescription">
-        <h2>{ header }</h2>
-        <div className="p4">{ descriptionText1 }</div>
-        <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>{ descriptionText2 }</div>
-        {/* Button Container element holds three buttons with the functionality to connect to Kafka, generate GraphQL, or clear text boxes */}
+      <div>
+        <div className="docContentSection" id="OVERVIEW">
+          <h2>Overview</h2>
+          <div className="p4">Welcome to the Topic docs!</div>
+          <div className="p4">
+            {`If you're intending to incorporate GraphQL 
+            to query your Kafka topics, you've come to the right place.`}
+            </div>
+            <br/>
+            <div className="p4">
+            {`With Topic, it's easier than ever to start retrieving only the most 
+            relevant data from your message streams - and it only takes a few steps.`}
+            </div>
+          <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>
+            For a seamless setup, follow the docs below. Or, if you're returning for 
+            specific information, click any sidebar section to jump.
+          </div>
+        </div>
+
+        <SetupDocs/>
+        <InitDocs/>
+        <ConfigDocs/>
+        <GenGQLDocs/>
+        <QueryDocs/>
       </div>
     );
   }

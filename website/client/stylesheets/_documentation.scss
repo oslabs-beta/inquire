@@ -9,6 +9,7 @@
 .docContainer {
   display: flex;
   flex-direction: row;
+  margin-top: $navBar-height;
 }
 
 .docSidebar {
@@ -16,7 +17,7 @@
   flex-direction: column;
   height: 100%;
   width: 20%;
-  background-color: #f05800; 
+  background-color: #f05800;
   position: fixed;
 
   a {
@@ -25,12 +26,20 @@
 }
 
 .docContent {
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   width: 80%;
   margin-left: 20%;
 }
 
-// .docContentSection {
-//in here, have rules for each heading size, images, etc
-// }
+.docContentSection {
+  width: 30vw;
+  height: $nonNavBar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 8vh;
+  padding-top: 5vh;
+}

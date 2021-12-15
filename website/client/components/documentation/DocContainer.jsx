@@ -14,9 +14,6 @@ class DocContainer extends Component {
 
         <div className="docContent">
           <DocContent/>
-          <DocContent/>
-          <DocContent/>
-          <DocContent/>
         </div>
         
       </div>
