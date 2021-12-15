@@ -8,8 +8,6 @@ const mockParsedKafkaTrip = [
   ],
 ];
 
-console.log(formatGQLSchema(mockParsedKafkaTrip));
-
 let gqlSchema1 = '';
 beforeEach(() => {
   return (gqlSchema1 = formatGQLSchema(mockParsedKafkaTrip));
@@ -20,8 +18,13 @@ describe('converting to graphql schema', () => {
     test('datatype as array', () => {
       expect(typeof gqlSchema1).toBe('string');
     });
-    test('it begins with word type', () => {
+    test('schema begins with word type', () => {
       expect(gqlSchema1.slice(0, 4)).toStrictEqual('type');
     });
+  });
+  test('stringified schema result to equal expected', () => {
+    expect(JSON.stringify(gqlSchema1)).toEqual(
+      '"type Trip { \\n  id: String \\n  vehicleId: String \\n}\\n"'
+    );
   });
 });
