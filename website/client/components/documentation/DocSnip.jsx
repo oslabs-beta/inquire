@@ -19,6 +19,7 @@ class DocSnip extends Component {
 
         <textarea
           className="docSnip"
+          style={this.props.height}
           value={this.props.code}
         />
 

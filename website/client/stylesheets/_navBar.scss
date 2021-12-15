@@ -8,6 +8,7 @@
 
 .navBar {
   background-color: $color-yellow;
+  z-index: 2;
   width: 100vw;
   height: $navBar-height;
   display: flex;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocSnip from '../DocSnip.jsx';
 
 class InitDocs extends Component {
 
@@ -26,32 +27,30 @@ class InitDocs extends Component {
             command in your terminal:`}
           </div>
         
-        {/* picture of the npm run inquire init command */}
+          <DocSnip code={`
+npm run inquire init <absolutePath>
+          `}
+          height={{height: '12vh'}}
+          />
 
         <h4>Selecting Mode</h4>
           <div className="p4">
-            {`Once you press enter, the next step is choosing the mode (1 or 2). Assuming you
-            have a separate folder containing your Avro schema(s), Inquire will eventually be scanning
-            its contents to infer the GraphQL types and resolvers. While Inquire will by default
-            scan each Avro schema file in your folder, choosing the right mode will
-            let you specify whether there are certain files you want interpreted - or if 
-            you'd like them all to be considered.`}
+            {`Once you press enter, the next step is choosing the mode (1 or 2). Inquire works by
+            scanning the directory containing your Avro schemas, and interpreting its contents to 
+            infer the GraphQL types and resolvers. Choosing the right mode will
+            let you specify whether there are only a few files in the folder you want interpreted, 
+            or if you'd like them all to be accounted for in the GraphQL schema.`}
           </div>
 
-          <ul>
-            <li>Mode 1:</li>
-          </ul>
-          <div className="p4">
-            {`Choose mode 1 if you would like all files in your schema folder to be processed.`}
-          </div>
-
-          <ul>
-            <li>Mode 2:</li>
-          </ul>
-          <div className="p4">
-            {`Choose mode 2 if you'd like to manually select files to be considered.`}
-          </div>
-          
+          <DocSnip code={`
+// CLI:\n
+      Choose MODE:\n
+1: Use all files in data folder to create GQL schema\n
+2: Manually specify files when filling out configuration\n
+Enter 1 OR 2: <insert choice here>
+          `}
+          height={{height: '26.4vh'}}
+          />
 
         <h4>Schema Folder</h4>
           <div className="p4">
@@ -60,12 +59,21 @@ class InitDocs extends Component {
             of this folder into your terminal and press enter.`}
           </div>
 
+          <DocSnip code={`
+// CLI: \n
+Enter absolute path to folder containing schema file(s):\n
+<insert path here>
+          `}
+          height={{height: '19.3vh'}}
+          />
+
           <div className="p4">
             {`Immediately following the command, you should see that a folder named "Inquire" has
             been generated inside the destination folder you specified in the first step. 
-            Inside this folder, you'll see a configuration file. This will be the last thing you
-            need to fill out before receiving your complete GraphQL setup.`}
+            Inside this folder, you'll see a configuration file.`}
           </div>
+
+          {/* filetree illustration here */}
 
       </div>
     );
