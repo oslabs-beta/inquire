@@ -14,7 +14,12 @@ class TeammateProfile extends Component {
         </div>
         {/* Small colored circle */}
         <div className="profileCircleIcon">
-          <img src={this.props.circleIcon} alt="logo" style={{marginTop : '5vh'}}/>
+          <img 
+          src={this.props.circleIcon} 
+          alt="logo" 
+          style={{marginTop : '5vh'}}
+          onClick={() => {window.open(this.props.linkedin, "_blank")}}
+          />
         </div>
         {/* Full name  */}
         <div className="profileText">

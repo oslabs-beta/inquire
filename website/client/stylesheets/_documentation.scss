@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 300px;
+  width: 20%;
   background-color: #f05800;
   position: fixed;
   padding-left: 40px;
@@ -133,32 +133,29 @@
   .docSidebar {
     display: none;
   }
+
   .docContent {
+    margin-left: 0%;
+  }
+  .docContentSection {
     width: 100vw !important;
-    margin-left: 0vw !important;
-    flex-direction: column !important;
-    justify-content: center o !important;
-  }
-}
+    padding: 4vw 4vw !important;
 
-.docContentSection {
-  width: 100vw !important;
-  padding: 4vw 4vw !important;
-
-  ul {
-    li {
-      font-family: 'Raleway';
-      font-size: $paragraph-size-small;
-      color: $color-text-gray;
-      font-weight: 900;
-      margin-left: -2vw !important;
+    ul {
+      li {
+        font-family: 'Raleway';
+        font-size: $paragraph-size-small;
+        color: $color-text-gray;
+        font-weight: 900;
+        margin-left: -2vw !important;
+      }
     }
-  }
   
   .docSnip {
     width: 80vw !important;
   }
   
+  }
 }
 
 

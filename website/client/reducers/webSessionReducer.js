@@ -19,8 +19,8 @@ const initialState = {
     'demo',
     'team',
   ],
-  npmLink: 'https://www.npmjs.com/', // Link to NPM package.
-  githubLink: "https://github.com/oslabs-beta/topiQL", // Link to Github
+  npmLink: 'https://www.npmjs.com/package/@inquire/inquire-kafka', // Link to NPM package.
+  githubLink: "https://github.com/oslabs-beta/inquire", // Link to Github
 };
 
 const webSessionReducer = (state = initialState, action) => {
@@ -30,7 +30,7 @@ const webSessionReducer = (state = initialState, action) => {
     case types.CHANGE_PAGE: {
       // Note "download npm" and "github" doesn't reload the React website components, rather it simply links to the external NPM page.
       currPage = action.payload;
-      if (currPage == 'download npm') return state;
+      if (currPage == 'download') return state;
       if (currPage == 'github') return state;
       return {
         ...state,
