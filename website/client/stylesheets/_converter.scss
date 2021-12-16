@@ -9,6 +9,7 @@
   width: 100vw;
   height: $nonNavBar-height;
   display: flex;
+  margin-top: $navBar-height;
 }
 
 .convertingDescription {
@@ -23,7 +24,7 @@
   padding-top: 5vh;  
   overflow-y: scroll;
 }
-.convertingDescription::-webkit-scrollbar{
+.convertingDescription::-webkit-scrollbar {
   width: 0;
 }
 

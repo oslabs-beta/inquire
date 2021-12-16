@@ -8,11 +8,13 @@
 
 .navBar {
   background-color: $color-yellow;
+  z-index: 2;
   width: 100vw;
   height: $navBar-height;
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: fixed;
 }
 
 .navButton {
