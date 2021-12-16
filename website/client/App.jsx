@@ -43,7 +43,7 @@ class App extends Component {
       case 'team':
         displayComponents.push(<TeamContainer key="teamContainer" />);
         break;
-      case 'documentation' :
+      case 'docs' :
         displayComponents.push(<DocContainer key="docContainer"/>)
     }
     return <div className="app">{displayComponents}</div>;
