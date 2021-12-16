@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changePageActionCreator } from '../../actions/actions.js';
 
-const mapDispatchToProps = dispatch => (
-  {
-    changePage: (currPage) => dispatch(changePageActionCreator(currPage)),
-  }
-);
+const mapDispatchToProps = (dispatch) => ({
+  changePage: (currPage) => dispatch(changePageActionCreator(currPage)),
+});
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currPage: state.webSession.currPage,
   npmLink: state.webSession.npmLink,
   githubLink: state.webSession.githubLink,
@@ -24,10 +22,26 @@ class NavButton extends Component {
     // Set className to "paragraph 4 bold" if this button corresponds to currently active page
     const navButtonElement = [];
     let isCurrPage;
-    this.props.buttonText == this.props.currPage ? isCurrPage = true : isCurrPage = false;
-    isCurrPage ? 
-      navButtonElement.push(<div className="p4b" key={this.props.buttonText}> { this.props.buttonText } </div>) :
-      navButtonElement.push(<div className="p4" key={this.props.buttonText}> { this.props.buttonText } </div>)
+    this.props.buttonText == this.props.currPage
+      ? (isCurrPage = true)
+      : (isCurrPage = false);
+    isCurrPage
+      ? navButtonElement.push(
+          <div className="p4b" key={this.props.buttonText}>
+            {' '}
+            {this.props.buttonText}{' '}
+          </div>
+        )
+      : navButtonElement.push(
+          <div
+            className="p4"
+            id={this.props.buttonText.replaceAll(' ', '')}
+            key={this.props.buttonText}
+          >
+            {' '}
+            {this.props.buttonText}{' '}
+          </div>
+        );
 
     return(
       <div className="navButton"
@@ -46,4 +60,4 @@ class NavButton extends Component {
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (NavButton);
+export default connect(mapStateToProps, mapDispatchToProps)(NavButton);

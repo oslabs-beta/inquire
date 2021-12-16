@@ -11,7 +11,7 @@ const mapDispatchToProps = dispatch => (
   }
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   allPages: state.webSession.allPages,
   currPage: state.webSession.currPage,
 });
@@ -36,11 +36,7 @@ class NavBar extends Component {
     for (let i = 1; i < this.props.allPages.length; i++) {
       navBarButtons.push(<NavButton buttonText={this.props.allPages[i]}  key={`pageButton${i}`}/>);
     }
-    return(
-      <div className="navBar">
-        {navBarButtons}
-      </div>
-    );
+    return <div className="navBar">{navBarButtons}</div>;
   }
 }
 

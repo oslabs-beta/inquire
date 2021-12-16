@@ -9,6 +9,7 @@
 .teamContainer{
   display: flex;
   flex-direction: row;
+  margin-top: $navBar-height;
   align-items: flex-start;
   height: $nonNavBar-height;
 }

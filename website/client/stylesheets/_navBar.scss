@@ -8,6 +8,7 @@
 
 .navBar {
   background-color: $color-yellow;
+  z-index: 2;
   width: 100vw;
   height: $navBar-height;
   display: flex;
@@ -17,6 +18,7 @@
     max-height: 4vh;
     margin-left: 2vh;
   }
+  position: fixed;
 }
 
 .navButton {
