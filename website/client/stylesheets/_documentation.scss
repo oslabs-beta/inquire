@@ -23,10 +23,16 @@
 
   a {
     text-decoration: none;
+    
   }
 
   .p3 {
     padding-top: 8px;
+    &:hover {
+      position: relative;
+      color: $color-text-dark;
+      text-decoration: underline;
+    }
   }
 
   li {
@@ -42,6 +48,12 @@
   flex-direction: column;
   width: 80%;
   margin-left: 20%;
+
+  // #doc-banner {
+  //   background-color: $color-green;
+  //   height: 34vh;
+  //   width: 100%;
+  // }
 }
 
 .docContentSection {
@@ -52,7 +64,7 @@
   justify-content: center;
   align-items: flex-start;
   text-align: left;
-  padding: 8vh;
+  padding: 6vh 8vh;
   padding-top: 4vh;
 
   h2 {

@@ -2,24 +2,21 @@ import React, { Component } from 'react';
 import DocSnip from '../DocSnip.jsx';
 
 class QueryDocs extends Component {
-  constructor(props) {
-    super(props);
-  }
   
   render() {
     return(
       <div className="docContentSection" id="QUERYING">
 
-        <h2>Querying Your Kafka Topics</h2>
+        <h2>Subscribing to Kafka Topics</h2>
         <div className="p4">
-          {`Now you're ready to start querying the topics you specified in your config file. This is 
-          the final step in the process. To begin, start up your Kafka producer.`}
+          {`Now you're ready to start querying your subscription topics. To begin, make sure
+          your Kafka cluster is up and running.`}
         </div>
         
-        <h4>Starting Your Test Server</h4>
+        <h4>Starting the Server</h4>
         <div className="p4">
-          {`Next, you can run the Apollo server created in the previous step. To do this, add a script if you like, 
-          or simply run this command in the directory containing Inquire's server.js file.`}
+          {`Next, you can run the Apollo server created in the previous step. You can do this by adding a script, 
+          or by running this command in the directory containing the server.js file.`}
         </div>
 
         {/* code snip of the command */}
@@ -31,10 +28,9 @@ node server.js
 
         <h4>Writing Queries</h4>
         <div className="p4">
-          {`You should see in your terminal a link to where the test server is running. Follow the link and click the ""
-          button on the site. On the main page, you can start experimenting with GraphQL queries while viewing your message
-          data streaming through in the right-hand panel. Watch as the data changes as you query only the information
-          you need!`}
+          {`You should see in your terminal a browser link taking you to the Apollo Playground interface. There, you can start 
+          building GraphQL subscriptions and view your message data streaming through in the right-hand panel - in real-time! 
+          Watch the data load change as you query only the information you intend to use.`}
         </div>
 
       </div>

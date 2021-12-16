@@ -3,9 +3,6 @@ import DocContent from './DocContent.jsx';
 import DocSidebar from './DocSidebar.jsx';
 
 class DocContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return(

@@ -9,22 +9,22 @@ class InitDocs extends Component {
 
         <h2>Initializing Inquire</h2>
           <div className="p4">
-            {`This section covers the initialization of Inquire, namely how to 
-            utilize its command line interface (CLI).`}
+            {`This section will walk through the steps necessary to 
+            interact with the CLI.`}
           </div>
 
         <h4>Choosing Destination</h4>
           <div className="p4">
-            {`Now you're all set to use the package, but before you run any commands,
-            figure out where in your filesystem you want your GraphQL functionality to live.
-            Copy the absolute path to this folder to your clipboard - 
-            you'll need this for the next step.`}
+            {`Inquire will be generating multiple custom files needed by GraphQL. But in order to 
+            do so, you'll need to specify where you want these files to live.
+            It's recommended to create a separate, empty folder for this to keep things organized. 
+            Once you're ready, copy the folder's absolute path to your clipboard - 
+            you'll need it for the next step.`}
           </div>
 
         <h4>Init Command</h4>
           <div className="p4">
-            {`Once you have the path to the destination folder, run this
-            command in your terminal:`}
+            {`Run this command in your terminal, passing in the path:`}
           </div>
         
           <DocSnip code={`
@@ -35,11 +35,13 @@ npm run inquire init <absolutePath>
 
         <h4>Selecting Mode</h4>
           <div className="p4">
-            {`Once you press enter, the next step is choosing the mode (1 or 2). Inquire works by
-            scanning the directory containing your Avro schemas, and interpreting its contents to 
-            infer the GraphQL types and resolvers. Choosing the right mode will
-            let you specify whether there are only a few files in the folder you want interpreted, 
-            or if you'd like them all to be accounted for in the GraphQL schema.`}
+            {`Once you press enter, the next step is choosing a setup mode (1 or 2). Inquire works
+             by scanning the directory containing your Avro schemas, and interpreting its contents to 
+            infer GraphQL type definitions and resolvers.
+            Mode 1 will speed up setup by assuming you want all schema files interpreted into GraphQL, 
+            pre-populating a config file with their file names. Mode 2 will let you be more selective
+            and enter file names manually. More information on the config file can be found in the 
+            "Configuration" section later on.`}
           </div>
 
           <DocSnip code={`
@@ -54,8 +56,8 @@ Enter 1 OR 2: <insert choice here>
 
         <h4>Schema Folder</h4>
           <div className="p4">
-            {`Once you've chosen the appropriate mode, the last initialization step is to enter the
-            location of your relevant Avro schema(s). Upon receiving the prompt, enter the absolute path
+            {`Lastly, choose the directory containing your relevant Avro schema(s). 
+            Upon receiving the following prompt, enter the absolute path
             of this folder into your terminal and press enter.`}
           </div>
 
@@ -68,8 +70,8 @@ Enter absolute path to folder containing schema file(s):\n
           />
 
           <div className="p4">
-            {`Immediately following the command, you should see that a folder named "Inquire" has
-            been generated inside the destination folder you specified in the first step. 
+            {`You should see that a folder named "Inquire" has
+            been generated inside the destination folder you chose in the first step. 
             Inside this folder, you'll see a configuration file.`}
           </div>
 

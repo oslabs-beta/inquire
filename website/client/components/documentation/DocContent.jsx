@@ -8,37 +8,37 @@ import QueryDocs from './sections/QueryDocs.jsx';
 import SetupDocs from './sections/SetupDocs.jsx';
 
 class DocContent extends Component {
-  constructor(props) {
-    super(props);
-  }
-  
+
   render() {
     return(
       <div>
+        {/* <div id="doc-banner"/> */}
+
         <div className="docContentSection" id="OVERVIEW">
           <h2>Overview</h2>
-          <div className="p4">Welcome to the Inquire docs!</div>
-          <div className="p4">
-            {`If you're intending to incorporate GraphQL 
-            to query your Kafka topics, you've come to the right place.`}
+          <div className="p4" style={{fontWeight: '900', fontSize: '1.2rem'}}>
+            {`Welcome to the Inquire docs!`}
             </div>
-            <br/>
-            <div className="p4">
-            {`With Inquire, it's easier than ever to start retrieving only the most 
-            relevant data from your message streams - and it only takes a few steps.`}
+
+          <br/>
+
+          <div className="p4">
+            {`Here, you can find a step-by-step, comprehensive guide on using Inquire 
+            to seamlessly integrate GraphQL with Apache Kafka. After a quick setup, you can 
+            start retrieving only the most relevant data from your message streams.`}
             </div>
           <div className="p4" style={{marginTop : '2vh', marginBottom : '2vh'}}>
-            For a seamless setup, follow the docs below. Or, if you're returning for 
-            specific information, click any sidebar section to jump.
+            {`If you're just getting started with Inquire, follow the steps below from 
+            start to finish. Or if you're returning, click any sidebar header to jump.`}
           </div>
         </div>
-        <PreReqDocs/>
-        <SetupDocs/>
-        <InitDocs/>
-        <ConfigDocs/>
-        <GenGQLDocs/>
-        <QueryDocs/>
-        <DocsConclusion/>
+          <PreReqDocs/>
+          <SetupDocs/>
+          <InitDocs/>
+          <ConfigDocs/>
+          <GenGQLDocs/>
+          <QueryDocs/>
+          <DocsConclusion/>
       </div>
     );
   }

@@ -41,7 +41,6 @@ class DocSidebar extends Component {
             <li>Kafka Credentials</li>
             <li>Topics & Targets</li>
             <li>Client ID & Brokers</li>
-            <li>Default Settings</li>
           </ul>
         </div>
 
@@ -54,10 +53,10 @@ class DocSidebar extends Component {
         </div>
 
 
-        <a href="#QUERYING"><div className="p3">Querying Your Kafka Topics</div></a>
+        <a href="#QUERYING"><div className="p3">Subscribing to Kafka Topics</div></a>
         <div>
           <ul>
-            <li>Starting Your Test Server</li>
+            <li>Starting the Server</li>
             <li>Writing Queries</li>
           </ul>
         </div>
