@@ -23,6 +23,12 @@
   align-items: center;
   padding: 2.3vw;
   text-align: center;
+  img {
+    &:hover {
+      position: relative;
+      top: -2px;
+    }
+  }
 }
 
 .teammatePicture{
@@ -59,6 +65,8 @@
     width: 90vw !important;
     padding: 2vw !important;
     text-align: center;
+    margin-top: 2vh !important;
+    margin-bottom: 4vh !important;
   }
   .teammatePicture{
     min-width: 30vw;
