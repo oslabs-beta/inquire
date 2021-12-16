@@ -9,6 +9,7 @@
   width: 100vw;
   height: $nonNavBar-height;
   display: flex;
+  margin-top: $navBar-height;
 }
 
 .convertingDescription {
@@ -23,7 +24,7 @@
   padding-top: 5vh;  
   overflow-y: scroll;
 }
-.convertingDescription::-webkit-scrollbar{
+.convertingDescription::-webkit-scrollbar {
   width: 0;
 }
 
@@ -165,13 +166,23 @@
 */
 
 @media screen and (max-width: 415px) {
+  .convertingBox {
+    width: 100vw !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    overflow-y: scroll !important;
+  }
+  .convertingBox::-webkit-scrollbar{
+    width: 0;    
+  }
+
   .buttonContainer {
     flex-direction: column !important;
     align-items: center;
     width: 85vw !important;
     justify-content: space-between !important;
   }
-   
+  
   .copyTextButton {
     top: 15px !important;
     right: -72vw !important;

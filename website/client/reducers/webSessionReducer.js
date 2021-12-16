@@ -13,11 +13,11 @@ const initialState = {
   currPage: 'home', // 'home' by default
   allPages: [ // Array of strings with each of the available "page" container components in our site
     'home',
-    'download npm',
+    'docs',
+    'download',
     'github',
-    'documentation',
-    'use online',
-    'meet the team',
+    'demo',
+    'team',
   ],
   npmLink: 'https://www.npmjs.com/', // Link to NPM package.
   githubLink: "https://github.com/oslabs-beta/topiQL", // Link to Github

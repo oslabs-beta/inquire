@@ -1,0 +1,126 @@
+@import '_variables';
+
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
+
+.docContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: $navBar-height;
+}
+
+.docSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 20%;
+  background-color: #f05800;
+  position: fixed;
+  padding-left: 40px;
+
+  a {
+    text-decoration: none;
+    
+  }
+
+  .p3 {
+    padding-top: 8px;
+    &:hover {
+      position: relative;
+      color: $color-text-dark;
+      text-decoration: underline;
+    }
+  }
+
+  li {
+    font-family: 'Raleway';
+    font-size: $paragraph-size-smallest;
+    color: $color-text-white;
+    font-weight: 350;
+  }
+}
+
+.docContent {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-left: 20%;
+
+  // #doc-banner {
+  //   background-color: $color-green;
+  //   height: 34vh;
+  //   width: 100%;
+  // }
+}
+
+.docContentSection {
+  width: 68vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 6vh 8vh;
+  padding-top: 4vh;
+
+  h2 {
+    color: $color-red;
+  }
+
+  h4 {
+    font-family: 'Raleway';
+    font-size: $paragraph-size-medium * 0.9;
+    color: $color-text-dark;
+    font-weight: 450;
+    line-height: $paragraph-lineHeight-medium;
+    padding-top: 12px;
+  }
+
+  ul {
+    li {
+      font-family: 'Raleway';
+      font-size: $paragraph-size-small;
+      color: $color-text-gray;
+      font-weight: 900;
+      padding: 6px 8px 6px 0px;
+    }
+  }
+
+  .docSnip {
+    width: 56vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    top: -3vh;
+    background-color: $color-green;
+    padding: 3vh;
+    border-color: $color-offwhite;
+    border-width: 1.5px;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    font-weight: inherit;
+    resize: none;
+
+    textarea {
+      background: transparent;
+    }
+
+  }
+
+  .p7 {
+    margin-top: 18px;
+
+    .copyTextButton {
+      right: -53vw;
+    }
+  }
+}
+
+//add doc banner with logo above Overview
