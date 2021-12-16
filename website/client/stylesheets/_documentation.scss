@@ -123,4 +123,54 @@
   }
 }
 
+/*
+* ************************************
+* iPad Pro Portrait
+* ************************************
+*/
+
+@media screen and (max-width: 1024px) {
+  .docSidebar {
+    display: none;
+  }
+
+  .docContent {
+    margin-left: 0%;
+  }
+  .docContentSection {
+    width: 100vw !important;
+    padding: 4vw 4vw !important;
+
+    ul {
+      li {
+        font-family: 'Raleway';
+        font-size: $paragraph-size-small;
+        color: $color-text-gray;
+        font-weight: 900;
+        margin-left: -2vw !important;
+      }
+    }
+  
+  .docSnip {
+    width: 80vw !important;
+  }
+  
+  }
+}
+
+
+/*
+* ************************************
+* iPhone 5
+* ************************************
+*/
+
+@media screen and (max-width: 320px) {
+  .p7 {
+    .copyTextButton {
+      right: -69vw !important;
+      top: 5vw !important;
+    }
+  }
+}
 //add doc banner with logo above Overview

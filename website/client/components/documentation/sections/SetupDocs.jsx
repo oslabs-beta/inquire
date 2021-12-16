@@ -16,7 +16,7 @@ class SetupDocs extends Component {
           </div>
 
         <DocSnip code={`
-npm install --save inquire
+npm install --save @inquire/inquire-kafka
         `}
         height={{height: '12vh'}}
         />

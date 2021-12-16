@@ -6,9 +6,9 @@ import profileYing from '../../assets/profileYing.png';
 import profileCece from '../../assets/profileCece.png';
 import profileAnna from '../../assets/profileAnna.png';
 
-import buttonYellowCircle from '../../assets/buttonYellowCircle.png';
-import buttonRedCircle from '../../assets/buttonRedCircle.png';
-import buttonGreenCircle from '../../assets/buttonGreenCircle.png';
+import buttonYellowCircle from '../../assets/linkedinYellow.png';
+import buttonRedCircle from '../../assets/linkedinRed.png';
+import buttonGreenCircle from '../../assets/linkedinGreen.png';
 
 class TeamContainer extends Component {
   constructor(props) {
@@ -22,8 +22,8 @@ class TeamContainer extends Component {
       on walks with his golden retriever puppy Lincoln and saltwater fishing. 
     `;
     const yingText = `
-      Ying is a software engineer with a background in live multimedia art. She enjoys creating streaming and 
-      data-intensive applications. Her interdisciplinary work has been awarded fellowships and residencies 
+      Ying is a software engineer with a background in live multimedia art. She enjoys creating streaming 
+      and data-intensive applications. Her interdisciplinary work has been awarded fellowships and residencies 
       by organizations including the Jerome Foundation. She loves lap swimming and noise music.
     `;
     const ceceText = `
@@ -50,6 +50,12 @@ class TeamContainer extends Component {
       'Cecily Jansen',
       'Anna Falvello',
     ];
+    const linkedin = [
+      'https://www.linkedin.com/in/han-jo/',
+      'https://www.linkedin.com/in/hiying/',
+      'https://www.linkedin.com/in/cecily-j-409339116/',
+      'https://www.linkedin.com/in/afalvello',
+    ];
     const text = [hanText, yingText, ceceText, annaText];
 
     const displayElements = [];
@@ -59,6 +65,7 @@ class TeamContainer extends Component {
           imageLink={imageLinks[i]}
           circleIcon={circleIcons[i]}
           fullName={fullName[i]}
+          linkedin={linkedin[i]}
           text={text[i]}
           key={`teammate${i}`}
         />
