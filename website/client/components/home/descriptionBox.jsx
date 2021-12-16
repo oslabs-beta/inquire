@@ -11,14 +11,14 @@ class DescriptionBox extends Component {
       Inquire is an NPM package that allows developers to quickly serve a GraphQL endpoint
       associated with one or more Kafka topics. The module is able to infer a complete
       set of GraphQL schemas, resolvers, and async iterators from AVRO schemas provided by 
-      the end user. Package is currently developed around a GraphQL Apollo server.
+      the end user. The package is currently developed around a GraphQL Apollo server.
     `
     return(
       <div className="descriptionBox">
-        <div className="titleAndLogoBox">
+        {/* <div className="titleAndLogoBox"> */}
           <h1>inquire</h1>
-          <img style={{leftMargin: "2px"}} src={logoWhite} alt="my-logo"></img>
-        </div>
+          {/* <img style={{leftMargin: "2px"}} src={logoWhite} alt="my-logo"></img> */}
+        {/* </div> */}
         <div className="p1">{ descriptionText }</div>
       </div>
     );

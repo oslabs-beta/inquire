@@ -34,7 +34,7 @@ class NavButton extends Component {
       // Upon button click, trigger an action to change currPage property of state to the selected page
       onClick={({payload = this.props.buttonText}) => {
         // If clicked link is "download npm", take user to NPM page.
-        if (payload == 'download npm') window.open(this.props.npmLink, "_blank");
+        if (payload == 'download') window.open(this.props.npmLink, "_blank");
         // If clicked link is "github", take user to Github page.
         if (payload == 'github') window.open(this.props.githubLink, "_blank");
         // Otherwise, load appropriate component from the product site.
