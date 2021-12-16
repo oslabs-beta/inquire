@@ -14,6 +14,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  img {
+    max-height: 4vh;
+    margin-left: 2vh;
+  }
   position: fixed;
 }
 

@@ -15,22 +15,27 @@ class TeamContainer extends Component {
     super(props);
   }
 
+
   render() {
     const hanText = `
-      Coming from a background in automation and manufacturing, Han brings to Topic a strong foundation in 
-      backend engineering as well as knowledge in algorithms and performance optimization.
+      Coming from a background in automation and manufacturing, Han brings to Inquire a strong foundation in 
+      backend engineering as well as knowledge in algorithms and performance optimization. Han enjoys going
+      on walks with his golden retriever puppy Lincoln and saltwater fishing. 
     `
     const yingText =  `
-      Ying is a software engineer interested in the intersection of software engineering and human experience,
-      with a focus on streaming applications and interactive UI. Her background includes fellowships in art and design.
+      Ying is a software engineer with a background in live multimedia art. She enjoys creating streaming and 
+      data-intensive applications. Her interdisciplinary work has been awarded fellowships and residencies 
+      by organizations including the Jerome foundation. She loves lap swimming and noise music.
     `
     const ceceText =  `
-      Cece has a background in international business and software engineering. Her contributions to Topic range from
-      backend logic and algorithms to frontend development in React - Redux.
+      Cece has a background in software engineering and international business. Her contributions to Inquire range from
+      backend logic and algorithms to frontend development in React - Redux. In her free time she enjoys playing acoustic
+      and electric guitar, playing basketball and hiking in the Adirondack Mountains.
     `
     const annaText = `
       Anna is a software engineer with a background in architecture and civil engineering. Most recently her work has 
-      revolved around frontend development and design, as well as streaming platforms like Kafka.
+      revolved around frontend development and design, as well as data streaming platforms like Kafka. She enjoys practicing 
+      Ashtanga yoga followed by a long session in the steam room.
     `
 
     const imageLinks = [profileHan, profileYing, profileCece, profileAnna];

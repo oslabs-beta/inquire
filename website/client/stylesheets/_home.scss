@@ -35,6 +35,15 @@
   }     
 }
 
+.titleAndLogoBox{
+  height: 7vh;
+  width: 23vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3vh;
+}
+
 /*
 * ************************************
 * iPhone 6/7/8 Plus or smaller
@@ -51,6 +60,10 @@
     padding: 2vw !important;
     height: 60vh !important;
   }
+  .titleAndLogoBox{
+    flex-direction: column !important;
+    height: 20vh !important;
+  }
 }
 
 /*
@@ -63,7 +76,13 @@
   .homeContainer {
     flex-direction: column !important;
   }
-
+  .titleAndLogoBox{
+    flex-direction: column !important;
+    height: auto !important;
+    img {
+      height: 7vh !important;
+    }
+  }
   .descriptionImage {
     width: auto !important;
     height: auto !important;
@@ -71,7 +90,7 @@
   
   .descriptionBox {
     width: 100vw !important;
-    height: 60vh !important;
+    height: 90vh !important;
     align-items: center !important;
     justify-content: flex-start !important;
     text-align: center !important;

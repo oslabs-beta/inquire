@@ -37,10 +37,10 @@ class App extends Component {
       case 'home':
         displayComponents.push(<HomeContainer key="homeContainer" />);
         break;
-      case 'use online':
+      case 'demo':
         displayComponents.push(<ConverterContainer key="converterContainer" />);
         break;
-      case 'meet the team':
+      case 'team':
         displayComponents.push(<TeamContainer key="teamContainer" />);
         break;
       case 'documentation' :
