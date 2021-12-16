@@ -44,14 +44,14 @@ describe('Nav bar and convertor functionality', () => {
   test('click on nav bar', async () => {
     try {
       await page.waitForTimeout(2000);
-      await page.waitForSelector('#documentation');
-      await page.focus('#documentation');
-      await page.click('#documentation');
+      await page.waitForSelector('#docs');
+      await page.focus('#docs');
+      await page.click('#docs');
       await page.waitForTimeout(500);
 
-      await page.waitForSelector('#meettheteam');
-      await page.focus('#meettheteam');
-      await page.click('#meettheteam');
+      await page.waitForSelector('#team');
+      await page.focus('#team');
+      await page.click('#team');
       await page.waitForTimeout(800);
     } catch (error) {
       console.error(error.message);
@@ -60,9 +60,9 @@ describe('Nav bar and convertor functionality', () => {
 
   test('convertor functionality', async () => {
     try {
-      await page.waitForSelector('#useonline');
-      await page.focus('#useonline');
-      await page.click('#useonline');
+      await page.waitForSelector('#demo');
+      await page.focus('#demo');
+      await page.click('#demo');
       await page.waitForTimeout(1000);
 
       await page.waitForSelector('#avroInput');
@@ -81,12 +81,6 @@ describe('Nav bar and convertor functionality', () => {
       await page.focus('#clear');
       await page.click('#clear');
       await page.waitForTimeout(1000);
-
-      await page.waitForTimeout(500);
-      await page.waitForSelector('#home');
-      await page.focus('#home');
-      await page.click('#home');
-      await page.waitForTimeout(500);
     } catch (error) {
       console.error(error.message);
     }

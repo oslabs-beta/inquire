@@ -35,7 +35,7 @@ class NavButton extends Component {
       : navButtonElement.push(
           <div
             className="p4"
-            id={this.props.buttonText.replaceAll(' ', '')}
+            id={this.props.buttonText}
             key={this.props.buttonText}
           >
             {' '}
@@ -43,18 +43,20 @@ class NavButton extends Component {
           </div>
         );
 
-    return(
-      <div className="navButton"
-      // Upon button click, trigger an action to change currPage property of state to the selected page
-      onClick={({payload = this.props.buttonText}) => {
-        // If clicked link is "download npm", take user to NPM page.
-        if (payload == 'download') window.open(this.props.npmLink, "_blank");
-        // If clicked link is "github", take user to Github page.
-        if (payload == 'github') window.open(this.props.githubLink, "_blank");
-        // Otherwise, load appropriate component from the product site.
-        else this.props.changePage(payload)}
-      }>
-        { navButtonElement }
+    return (
+      <div
+        className="navButton"
+        // Upon button click, trigger an action to change currPage property of state to the selected page
+        onClick={({ payload = this.props.buttonText }) => {
+          // If clicked link is "download npm", take user to NPM page.
+          if (payload == 'download') window.open(this.props.npmLink, '_blank');
+          // If clicked link is "github", take user to Github page.
+          if (payload == 'github') window.open(this.props.githubLink, '_blank');
+          // Otherwise, load appropriate component from the product site.
+          else this.props.changePage(payload);
+        }}
+      >
+        {navButtonElement}
       </div>
     );
   }
