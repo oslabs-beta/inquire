@@ -2,7 +2,7 @@ name: testing
 
 on:
   push:
-    branches: [ webapp-testing ]
+    branches: [ ci-testing ]
   pull_request:
     branches: [ dev ]
 

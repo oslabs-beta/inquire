@@ -1,14 +1,15 @@
 {
   "name": "topic",
   "version": "1.0.0",
-  "description": "topiQL",
+  "description": "inquire",
   "main": "index.js",
   "author": "Anna Falvello, Cecily Jansen, Han B Jo, Ying Liu",
   "license": "MIT",
   "scripts": {
     "start": "nodemon server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack-dev-server"
+    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack-dev-server",
+    "test": "export NODE_ENV=test; jest"
   },
   "nodemonConfig": {
     "ignore": [

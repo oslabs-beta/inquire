@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import homepageLogo from '../../assets/homepageLogo.png'
-import homepageLogoGIF from '../../assets/homepageGIF.gif'
+import homepageLogoGIF from '../../assets/homepageLogoGIF.gif'
 
 class DescriptionImage extends Component {
   constructor(props) {
