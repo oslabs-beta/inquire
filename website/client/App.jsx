@@ -16,17 +16,11 @@ import ConverterContainer from './components/converter/converterContainer.jsx';
 import TeamContainer from './components/team/teamContainer.jsx';
 import DocContainer from './components/documentation/DocContainer.jsx';
 
-// import { addCardActionCreator } from '../actions/actions';
-// import { deleteCardActionCreator } from '../actions/actions';
+const mapDispatchToProps = (dispatch) => ({
+  // 
+});
 
-const mapDispatchToProps = dispatch => (
-  {
-    // addCard: (id) => dispatch(addCardActionCreator(id)),
-    // deleteCard: (id) => dispatch(deleteCardActionCreator(id))
-  }
-);
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // add pertinent state here
   currPage: state.webSession.currPage,
 });
@@ -38,26 +32,22 @@ class App extends Component {
 
   render() {
     const displayComponents = [];
-    displayComponents.push(<NavBar key="navBar"/>)
+    displayComponents.push(<NavBar key="navBar" />);
     switch (this.props.currPage) {
-      case 'home' :
-        displayComponents.push(<HomeContainer key="homeContainer"/>)
+      case 'home':
+        displayComponents.push(<HomeContainer key="homeContainer" />);
         break;
-      case 'use online' :
-        displayComponents.push(<ConverterContainer key="converterContainer"/>)
+      case 'use online':
+        displayComponents.push(<ConverterContainer key="converterContainer" />);
         break;
-      case 'meet the team' :
-        displayComponents.push(<TeamContainer key="teamContainer"/>)
+      case 'meet the team':
+        displayComponents.push(<TeamContainer key="teamContainer" />);
         break;
       case 'documentation' :
         displayComponents.push(<DocContainer key="docContainer"/>)
     }
-    return (
-      <div className="app">
-        {displayComponents}
-      </div>
-    );
+    return <div className="app">{displayComponents}</div>;
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

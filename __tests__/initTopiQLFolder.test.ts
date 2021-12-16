@@ -1,44 +1,24 @@
 export {};
-let { initTopiQL, result } = require('../testpkg/startTopiQL');
+const modePrompt = jest.fn(() => {
+  return Promise.resolve('1');
+});
+const dataPrompt = jest.fn(() => {
+  return Promise.resolve('./__mocks__/mockUser');
+});
+const { initInquire } = require('../testpkg/startInquire');
 const fs = require('fs');
+const readline = require('readline');
 jest.mock('fs');
+jest.mock('readline');
 
 beforeEach(() => {
-  jest.resetAllMocks();
-  return initTopiQL();
+  return jest.resetAllMocks();
 });
-
-describe('initTopiQL process', () => {
-  const topiQLFolderDir = (__dirname + 'server/topiQL').replace(
-    '__tests__',
-    ''
-  );
-  describe('initTopiQL folder generation', () => {
-    test('can call the fs.mkdirSync function and create a new directory', () => {
-      fs.existsSync.mockReturnValue(false);
-      expect(fs.mkdirSync).toHaveBeenCalledTimes(1);
-    });
-
-    test('can utilize input path to make directory', () => {
-      fs.existsSync.mockReturnValue(false);
-      expect(fs.mkdirSync).toBeCalledWith(topiQLFolderDir);
-    });
-  });
-
-  describe('config file generation', () => {
-    const configFileDir = (__dirname + 'server/topiQL/config.js').replace(
-      '__tests__',
-      ''
-    );
-
-    test('can call the fs.writeFileSync function and create a new file', () => {
-      fs.existsSync.mockReturnValue(false);
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
-    });
-
-    test('can utilize provided path and content to create config file', () => {
-      fs.existsSync.mockReturnValue(false);
-      expect(fs.writeFileSync).toBeCalledWith(configFileDir, result);
+describe('startInquire process', () => {
+  test('modePrompt and dataPrompt are called', () => {
+    initInquire().then(() => {
+      expect(modePrompt).toHaveBeenCalledTimes(1);
+      expect(dataPrompt).toHaveBeenCalledTimes(1);
     });
   });
 });

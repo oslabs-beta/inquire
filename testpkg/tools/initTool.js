@@ -47,7 +47,7 @@ const createConfig = (targetArr, mode, dataFolder) => {
         default:
             throw "Please select the mode from 0 ~ 1";
     }
-    const result = `// User Configuration File for Kafka - GraphQL connection using topiQL library
+    const result = `// User Configuration File for Kafka - GraphQL connection using inquire library
   const path = require('path');
   //input username and password for Confluent Cloud
   const username = ''
