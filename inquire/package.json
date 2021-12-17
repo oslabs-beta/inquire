@@ -1,0 +1,37 @@
+{
+  "name": "@inquire/inquire-kafka",
+  "version": "1.0.7",
+  "description": "Generates fully-typed GraphQL subscription schema for Apache Kafka based on Avro data.",
+  "main": "startInquire.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslabs-beta/inquire.git"
+  },
+  "keywords": [
+    "kafka",
+    "apachekafka",
+    "graphql",
+    "schema",
+    "avro",
+    "apollo"
+  ],
+  "bin": "cli.js",
+  "contributors": [
+    "Anna Falvello",
+    "Cecily Jansen",
+    "Han Bin Jo",
+    "Ying Liu"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/inquire/issues"
+  },
+  "homepage": "https://github.com/oslabs-beta/inquire#readme",
+  "dependencies": {
+    "concurrently": "^6.4.0",
+    "yargs": "^17.3.0"
+  }
+}

@@ -7,6 +7,7 @@ class DocContainer extends Component {
   render() {
     return(
       <div className="docContainer">
+        
         <DocSidebar/>
 
         <div className="docContent">

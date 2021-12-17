@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "topiql": "topiql",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "inquire": "inquire-kafka"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "topiql": "^1.0.1"
+    "@inquire/inquire-kafka": "^1.0.5",
+    "inquire": "file:../inquire",
+    "inquire-kafka": "^1.0.3"
   }
 }

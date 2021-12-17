@@ -4,6 +4,7 @@ const path = require('path');
 const { rawListeners } = require('process');
 const initTool = require('./tools/initTool');
 
+//make a directory in destination folder (server) called inquire
 
 let pickedMode;
 let dataFolder;
