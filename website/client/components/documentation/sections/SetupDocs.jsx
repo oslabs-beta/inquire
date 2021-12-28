@@ -46,7 +46,7 @@ npm install --save @inquire/inquire-kafka
           
           <DocSnip code={`
 "scripts": {\n
-  "inquire": "inquire"\n
+  "inquire": "inquire-kafka"\n
 }
           `}
         height={{height: '19.3vh'}}
