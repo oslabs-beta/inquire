@@ -1,8 +1,8 @@
 ---
 
-# In order to run a local Kafka Instance
+# Use this file in order to run a local Kafka Instance
 # 1. Open Docker on desktop
-# 2. Type in terminal: docker-compose up -d
+# 2. From a directory containing this YAML file, type in terminal: docker-compose up -d
 # 3. Create a topic by typing in terminal: (with appropriate topic name. Ex. purchases)
 # docker compose exec broker \
 #   kafka-topics --create \
@@ -10,8 +10,9 @@
 #     --bootstrap-server localhost:9092 \
 #     --replication-factor 1 \
 #     --partitions 1
-# 4. Ready to run
-# 5. Remember to configure Kafka broker address as: const broker = "localhost:9092";
+# 4. Remember to configure Kafka broker address as: const broker = "localhost:9092";
+# 5. Ready start producing and reading from/to topics
+# More info on YAML setup https://developer.confluent.io/get-started/nodejs/#kafka-setup
 
 version: '3'
 services:
