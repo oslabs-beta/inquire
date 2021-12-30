@@ -17,6 +17,7 @@
   flex-direction: column;
   height: 100%;
   width: 20%;
+  min-width: 250px;
   background-color: #f05800;
   position: fixed;
   padding-left: 40px;
@@ -121,11 +122,24 @@
 
 /*
 * ************************************
+* Laptop Screen
+* ************************************
+*/
+@media screen and (max-width: 1400px) {
+  .docContentSection{
+  min-width: 950px;
+  }
+}
+/*
+* ************************************
 * iPad Pro Portrait
 * ************************************
 */
 
 @media screen and (max-width: 1024px) {
+  .docContentSection{
+    min-width: 0px;
+    }
   .docSidebar {
     display: none;
   }
