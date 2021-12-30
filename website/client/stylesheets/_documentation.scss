@@ -48,12 +48,6 @@
   flex-direction: column;
   width: 80%;
   margin-left: 20%;
-
-  // #doc-banner {
-  //   background-color: $color-green;
-  //   height: 34vh;
-  //   width: 100%;
-  // }
 }
 
 .docContentSection {
@@ -111,7 +105,9 @@
     textarea {
       background: transparent;
     }
-
+  }
+  .docSnip::-webkit-scrollbar {
+    width: 0;
   }
 
   .p7 {

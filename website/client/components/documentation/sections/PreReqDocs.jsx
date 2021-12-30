@@ -12,12 +12,11 @@ class PreReqDocs extends Component {
         </div>
 
         <ul>
-          <li>Confluent Cloud Kafka Cluster</li>
+          <li>Kafka Cluster delpoyed on Docker or Confluent Cloud </li>
         </ul>
         <div className="p4">
-          {`Inquire works with any Kafka instance hosted on Confluent Cloud.
-          Before using the tool, ensure that your cluster is live and running. Support for Kafka clusters
-          hosted on Docker is coming soon.`}
+          {`Inquire works with any Kafka instance deployed locally on Docker or remotely on Confluent Cloud.
+          Before using the tool, ensure that your cluster is live and running.`}
         </div>
 
         <ul>

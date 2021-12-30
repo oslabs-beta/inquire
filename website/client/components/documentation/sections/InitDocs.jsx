@@ -46,7 +46,7 @@ npm run inquire init <absolutePath>
 
           <DocSnip code={`
 // CLI:\n
-      Choose MODE:\n
+Choose MODE:\n
 1: Use all files in data folder to create GQL schema\n
 2: Manually specify files when filling out configuration\n
 Enter 1 OR 2: <insert choice here>
