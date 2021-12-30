@@ -22,8 +22,8 @@ interface KafkaSettings {
   topics: string[];
   clientId: string;
   brokers: (string | undefined)[];
-  ssl: boolean;
-  sasl: SASLSetting | null;
+  ssl: boolean; // Uncomment for Confluent Cloud
+  sasl: SASLSetting | null; // Uncomment for Confluent Cloud
   connectionTimeout: number;
   authenticationTimeout: number;
   reauthenticationThreshold: number;

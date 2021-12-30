@@ -5,16 +5,17 @@ dotenv.config({ path: './../.env' });
 const username = process.env.DEMO_KAFKA_CLUSTER_USER;
 const password = process.env.DEMO_KAFKA_CLUSTER_PW;
 const broker = process.env.DEMO_KAFKA_BROKER;
+// const broker = "localhost:9092"; // Uncomment for local docker instance
 
 const sasl = username && password ? { username, password, mechanism: 'plain' } : null
 const ssl = !!sasl
 
 const kafkaSettings : KafkaSettings = {
-  topics: ['tripStatus', 'passengerInfo'],
+  topics: ['passengerInfo', 'tripStatus'],
   clientId: 'kafQL',
   brokers: [broker],
-  ssl,
-  sasl,
+  ssl, // Uncomment for Confluent Cloud. Remember to update interfaces.d.ts accordingly
+  sasl, // Uncomment for Confluent Cloud.  Remember to update interfaces.d.ts accordingly
   connectionTimeout: 3000,
   authenticationTimeout: 1000,
   reauthenticationThreshold: 10000,
