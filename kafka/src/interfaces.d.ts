@@ -18,12 +18,21 @@ interface PassengerInfo {
   street: string;
 }
 
-interface KafkaSettings {
+interface KafkaSettingsCloud {
   topics: string[];
   clientId: string;
   brokers: (string | undefined)[];
   ssl: boolean;
   sasl: SASLSetting | null;
+  connectionTimeout: number;
+  authenticationTimeout: number;
+  reauthenticationThreshold: number;
+}
+
+interface KafkaSettingsDocker {
+  topics: string[];
+  clientId: string;
+  brokers: (string | undefined)[];
   connectionTimeout: number;
   authenticationTimeout: number;
   reauthenticationThreshold: number;

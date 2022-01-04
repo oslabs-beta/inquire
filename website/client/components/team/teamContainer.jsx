@@ -8,7 +8,7 @@ import profileAnna from '../../assets/profileAnna.png';
 
 import buttonYellowCircle from '../../assets/linkedinYellow.png';
 import buttonRedCircle from '../../assets/linkedinRed.png';
-import buttonGreenCircle from '../../assets/linkedinGreen.png';
+import buttonGreenCircle from '../../assets/linkedinBlueGreen.png';
 
 class TeamContainer extends Component {
   constructor(props) {

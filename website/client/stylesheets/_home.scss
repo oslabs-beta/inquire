@@ -21,6 +21,7 @@
 .descriptionBox {
   background: $color-red;
   width: 37vw;
+  min-width: 750px !important;
   height: $nonNavBar-height;
   display: flex;
   flex-direction: column;
@@ -43,6 +44,19 @@
   justify-content: space-between;
   margin-bottom: 3vh;
 }
+
+
+/*
+* ************************************
+* Laptop Screen
+* ************************************
+*/
+@media screen and (max-width: 1400px) {
+  .descriptionBox {
+    min-width: 500px !important;
+  }
+}
+
 
 /*
 * ************************************

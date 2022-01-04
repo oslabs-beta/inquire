@@ -4,7 +4,7 @@ const { Kafka } = require('kafkajs'); // NPM Package: Javascript compatible Kafk
 const config = require('../kconfig'); // Information about Kafka Cluster and Topics
 const { queueTripInfo, passengerInfo } = require('./producerFunc');
 
-// This Kafka instance is hosted on the Confluent Cloud, using the credentials in kafkaConfig.js.
+// This Kafka instance is hosted on the Confluent Cloud or locally, using the credentials in kconfig.js.
 // Topics can be created online through confluent cloud portal
 
 const kafka = new Kafka(config);

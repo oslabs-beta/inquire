@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Codystar&family=Raleway:wght@200;400&display=swap');
 @import '_variables';
 
+
+/*
+* ************************************
+* Desktop Settings
+* ************************************
+*/
+
 h1 {
   font-family: 'Codystar';
   font-size: $header-size-large;
@@ -21,7 +28,8 @@ h3 {
 
 .p1 {
   font-family: 'Raleway';
-  font-size: $paragraph-size-large * 1.1;
+  // font-size: $paragraph-size-large * 1.1;
+  font-size: $paragraph-size-large-px;
   color: $color-text-white;
   font-weight: 370;
   line-height: $paragraph-lineHeight-large;
@@ -67,8 +75,9 @@ h3 {
 
 .p6 {
   font-family: 'Raleway';
-  font-size: $paragraph-size-small;  
-  color: $color-text-gray;
+  // font-size: $paragraph-size-small;  
+  font-size: 16px;  
+  color: $color-text-gray; // Team text format
   font-weight: 370;
 }
 
@@ -78,4 +87,40 @@ h3 {
   color: $color-text-white;
   font-weight: 350;
   line-height: $paragraph-lineHeight-small;
+}
+
+/*
+* ************************************
+* Large Laptop Screen
+* ************************************
+*/
+
+
+@media screen and (max-width: 1700px) {
+  .p6{
+    font-size: 14px;  
+  }
+}
+/*
+* ************************************
+* Half Laptop Screen
+* ************************************
+*/
+
+@media screen and (max-width: 700px) {
+  .p1 {
+    font-size: $paragraph-size-large-px;
+  }
+}
+
+/*
+* ************************************
+* Larger than iPhone 6/7/8 Plus
+* ************************************
+*/
+
+@media screen and (min-width: 415px) {
+  .p1 {
+    font-size: $paragraph-size-large-px;
+  }
 }
