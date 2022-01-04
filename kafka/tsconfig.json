@@ -1,6 +1,6 @@
-// TODO: Delete below comments after TS conversion 
+// To use TS:
 // Install as a development dependency: npm i typescript --save-dev
-// Initialize TS project and crease tsconfig.json: npx tsc --init
+// Initialize TS project and create tsconfig.json: npx tsc --init
 // Compile code: npx tsc index.ts
 
 {

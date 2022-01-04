@@ -20,7 +20,8 @@ class ConfigDocs extends Component {
           If you are using a cloud instance of a Kafka cluster, you'll have to configure your credentials. Refer to
           the Confluent Cloud <a href="https://docs.confluent.io/cloud/current/access-management/authenticate/api-keys/api-keys.html" target="_blank">docs</a> to set up a Kafka API key for your cluster. Enter the API key under "username" and the
           API secret under "password." It is recommended that you use environment variables to store your credentials in order
-          to avoid sensitive information accidentally being uploaded to a public repo.
+          to avoid sensitive information accidentally being uploaded to a public repo. If you are using a local Kafka instance without credentials, you can skip the username and password section,
+          and comment out the ssl and sasl keys in the module.exports object.
         </div>
         <br/>
         <div className="p4">
@@ -69,8 +70,9 @@ targets: ['schemaFile1.avsc', 'schemaFile2.js'],
         <h4>Client ID & Brokers</h4>
         <div className="p4">
           {`Next, you'll need to enter a Kafka client ID as well as the brokers you're using. If you are
-          using Confluent Cloud to host your cluster, navigate to Cluster Overview > Cluster Settings > Bootstrap Server
-          to find the broker address.`}
+          using Confluent Cloud to deploy your cluster, navigate to Cluster Overview > Cluster Settings > Bootstrap Server
+          to find the broker address. If you are instead using Docker, the broker variable may look something like this:
+          "localhost:9092"`}
         </div>
 
         {/* code snip with example client ID and Brokers filled in */}

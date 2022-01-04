@@ -16,8 +16,17 @@ class QueryDocs extends Component {
         <h4>Starting the Server</h4>
         <div className="p4">
           {`Next, you can run the Apollo server created in the previous step. You can do this by adding a script, 
-          or by running this command in the directory containing the server.js file.`}
+          or by running this command in the directory containing the server.js file. Before you run the server,
+          make sure you have installed all the necessary dependencies:`}
         </div>
+        <DocSnip code={`
+npm i kafkajs \n
+npm i subscriptions-transport-ws \n
+npm i apollo-server-express \n
+npm i graphql \n
+        `}
+        height={{height: '23vh'}}
+        />
 
         {/* code snip of the command */}
         <DocSnip code={`

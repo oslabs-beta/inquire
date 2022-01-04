@@ -17,6 +17,7 @@
   flex-direction: column;
   height: 100%;
   width: 20%;
+  min-width: 250px;
   background-color: #f05800;
   position: fixed;
   padding-left: 40px;
@@ -48,12 +49,6 @@
   flex-direction: column;
   width: 80%;
   margin-left: 20%;
-
-  // #doc-banner {
-  //   background-color: $color-green;
-  //   height: 34vh;
-  //   width: 100%;
-  // }
 }
 
 .docContentSection {
@@ -111,7 +106,9 @@
     textarea {
       background: transparent;
     }
-
+  }
+  .docSnip::-webkit-scrollbar {
+    width: 0;
   }
 
   .p7 {
@@ -125,11 +122,24 @@
 
 /*
 * ************************************
+* Laptop Screen
+* ************************************
+*/
+@media screen and (max-width: 1400px) {
+  .docContentSection{
+  min-width: 950px;
+  }
+}
+/*
+* ************************************
 * iPad Pro Portrait
 * ************************************
 */
 
 @media screen and (max-width: 1024px) {
+  .docContentSection{
+    min-width: 0px;
+    }
   .docSidebar {
     display: none;
   }
