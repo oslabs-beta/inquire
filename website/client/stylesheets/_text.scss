@@ -115,12 +115,12 @@ h3 {
 
 /*
 * ************************************
-* Larger than iPhone 6/7/8 Plus
+* Smaller than iPhone 6/7/8 Plus
 * ************************************
 */
 
 @media screen and (min-width: 415px) {
   .p1 {
-    font-size: $paragraph-size-large-px;
+    font-size: $paragraph-size-large;
   }
 }
