@@ -68,11 +68,17 @@
   .descriptionImage {
     padding: 2vw !important;
     height: 40vh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 100vw !important;
   }
 
   .descriptionBox {
     padding: 2vw !important;
     height: 60vh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 100vw !important;
   }
   .titleAndLogoBox{
     flex-direction: column !important;
